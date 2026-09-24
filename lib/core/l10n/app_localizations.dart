@@ -2684,6 +2684,900 @@ abstract class AppLocalizations {
   /// **'Advance paid'**
   String get paidMsg;
 
+  /// No description provided for @centreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get centreTitle;
+
+  /// No description provided for @todayGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get todayGroup;
+
+  /// No description provided for @earlierGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier'**
+  String get earlierGroup;
+
+  /// No description provided for @markAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all read'**
+  String get markAllRead;
+
+  /// No description provided for @noNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get noNotifications;
+
+  /// No description provided for @searchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchTitle;
+
+  /// No description provided for @searchTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'Trips'**
+  String get searchTrips;
+
+  /// No description provided for @searchLrs.
+  ///
+  /// In en, this message translates to:
+  /// **'LRs'**
+  String get searchLrs;
+
+  /// No description provided for @searchVehicles.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicles'**
+  String get searchVehicles;
+
+  /// No description provided for @searchCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers'**
+  String get searchCustomers;
+
+  /// No description provided for @noResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get noResults;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @themeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get themeLabel;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @biometricLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric unlock'**
+  String get biometricLabel;
+
+  /// No description provided for @aboutLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get aboutLabel;
+
+  /// No description provided for @salesTabLeads.
+  ///
+  /// In en, this message translates to:
+  /// **'Leads'**
+  String get salesTabLeads;
+
+  /// No description provided for @salesTabVisits.
+  ///
+  /// In en, this message translates to:
+  /// **'Visits'**
+  String get salesTabVisits;
+
+  /// No description provided for @salesTabQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote'**
+  String get salesTabQuote;
+
+  /// No description provided for @salesTabCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers'**
+  String get salesTabCustomers;
+
+  /// No description provided for @leadsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leads'**
+  String get leadsTitle;
+
+  /// No description provided for @addLeadAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add lead'**
+  String get addLeadAction;
+
+  /// No description provided for @slaDueIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Due in {left}'**
+  String slaDueIn(String left);
+
+  /// No description provided for @slaOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue {left}'**
+  String slaOverdue(String left);
+
+  /// No description provided for @stageFresh.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get stageFresh;
+
+  /// No description provided for @stageContacted.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacted'**
+  String get stageContacted;
+
+  /// No description provided for @stageQuoted.
+  ///
+  /// In en, this message translates to:
+  /// **'Quoted'**
+  String get stageQuoted;
+
+  /// No description provided for @stageNegotiation.
+  ///
+  /// In en, this message translates to:
+  /// **'Negotiation'**
+  String get stageNegotiation;
+
+  /// No description provided for @stageWon.
+  ///
+  /// In en, this message translates to:
+  /// **'Won'**
+  String get stageWon;
+
+  /// No description provided for @stageLost.
+  ///
+  /// In en, this message translates to:
+  /// **'Lost'**
+  String get stageLost;
+
+  /// No description provided for @srcWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get srcWebsite;
+
+  /// No description provided for @srcWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get srcWhatsapp;
+
+  /// No description provided for @srcIndiamart.
+  ///
+  /// In en, this message translates to:
+  /// **'IndiaMART'**
+  String get srcIndiamart;
+
+  /// No description provided for @srcJustdial.
+  ///
+  /// In en, this message translates to:
+  /// **'Justdial'**
+  String get srcJustdial;
+
+  /// No description provided for @srcIvr.
+  ///
+  /// In en, this message translates to:
+  /// **'IVR'**
+  String get srcIvr;
+
+  /// No description provided for @srcEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get srcEmail;
+
+  /// No description provided for @srcWalkin.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk-in'**
+  String get srcWalkin;
+
+  /// No description provided for @srcReferral.
+  ///
+  /// In en, this message translates to:
+  /// **'Referral'**
+  String get srcReferral;
+
+  /// No description provided for @companyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Company'**
+  String get companyLabel;
+
+  /// No description provided for @contactLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact person'**
+  String get contactLabel;
+
+  /// No description provided for @sourceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get sourceLabel;
+
+  /// No description provided for @fromLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get fromLabel;
+
+  /// No description provided for @toLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get toLabel;
+
+  /// No description provided for @tripsPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Trips / month'**
+  String get tripsPerMonth;
+
+  /// No description provided for @targetRateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Target rate'**
+  String get targetRateLabel;
+
+  /// No description provided for @notesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notesLabel;
+
+  /// No description provided for @voiceTranscribed.
+  ///
+  /// In en, this message translates to:
+  /// **'voice note transcribed'**
+  String get voiceTranscribed;
+
+  /// No description provided for @scanCardAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan card'**
+  String get scanCardAction;
+
+  /// No description provided for @cardScanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Card scanned - verify the fields'**
+  String get cardScanned;
+
+  /// No description provided for @duplicateLead.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone already exists - possible duplicate'**
+  String get duplicateLead;
+
+  /// No description provided for @saveLeadAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Save lead'**
+  String get saveLeadAction;
+
+  /// No description provided for @moveToStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to'**
+  String get moveToStage;
+
+  /// No description provided for @addLeadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add lead'**
+  String get addLeadTitle;
+
+  /// No description provided for @visitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Visits'**
+  String get visitsTitle;
+
+  /// No description provided for @checkInAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in'**
+  String get checkInAction;
+
+  /// No description provided for @checkInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit check-in'**
+  String get checkInTitle;
+
+  /// No description provided for @visitCustomerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get visitCustomerLabel;
+
+  /// No description provided for @checkinPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Site photo'**
+  String get checkinPhoto;
+
+  /// No description provided for @photoRetake.
+  ///
+  /// In en, this message translates to:
+  /// **'Retake photo'**
+  String get photoRetake;
+
+  /// No description provided for @outcomeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Outcome'**
+  String get outcomeLabel;
+
+  /// No description provided for @checkOutAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Check out'**
+  String get checkOutAction;
+
+  /// No description provided for @visitDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get visitDone;
+
+  /// No description provided for @visitActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get visitActive;
+
+  /// No description provided for @visitPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned'**
+  String get visitPlanned;
+
+  /// No description provided for @quoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote'**
+  String get quoteTitle;
+
+  /// No description provided for @perTonRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Per ton'**
+  String get perTonRate;
+
+  /// No description provided for @noRateCard.
+  ///
+  /// In en, this message translates to:
+  /// **'No rate card for this lane'**
+  String get noRateCard;
+
+  /// No description provided for @chargeDetention.
+  ///
+  /// In en, this message translates to:
+  /// **'Detention'**
+  String get chargeDetention;
+
+  /// No description provided for @chargeLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading'**
+  String get chargeLoading;
+
+  /// No description provided for @chargeOda.
+  ///
+  /// In en, this message translates to:
+  /// **'ODA'**
+  String get chargeOda;
+
+  /// No description provided for @chargeMultiDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-drop'**
+  String get chargeMultiDrop;
+
+  /// No description provided for @needsApproval.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs approval'**
+  String get needsApproval;
+
+  /// No description provided for @quoteTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote total'**
+  String get quoteTotal;
+
+  /// No description provided for @quotePreviewAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview quote'**
+  String get quotePreviewAction;
+
+  /// No description provided for @sendWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'Send via WhatsApp'**
+  String get sendWhatsapp;
+
+  /// No description provided for @customersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers'**
+  String get customersTitle;
+
+  /// No description provided for @remindPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind payment'**
+  String get remindPayment;
+
+  /// No description provided for @reminderSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder sent'**
+  String get reminderSent;
+
+  /// No description provided for @reminderTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Namaste {name}, Rs.{amount} is due to Shree Ganesh Roadlines. Please pay at the earliest.'**
+  String reminderTemplate(String name, String amount);
+
+  /// No description provided for @targetsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Targets'**
+  String get targetsTitle;
+
+  /// No description provided for @targetRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue (L)'**
+  String get targetRevenue;
+
+  /// No description provided for @targetCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'New customers'**
+  String get targetCustomers;
+
+  /// No description provided for @targetTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'Trips'**
+  String get targetTrips;
+
+  /// No description provided for @leaderboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaderboard'**
+  String get leaderboardTitle;
+
+  /// No description provided for @superTabToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get superTabToday;
+
+  /// No description provided for @superTabGate.
+  ///
+  /// In en, this message translates to:
+  /// **'Gate'**
+  String get superTabGate;
+
+  /// No description provided for @superTabScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get superTabScan;
+
+  /// No description provided for @superTabManifest.
+  ///
+  /// In en, this message translates to:
+  /// **'Manifest'**
+  String get superTabManifest;
+
+  /// No description provided for @todayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get todayTitle;
+
+  /// No description provided for @loadingsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Loadings'**
+  String get loadingsTab;
+
+  /// No description provided for @arrivalsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrivals'**
+  String get arrivalsTab;
+
+  /// No description provided for @hubPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get hubPending;
+
+  /// No description provided for @hubInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get hubInProgress;
+
+  /// No description provided for @hubDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get hubDone;
+
+  /// No description provided for @gateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gate'**
+  String get gateTitle;
+
+  /// No description provided for @selectVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select vehicle'**
+  String get selectVehicle;
+
+  /// No description provided for @gateInAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Gate in'**
+  String get gateInAction;
+
+  /// No description provided for @gateOutAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Gate out'**
+  String get gateOutAction;
+
+  /// No description provided for @gateEarly.
+  ///
+  /// In en, this message translates to:
+  /// **'Early by {span}'**
+  String gateEarly(String span);
+
+  /// No description provided for @gateLate.
+  ///
+  /// In en, this message translates to:
+  /// **'Late by {span}'**
+  String gateLate(String span);
+
+  /// No description provided for @loadingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading'**
+  String get loadingTitle;
+
+  /// No description provided for @loadingStartPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Start photo'**
+  String get loadingStartPhoto;
+
+  /// No description provided for @loadingEndPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'End photo'**
+  String get loadingEndPhoto;
+
+  /// No description provided for @sealNoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Seal number'**
+  String get sealNoLabel;
+
+  /// No description provided for @weighmentSlip.
+  ///
+  /// In en, this message translates to:
+  /// **'Weighment slip'**
+  String get weighmentSlip;
+
+  /// No description provided for @weightMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight differs from declared - will be reviewed'**
+  String get weightMismatch;
+
+  /// No description provided for @completeLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete loading'**
+  String get completeLoading;
+
+  /// No description provided for @loadingComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading completed'**
+  String get loadingComplete;
+
+  /// No description provided for @scanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan packages'**
+  String get scanTitle;
+
+  /// No description provided for @scannedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanned'**
+  String get scannedLabel;
+
+  /// No description provided for @duplicateScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Already scanned'**
+  String get duplicateScan;
+
+  /// No description provided for @scannerUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanner unavailable on this device'**
+  String get scannerUnavailable;
+
+  /// No description provided for @markDamage.
+  ///
+  /// In en, this message translates to:
+  /// **'Damage'**
+  String get markDamage;
+
+  /// No description provided for @markShortage.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortage'**
+  String get markShortage;
+
+  /// No description provided for @createManifest.
+  ///
+  /// In en, this message translates to:
+  /// **'Create manifest'**
+  String get createManifest;
+
+  /// No description provided for @manifestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manifest'**
+  String get manifestTitle;
+
+  /// No description provided for @destHubLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Destination hub'**
+  String get destHubLabel;
+
+  /// No description provided for @lrPrintTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'LR print'**
+  String get lrPrintTitle;
+
+  /// No description provided for @printAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Print'**
+  String get printAction;
+
+  /// No description provided for @bluetoothSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth printer coming soon'**
+  String get bluetoothSoon;
+
+  /// No description provided for @scanToManifest.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan packages to build a manifest'**
+  String get scanToManifest;
+
+  /// No description provided for @acctTabSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get acctTabSummary;
+
+  /// No description provided for @acctTabLedgers.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledgers'**
+  String get acctTabLedgers;
+
+  /// No description provided for @acctTabInvoices.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoices'**
+  String get acctTabInvoices;
+
+  /// No description provided for @acctTabApprovals.
+  ///
+  /// In en, this message translates to:
+  /// **'Approvals'**
+  String get acctTabApprovals;
+
+  /// No description provided for @acctSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts summary'**
+  String get acctSummaryTitle;
+
+  /// No description provided for @receivablesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Receivables'**
+  String get receivablesLabel;
+
+  /// No description provided for @payablesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Payables'**
+  String get payablesLabel;
+
+  /// No description provided for @readyToBill.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to bill'**
+  String get readyToBill;
+
+  /// No description provided for @invoicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoices'**
+  String get invoicesTitle;
+
+  /// No description provided for @invDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get invDraft;
+
+  /// No description provided for @invSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get invSent;
+
+  /// No description provided for @invPartPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Part-paid'**
+  String get invPartPaid;
+
+  /// No description provided for @invPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get invPaid;
+
+  /// No description provided for @invOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get invOverdue;
+
+  /// No description provided for @dueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Due'**
+  String get dueLabel;
+
+  /// No description provided for @paidLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get paidLabel;
+
+  /// No description provided for @viewPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'View PDF'**
+  String get viewPdf;
+
+  /// No description provided for @recordReceiptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Record receipt'**
+  String get recordReceiptTitle;
+
+  /// No description provided for @receiptNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Your role cannot record receipts'**
+  String get receiptNotAllowed;
+
+  /// No description provided for @receiptSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt recorded'**
+  String get receiptSaved;
+
+  /// No description provided for @utrLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'UTR'**
+  String get utrLabel;
+
+  /// No description provided for @tdsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'TDS deducted'**
+  String get tdsLabel;
+
+  /// No description provided for @shortPayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Short-pay reason'**
+  String get shortPayLabel;
+
+  /// No description provided for @remindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get remindersTitle;
+
+  /// No description provided for @payLikely.
+  ///
+  /// In en, this message translates to:
+  /// **'Likely to pay in 3 days'**
+  String get payLikely;
+
+  /// No description provided for @limitForwarded.
+  ///
+  /// In en, this message translates to:
+  /// **'Above your Rs.50,000 limit - forwarded to Owner'**
+  String get limitForwarded;
+
   /// No description provided for @tripAssigned.
   ///
   /// In en, this message translates to:

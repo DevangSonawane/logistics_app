@@ -1,6 +1,7 @@
 import '../../mock/mock_business_data.dart';
 import '../../mock/mock_delay.dart';
 import '../models/finance.dart';
+import '../models/invoice.dart';
 import 'finance_repository.dart';
 
 class MockFinanceRepository implements FinanceRepository {
@@ -52,5 +53,12 @@ class MockFinanceRepository implements FinanceRepository {
   Future<List<PnlLine>> pnl() async {
     await mockDelay();
     return MockBusinessData.pnl();
+  }
+
+  @override
+  Future<Receipt> recordReceipt(Receipt receipt) async {
+    await mockDelay();
+    throwIfChaos();
+    return receipt;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -11,6 +12,7 @@ import '../../../core/l10n/app_localizations.dart';
 import '../../../core/l10n/locale_provider.dart';
 import '../../../core/network/connectivity_provider.dart';
 import '../../../core/router/role_labels.dart';
+import '../../../core/router/route_names.dart';
 import '../../../core/storage/hive_boxes.dart';
 import '../../../core/storage/session_store.dart';
 import '../../../core/theme/app_colors.dart';
@@ -71,6 +73,13 @@ class ProfilePage extends ConsumerWidget {
           const SizedBox(height: AppSpacing.xl),
           _LanguageRow(),
           const SizedBox(height: AppSpacing.sm),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.settings_outlined),
+            title: Text(l10n.settingsTitle),
+            trailing: const Icon(Icons.chevron_right_outlined),
+            onTap: () => context.push(RouteNames.settings),
+          ),
           if (session.activeRole == AppRole.driver) ...[
             const _DriverSettingsSection(),
             const SizedBox(height: AppSpacing.sm),

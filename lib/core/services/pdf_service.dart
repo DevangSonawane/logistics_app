@@ -51,6 +51,64 @@ class PdfService {
     return doc.save();
   }
 
+  /// Branded transport quote with extra charges and total.
+  Future<Uint8List> quote({
+    required String lane,
+    required String vehicle,
+    required int rate,
+    required Map<String, int> charges,
+    required int total,
+  }) async {
+    final pw.Document doc = pw.Document();
+    doc.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) => pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Text(
+              'Shree Ganesh Roadlines Pvt Ltd',
+              style: pw.TextStyle(
+                fontSize: 20,
+                fontWeight: pw.FontWeight.bold,
+              ),
+            ),
+            pw.SizedBox(height: 4),
+            pw.Text('Transport Quote - $lane ($vehicle)'),
+            pw.SizedBox(height: 16),
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+              children: [pw.Text('Base rate'), pw.Text('Rs.$rate')],
+            ),
+            for (final MapEntry<String, int> e in charges.entries) ...[
+              pw.SizedBox(height: 6),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [pw.Text(e.key), pw.Text('Rs.${e.value}')],
+              ),
+            ],
+            pw.SizedBox(height: 8),
+            pw.Divider(),
+            pw.SizedBox(height: 8),
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+              children: [
+                pw.Text('Total'),
+                pw.Text(
+                  'Rs.$total',
+                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                ),
+              ],
+            ),
+            pw.SizedBox(height: 16),
+            pw.Text('Valid 7 days. Diesel escalation beyond Rs.90/litre.'),
+          ],
+        ),
+      ),
+    );
+    return doc.save();
+  }
+
   /// Generic two-column statement (ledgers, memos, briefs) for Share PDF.
   Future<Uint8List> statement({
     required String title,

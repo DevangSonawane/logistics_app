@@ -8,6 +8,7 @@ import 'core/l10n/locale_provider.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_provider.dart';
+import 'data/models/app_user.dart';
 import 'features/auth/application/session_provider.dart';
 
 /// Root widget: theme, locale and role-guarded router.
@@ -47,8 +48,13 @@ class _RoadOpsAppState extends ConsumerState<RoadOpsApp>
       final SessionState session = ref.read(sessionProvider);
       final Duration away = DateTime.now().difference(_pausedAt!);
       _pausedAt = null;
-      if (session.isStaff &&
-          away.inMinutes >= AppConstants.staffLockAfterMinutes) {
+      // Accountant finance screens time out after 5 idle minutes,
+      // other staff lock after 2 minutes in background.
+      final int lockMins =
+          session.activeRole == AppRole.accountant
+              ? AppConstants.accountantIdleTimeoutMinutes
+              : AppConstants.staffLockAfterMinutes;
+      if (session.isStaff && away.inMinutes >= lockMins) {
         ref.read(sessionProvider.notifier).setLocked(true);
       }
     }

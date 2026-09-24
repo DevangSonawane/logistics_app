@@ -148,6 +148,14 @@ class _OwnerDashboardPageState extends ConsumerState<OwnerDashboardPage> {
                       ),
                       const Spacer(),
                       IconButton(
+                        icon: const Icon(
+                          Icons.search_outlined,
+                          color: Colors.white,
+                        ),
+                        onPressed: () =>
+                            context.push(RouteNames.search),
+                      ),
+                      IconButton(
                         icon: Badge(
                           isLabelVisible: unread > 0,
                           label: Text('$unread'),
@@ -156,7 +164,8 @@ class _OwnerDashboardPageState extends ConsumerState<OwnerDashboardPage> {
                             color: Colors.white,
                           ),
                         ),
-                        onPressed: () => context.push('/owner/alerts'),
+                        onPressed: () =>
+                            context.push(RouteNames.notifications),
                       ),
                     ],
                   ),

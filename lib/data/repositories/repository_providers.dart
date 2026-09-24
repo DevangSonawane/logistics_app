@@ -10,6 +10,9 @@ import 'exception_repository.dart';
 import 'expense_repository.dart';
 import 'finance_repository.dart';
 import 'hire_repository.dart';
+import 'hub_repository.dart';
+import 'invoice_repository.dart';
+import 'lead_repository.dart';
 import 'mock_advance_repository.dart';
 import 'mock_approval_repository.dart';
 import 'mock_auth_repository.dart';
@@ -20,6 +23,9 @@ import 'mock_exception_repository.dart';
 import 'mock_expense_repository.dart';
 import 'mock_finance_repository.dart';
 import 'mock_hire_repository.dart';
+import 'mock_hub_repository.dart';
+import 'mock_invoice_repository.dart';
+import 'mock_lead_repository.dart';
 import 'mock_notification_repository.dart';
 import 'mock_order_repository.dart';
 import 'mock_trip_repository.dart';
@@ -85,4 +91,11 @@ HireRepository hireRepository(Ref ref) => MockHireRepository(
       approvals: ref.watch(approvalRepositoryProvider),
     );
 
-// TODO(Phase 7): leadRepository, quoteRepository (+ mocks).
+@Riverpod(keepAlive: true)
+LeadRepository leadRepository(Ref ref) => MockLeadRepository();
+
+@Riverpod(keepAlive: true)
+HubRepository hubRepository(Ref ref) => MockHubRepository();
+
+@Riverpod(keepAlive: true)
+InvoiceRepository invoiceRepository(Ref ref) => MockInvoiceRepository();

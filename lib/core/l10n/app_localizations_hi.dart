@@ -1329,6 +1329,463 @@ class AppLocalizationsHi extends AppLocalizations {
   String get paidMsg => 'एडवांस दे दिया गया';
 
   @override
+  String get centreTitle => 'नोटिफिकेशन';
+
+  @override
+  String get todayGroup => 'आज';
+
+  @override
+  String get earlierGroup => 'पहले';
+
+  @override
+  String get markAllRead => 'सभी पढ़ा हुआ करें';
+
+  @override
+  String get noNotifications => 'अभी कोई नोटिफिकेशन नहीं';
+
+  @override
+  String get searchTitle => 'खोजें';
+
+  @override
+  String get searchTrips => 'ट्रिप';
+
+  @override
+  String get searchLrs => 'LR';
+
+  @override
+  String get searchVehicles => 'गाड़ियां';
+
+  @override
+  String get searchCustomers => 'ग्राहक';
+
+  @override
+  String get noResults => 'कुछ नहीं मिला';
+
+  @override
+  String get settingsTitle => 'सेटिंग्स';
+
+  @override
+  String get themeLabel => 'थीम';
+
+  @override
+  String get themeSystem => 'सिस्टम';
+
+  @override
+  String get themeLight => 'लाइट';
+
+  @override
+  String get themeDark => 'डार्क';
+
+  @override
+  String get biometricLabel => 'बायोमेट्रिक अनलॉक';
+
+  @override
+  String get aboutLabel => 'जानकारी';
+
+  @override
+  String get salesTabLeads => 'लीड';
+
+  @override
+  String get salesTabVisits => 'विज़िट';
+
+  @override
+  String get salesTabQuote => 'कोटेशन';
+
+  @override
+  String get salesTabCustomers => 'ग्राहक';
+
+  @override
+  String get leadsTitle => 'लीड';
+
+  @override
+  String get addLeadAction => 'लीड जोड़ें';
+
+  @override
+  String slaDueIn(String left) {
+    return '$left में देय';
+  }
+
+  @override
+  String slaOverdue(String left) {
+    return '$left लेट';
+  }
+
+  @override
+  String get stageFresh => 'नया';
+
+  @override
+  String get stageContacted => 'संपर्क हुआ';
+
+  @override
+  String get stageQuoted => 'कोट दिया';
+
+  @override
+  String get stageNegotiation => 'बातचीत';
+
+  @override
+  String get stageWon => 'जीता';
+
+  @override
+  String get stageLost => 'हारा';
+
+  @override
+  String get srcWebsite => 'वेबसाइट';
+
+  @override
+  String get srcWhatsapp => 'WhatsApp';
+
+  @override
+  String get srcIndiamart => 'IndiaMART';
+
+  @override
+  String get srcJustdial => 'Justdial';
+
+  @override
+  String get srcIvr => 'IVR';
+
+  @override
+  String get srcEmail => 'ईमेल';
+
+  @override
+  String get srcWalkin => 'वॉक-इन';
+
+  @override
+  String get srcReferral => 'रेफरल';
+
+  @override
+  String get companyLabel => 'कंपनी';
+
+  @override
+  String get contactLabel => 'संपर्क व्यक्ति';
+
+  @override
+  String get sourceLabel => 'स्रोत';
+
+  @override
+  String get fromLabel => 'कहां से';
+
+  @override
+  String get toLabel => 'कहां तक';
+
+  @override
+  String get tripsPerMonth => 'ट्रिप / महीना';
+
+  @override
+  String get targetRateLabel => 'लक्ष्य रेट';
+
+  @override
+  String get notesLabel => 'नोट्स';
+
+  @override
+  String get voiceTranscribed => 'वॉइस नोट लिखा गया';
+
+  @override
+  String get scanCardAction => 'कार्ड स्कैन';
+
+  @override
+  String get cardScanned => 'कार्ड स्कैन हो गया - खाने जांच लें';
+
+  @override
+  String get duplicateLead => 'यह फोन पहले से है - संभव डुप्लिकेट';
+
+  @override
+  String get saveLeadAction => 'लीड सेव करें';
+
+  @override
+  String get moveToStage => 'आगे बढ़ाएं';
+
+  @override
+  String get addLeadTitle => 'लीड जोड़ें';
+
+  @override
+  String get visitsTitle => 'विज़िट';
+
+  @override
+  String get checkInAction => 'चेक इन';
+
+  @override
+  String get checkInTitle => 'विज़िट चेक-इन';
+
+  @override
+  String get visitCustomerLabel => 'ग्राहक';
+
+  @override
+  String get checkinPhoto => 'साइट फोटो';
+
+  @override
+  String get photoRetake => 'फोटो दोबारा';
+
+  @override
+  String get outcomeLabel => 'परिणाम';
+
+  @override
+  String get checkOutAction => 'चेक आउट';
+
+  @override
+  String get visitDone => 'हो गया';
+
+  @override
+  String get visitActive => 'चालू';
+
+  @override
+  String get visitPlanned => 'प्लान किया';
+
+  @override
+  String get quoteTitle => 'कोटेशन';
+
+  @override
+  String get perTonRate => 'प्रति टन';
+
+  @override
+  String get noRateCard => 'इस लेन का रेट कार्ड नहीं';
+
+  @override
+  String get chargeDetention => 'डेटेंशन';
+
+  @override
+  String get chargeLoading => 'लोडिंग';
+
+  @override
+  String get chargeOda => 'ODA';
+
+  @override
+  String get chargeMultiDrop => 'मल्टी-ड्रॉप';
+
+  @override
+  String get needsApproval => 'अप्रूवल चाहिए';
+
+  @override
+  String get quoteTotal => 'कुल कोटेशन';
+
+  @override
+  String get quotePreviewAction => 'कोटेशन देखें';
+
+  @override
+  String get sendWhatsapp => 'WhatsApp पर भेजें';
+
+  @override
+  String get customersTitle => 'ग्राहक';
+
+  @override
+  String get remindPayment => 'पेमेंट याद दिलाएं';
+
+  @override
+  String get reminderSent => 'रिमाइंडर भेज दिया गया';
+
+  @override
+  String reminderTemplate(String name, String amount) {
+    return 'नमस्ते $name, श्री गणेश रोडलाइंस का ₹$amount बकाया है। कृपया जल्द भुगतान करें।';
+  }
+
+  @override
+  String get targetsTitle => 'लक्ष्य';
+
+  @override
+  String get targetRevenue => 'आय (लाख)';
+
+  @override
+  String get targetCustomers => 'नए ग्राहक';
+
+  @override
+  String get targetTrips => 'ट्रिप';
+
+  @override
+  String get leaderboardTitle => 'लीडरबोर्ड';
+
+  @override
+  String get superTabToday => 'आज';
+
+  @override
+  String get superTabGate => 'गेट';
+
+  @override
+  String get superTabScan => 'स्कैन';
+
+  @override
+  String get superTabManifest => 'मेनिफेस्ट';
+
+  @override
+  String get todayTitle => 'आज';
+
+  @override
+  String get loadingsTab => 'लोडिंग';
+
+  @override
+  String get arrivalsTab => 'आगमन';
+
+  @override
+  String get hubPending => 'बाकी';
+
+  @override
+  String get hubInProgress => 'चालू';
+
+  @override
+  String get hubDone => 'हो गया';
+
+  @override
+  String get gateTitle => 'गेट';
+
+  @override
+  String get selectVehicle => 'गाड़ी चुनें';
+
+  @override
+  String get gateInAction => 'गेट इन';
+
+  @override
+  String get gateOutAction => 'गेट आउट';
+
+  @override
+  String gateEarly(String span) {
+    return '$span पहले';
+  }
+
+  @override
+  String gateLate(String span) {
+    return '$span लेट';
+  }
+
+  @override
+  String get loadingTitle => 'लोडिंग';
+
+  @override
+  String get loadingStartPhoto => 'शुरुआती फोटो';
+
+  @override
+  String get loadingEndPhoto => 'आखिरी फोटो';
+
+  @override
+  String get sealNoLabel => 'सील नंबर';
+
+  @override
+  String get weighmentSlip => 'वज़न पर्ची';
+
+  @override
+  String get weightMismatch => 'वज़न घोषित से अलग - जांच होगी';
+
+  @override
+  String get completeLoading => 'लोडिंग पूरी करें';
+
+  @override
+  String get loadingComplete => 'लोडिंग पूरी हो गई';
+
+  @override
+  String get scanTitle => 'पैकेज स्कैन';
+
+  @override
+  String get scannedLabel => 'स्कैन हुए';
+
+  @override
+  String get duplicateScan => 'पहले से स्कैन है';
+
+  @override
+  String get scannerUnavailable => 'इस डिवाइस पर स्कैनर नहीं';
+
+  @override
+  String get markDamage => 'नुकसान';
+
+  @override
+  String get markShortage => 'कमी';
+
+  @override
+  String get createManifest => 'मेनिफेस्ट बनाएं';
+
+  @override
+  String get manifestTitle => 'मेनिफेस्ट';
+
+  @override
+  String get destHubLabel => 'गंतव्य हब';
+
+  @override
+  String get lrPrintTitle => 'LR प्रिंट';
+
+  @override
+  String get printAction => 'प्रिंट';
+
+  @override
+  String get bluetoothSoon => 'ब्लूटूथ प्रिंटर जल्द आ रहा';
+
+  @override
+  String get scanToManifest => 'मेनिफेस्ट के लिए पैकेज स्कैन करें';
+
+  @override
+  String get acctTabSummary => 'सारांश';
+
+  @override
+  String get acctTabLedgers => 'खाते';
+
+  @override
+  String get acctTabInvoices => 'इनवॉइस';
+
+  @override
+  String get acctTabApprovals => 'अप्रूवल';
+
+  @override
+  String get acctSummaryTitle => 'अकाउंट सारांश';
+
+  @override
+  String get receivablesLabel => 'लेना बाकी';
+
+  @override
+  String get payablesLabel => 'देना बाकी';
+
+  @override
+  String get readyToBill => 'बिल बनाने लायक';
+
+  @override
+  String get invoicesTitle => 'इनवॉइस';
+
+  @override
+  String get invDraft => 'ड्राफ्ट';
+
+  @override
+  String get invSent => 'भेजा गया';
+
+  @override
+  String get invPartPaid => 'आंशिक भुगतान';
+
+  @override
+  String get invPaid => 'भुगतान';
+
+  @override
+  String get invOverdue => 'ओवरड्यू';
+
+  @override
+  String get dueLabel => 'देय तिथि';
+
+  @override
+  String get paidLabel => 'भुगतान';
+
+  @override
+  String get viewPdf => 'PDF देखें';
+
+  @override
+  String get recordReceiptTitle => 'रसीद दर्ज करें';
+
+  @override
+  String get receiptNotAllowed => 'आपकी भूमिका रसीद दर्ज नहीं कर सकती';
+
+  @override
+  String get receiptSaved => 'रसीद दर्ज हो गई';
+
+  @override
+  String get utrLabel => 'UTR';
+
+  @override
+  String get tdsLabel => 'TDS कटौती';
+
+  @override
+  String get shortPayLabel => 'कम भुगतान का कारण';
+
+  @override
+  String get remindersTitle => 'रिमाइंडर';
+
+  @override
+  String get payLikely => '3 दिन में भुगतान संभव';
+
+  @override
+  String get limitForwarded => '₹50,000 की लिमिट से ऊपर - मालिक को भेजा गया';
+
+  @override
   String get tripAssigned => 'स्वीकृत';
 
   @override

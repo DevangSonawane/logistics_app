@@ -1332,6 +1332,465 @@ class AppLocalizationsTe extends AppLocalizations {
   String get paidMsg => 'Advance paid';
 
   @override
+  String get centreTitle => 'Notifications';
+
+  @override
+  String get todayGroup => 'Today';
+
+  @override
+  String get earlierGroup => 'Earlier';
+
+  @override
+  String get markAllRead => 'Mark all read';
+
+  @override
+  String get noNotifications => 'No notifications yet';
+
+  @override
+  String get searchTitle => 'Search';
+
+  @override
+  String get searchTrips => 'Trips';
+
+  @override
+  String get searchLrs => 'LRs';
+
+  @override
+  String get searchVehicles => 'Vehicles';
+
+  @override
+  String get searchCustomers => 'Customers';
+
+  @override
+  String get noResults => 'No results found';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get themeLabel => 'Theme';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get biometricLabel => 'Biometric unlock';
+
+  @override
+  String get aboutLabel => 'About';
+
+  @override
+  String get salesTabLeads => 'Leads';
+
+  @override
+  String get salesTabVisits => 'Visits';
+
+  @override
+  String get salesTabQuote => 'Quote';
+
+  @override
+  String get salesTabCustomers => 'Customers';
+
+  @override
+  String get leadsTitle => 'Leads';
+
+  @override
+  String get addLeadAction => 'Add lead';
+
+  @override
+  String slaDueIn(String left) {
+    return 'Due in $left';
+  }
+
+  @override
+  String slaOverdue(String left) {
+    return 'Overdue $left';
+  }
+
+  @override
+  String get stageFresh => 'New';
+
+  @override
+  String get stageContacted => 'Contacted';
+
+  @override
+  String get stageQuoted => 'Quoted';
+
+  @override
+  String get stageNegotiation => 'Negotiation';
+
+  @override
+  String get stageWon => 'Won';
+
+  @override
+  String get stageLost => 'Lost';
+
+  @override
+  String get srcWebsite => 'Website';
+
+  @override
+  String get srcWhatsapp => 'WhatsApp';
+
+  @override
+  String get srcIndiamart => 'IndiaMART';
+
+  @override
+  String get srcJustdial => 'Justdial';
+
+  @override
+  String get srcIvr => 'IVR';
+
+  @override
+  String get srcEmail => 'Email';
+
+  @override
+  String get srcWalkin => 'Walk-in';
+
+  @override
+  String get srcReferral => 'Referral';
+
+  @override
+  String get companyLabel => 'Company';
+
+  @override
+  String get contactLabel => 'Contact person';
+
+  @override
+  String get sourceLabel => 'Source';
+
+  @override
+  String get fromLabel => 'From';
+
+  @override
+  String get toLabel => 'To';
+
+  @override
+  String get tripsPerMonth => 'Trips / month';
+
+  @override
+  String get targetRateLabel => 'Target rate';
+
+  @override
+  String get notesLabel => 'Notes';
+
+  @override
+  String get voiceTranscribed => 'voice note transcribed';
+
+  @override
+  String get scanCardAction => 'Scan card';
+
+  @override
+  String get cardScanned => 'Card scanned - verify the fields';
+
+  @override
+  String get duplicateLead => 'This phone already exists - possible duplicate';
+
+  @override
+  String get saveLeadAction => 'Save lead';
+
+  @override
+  String get moveToStage => 'Move to';
+
+  @override
+  String get addLeadTitle => 'Add lead';
+
+  @override
+  String get visitsTitle => 'Visits';
+
+  @override
+  String get checkInAction => 'Check in';
+
+  @override
+  String get checkInTitle => 'Visit check-in';
+
+  @override
+  String get visitCustomerLabel => 'Customer';
+
+  @override
+  String get checkinPhoto => 'Site photo';
+
+  @override
+  String get photoRetake => 'Retake photo';
+
+  @override
+  String get outcomeLabel => 'Outcome';
+
+  @override
+  String get checkOutAction => 'Check out';
+
+  @override
+  String get visitDone => 'Done';
+
+  @override
+  String get visitActive => 'Active';
+
+  @override
+  String get visitPlanned => 'Planned';
+
+  @override
+  String get quoteTitle => 'Quote';
+
+  @override
+  String get perTonRate => 'Per ton';
+
+  @override
+  String get noRateCard => 'No rate card for this lane';
+
+  @override
+  String get chargeDetention => 'Detention';
+
+  @override
+  String get chargeLoading => 'Loading';
+
+  @override
+  String get chargeOda => 'ODA';
+
+  @override
+  String get chargeMultiDrop => 'Multi-drop';
+
+  @override
+  String get needsApproval => 'Needs approval';
+
+  @override
+  String get quoteTotal => 'Quote total';
+
+  @override
+  String get quotePreviewAction => 'Preview quote';
+
+  @override
+  String get sendWhatsapp => 'Send via WhatsApp';
+
+  @override
+  String get customersTitle => 'Customers';
+
+  @override
+  String get remindPayment => 'Remind payment';
+
+  @override
+  String get reminderSent => 'Reminder sent';
+
+  @override
+  String reminderTemplate(String name, String amount) {
+    return 'Namaste $name, Rs.$amount is due to Shree Ganesh Roadlines. Please pay at the earliest.';
+  }
+
+  @override
+  String get targetsTitle => 'Targets';
+
+  @override
+  String get targetRevenue => 'Revenue (L)';
+
+  @override
+  String get targetCustomers => 'New customers';
+
+  @override
+  String get targetTrips => 'Trips';
+
+  @override
+  String get leaderboardTitle => 'Leaderboard';
+
+  @override
+  String get superTabToday => 'Today';
+
+  @override
+  String get superTabGate => 'Gate';
+
+  @override
+  String get superTabScan => 'Scan';
+
+  @override
+  String get superTabManifest => 'Manifest';
+
+  @override
+  String get todayTitle => 'Today';
+
+  @override
+  String get loadingsTab => 'Loadings';
+
+  @override
+  String get arrivalsTab => 'Arrivals';
+
+  @override
+  String get hubPending => 'Pending';
+
+  @override
+  String get hubInProgress => 'In progress';
+
+  @override
+  String get hubDone => 'Done';
+
+  @override
+  String get gateTitle => 'Gate';
+
+  @override
+  String get selectVehicle => 'Select vehicle';
+
+  @override
+  String get gateInAction => 'Gate in';
+
+  @override
+  String get gateOutAction => 'Gate out';
+
+  @override
+  String gateEarly(String span) {
+    return 'Early by $span';
+  }
+
+  @override
+  String gateLate(String span) {
+    return 'Late by $span';
+  }
+
+  @override
+  String get loadingTitle => 'Loading';
+
+  @override
+  String get loadingStartPhoto => 'Start photo';
+
+  @override
+  String get loadingEndPhoto => 'End photo';
+
+  @override
+  String get sealNoLabel => 'Seal number';
+
+  @override
+  String get weighmentSlip => 'Weighment slip';
+
+  @override
+  String get weightMismatch =>
+      'Weight differs from declared - will be reviewed';
+
+  @override
+  String get completeLoading => 'Complete loading';
+
+  @override
+  String get loadingComplete => 'Loading completed';
+
+  @override
+  String get scanTitle => 'Scan packages';
+
+  @override
+  String get scannedLabel => 'Scanned';
+
+  @override
+  String get duplicateScan => 'Already scanned';
+
+  @override
+  String get scannerUnavailable => 'Scanner unavailable on this device';
+
+  @override
+  String get markDamage => 'Damage';
+
+  @override
+  String get markShortage => 'Shortage';
+
+  @override
+  String get createManifest => 'Create manifest';
+
+  @override
+  String get manifestTitle => 'Manifest';
+
+  @override
+  String get destHubLabel => 'Destination hub';
+
+  @override
+  String get lrPrintTitle => 'LR print';
+
+  @override
+  String get printAction => 'Print';
+
+  @override
+  String get bluetoothSoon => 'Bluetooth printer coming soon';
+
+  @override
+  String get scanToManifest => 'Scan packages to build a manifest';
+
+  @override
+  String get acctTabSummary => 'Summary';
+
+  @override
+  String get acctTabLedgers => 'Ledgers';
+
+  @override
+  String get acctTabInvoices => 'Invoices';
+
+  @override
+  String get acctTabApprovals => 'Approvals';
+
+  @override
+  String get acctSummaryTitle => 'Accounts summary';
+
+  @override
+  String get receivablesLabel => 'Receivables';
+
+  @override
+  String get payablesLabel => 'Payables';
+
+  @override
+  String get readyToBill => 'Ready to bill';
+
+  @override
+  String get invoicesTitle => 'Invoices';
+
+  @override
+  String get invDraft => 'Draft';
+
+  @override
+  String get invSent => 'Sent';
+
+  @override
+  String get invPartPaid => 'Part-paid';
+
+  @override
+  String get invPaid => 'Paid';
+
+  @override
+  String get invOverdue => 'Overdue';
+
+  @override
+  String get dueLabel => 'Due';
+
+  @override
+  String get paidLabel => 'Paid';
+
+  @override
+  String get viewPdf => 'View PDF';
+
+  @override
+  String get recordReceiptTitle => 'Record receipt';
+
+  @override
+  String get receiptNotAllowed => 'Your role cannot record receipts';
+
+  @override
+  String get receiptSaved => 'Receipt recorded';
+
+  @override
+  String get utrLabel => 'UTR';
+
+  @override
+  String get tdsLabel => 'TDS deducted';
+
+  @override
+  String get shortPayLabel => 'Short-pay reason';
+
+  @override
+  String get remindersTitle => 'Reminders';
+
+  @override
+  String get payLikely => 'Likely to pay in 3 days';
+
+  @override
+  String get limitForwarded =>
+      'Above your Rs.50,000 limit - forwarded to Owner';
+
+  @override
   String get tripAssigned => 'Assigned';
 
   @override

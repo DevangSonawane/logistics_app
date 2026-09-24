@@ -633,3 +633,128 @@ final class HireRepositoryProvider
 }
 
 String _$hireRepositoryHash() => r'cb71904bbc01994ae36e802e20f8352a00f3f93c';
+
+@ProviderFor(leadRepository)
+final leadRepositoryProvider = LeadRepositoryProvider._();
+
+final class LeadRepositoryProvider
+    extends $FunctionalProvider<LeadRepository, LeadRepository, LeadRepository>
+    with $Provider<LeadRepository> {
+  LeadRepositoryProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'leadRepositoryProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$leadRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<LeadRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  LeadRepository create(Ref ref) {
+    return leadRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(LeadRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<LeadRepository>(value),
+    );
+  }
+}
+
+String _$leadRepositoryHash() => r'f2108a290294d699f40a42b888228f77bbb583a5';
+
+@ProviderFor(hubRepository)
+final hubRepositoryProvider = HubRepositoryProvider._();
+
+final class HubRepositoryProvider
+    extends $FunctionalProvider<HubRepository, HubRepository, HubRepository>
+    with $Provider<HubRepository> {
+  HubRepositoryProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'hubRepositoryProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$hubRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<HubRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  HubRepository create(Ref ref) {
+    return hubRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(HubRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<HubRepository>(value),
+    );
+  }
+}
+
+String _$hubRepositoryHash() => r'a683595ff88a61557da679d60b806f66ac265cee';
+
+@ProviderFor(invoiceRepository)
+final invoiceRepositoryProvider = InvoiceRepositoryProvider._();
+
+final class InvoiceRepositoryProvider extends $FunctionalProvider<
+    InvoiceRepository,
+    InvoiceRepository,
+    InvoiceRepository> with $Provider<InvoiceRepository> {
+  InvoiceRepositoryProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'invoiceRepositoryProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$invoiceRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<InvoiceRepository> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  InvoiceRepository create(Ref ref) {
+    return invoiceRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(InvoiceRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<InvoiceRepository>(value),
+    );
+  }
+}
+
+String _$invoiceRepositoryHash() => r'c259f34a9b3a23f27c246c8afd54650ad350eada';

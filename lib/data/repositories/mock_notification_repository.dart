@@ -25,6 +25,13 @@ class MockNotificationRepository implements NotificationRepository {
   }
 
   @override
+  Future<void> markRead(String id) async {
+    await mockDelay();
+    final int i = _items.indexWhere((n) => n.id == id);
+    if (i >= 0) _items[i] = _items[i].copyWith(read: true);
+  }
+
+  @override
   Future<void> markAllRead() async {
     await mockDelay();
     for (int i = 0; i < _items.length; i++) {

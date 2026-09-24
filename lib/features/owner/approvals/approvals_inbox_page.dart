@@ -18,8 +18,14 @@ import 'approval_detail_sheet.dart';
 
 /// O2. Approvals inbox: filter chips, risk flags, swipe to decide with
 /// a 5-second undo toast, bulk mode for small items.
+///
+/// [approvalCap] enforces an amount limit (accountant Rs.50,000): items
+/// above the cap forward to the owner with [capNote] instead of approval.
 class ApprovalsInboxPage extends ConsumerStatefulWidget {
-  const ApprovalsInboxPage({super.key});
+  const ApprovalsInboxPage({super.key, this.approvalCap, this.capNote});
+
+  final int? approvalCap;
+  final String? capNote;
 
   @override
   ConsumerState<ApprovalsInboxPage> createState() =>
@@ -33,6 +39,27 @@ class _ApprovalsInboxPageState extends ConsumerState<ApprovalsInboxPage> {
 
   Future<void> _decide(ApprovalItem item, bool approve) async {
     final AppLocalizations l10n = AppLocalizations.of(context);
+    // Amount-limit rule: above-cap approvals forward to the owner.
+    if (approve &&
+        widget.approvalCap != null &&
+        item.amount > widget.approvalCap!) {
+      try {
+        await ref.read(approvalRepositoryProvider).decide(
+              id: item.id,
+              approve: true,
+              comment: widget.capNote ?? l10n.limitForwarded,
+            );
+      } catch (_) {}
+      ref.invalidate(approvalInboxProvider);
+      ref.invalidate(pendingApprovalsCountProvider);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(widget.capNote ?? l10n.limitForwarded),
+        ),
+      );
+      return;
+    }
     String? comment;
     if (!approve) {
       comment = await ApprovalDetailSheet.commentDialog(context);
@@ -121,6 +148,17 @@ class _ApprovalsInboxPageState extends ConsumerState<ApprovalsInboxPage> {
           : null,
       body: Column(
         children: [
+          if (widget.capNote != null)
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(bottom: AppSpacing.md),
+              padding: const EdgeInsets.all(AppSpacing.md),
+              decoration: BoxDecoration(
+                color: AppColors.warning.withValues(alpha: 0.12),
+                borderRadius: AppSpacing.cardRadius,
+              ),
+              child: Text(widget.capNote!),
+            ),
           SizedBox(
             height: 44,
             child: ListView(

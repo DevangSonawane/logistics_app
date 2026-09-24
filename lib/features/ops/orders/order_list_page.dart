@@ -62,6 +62,12 @@ class _OrderListPageState extends ConsumerState<OrderListPage> {
 
     return AppScaffold(
       title: l10n.ordersTitle,
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.search_outlined),
+          onPressed: () => context.push(RouteNames.search),
+        ),
+      ],
       floatingActionButton: FloatingActionButton.extended(
         heroTag: 'new-order',
         onPressed: () => context.push(RouteNames.opsOrderNew),

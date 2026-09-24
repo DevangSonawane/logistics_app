@@ -363,6 +363,465 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lastUsedRole => 'Last used';
 
   @override
+  String get tabMyTrip => 'My Trip';
+
+  @override
+  String get tabEarnings => 'Earnings';
+
+  @override
+  String get tabDocuments => 'Documents';
+
+  @override
+  String get tabProfile => 'Profile';
+
+  @override
+  String get noTripTitle => 'No trip right now. We\'ll notify you.';
+
+  @override
+  String get offerTitle => 'New trip offer';
+
+  @override
+  String get pickupLabel => 'Pickup';
+
+  @override
+  String get dropLabel => 'Drop';
+
+  @override
+  String get freightLabel => 'Freight allowance';
+
+  @override
+  String get pickupByLabel => 'Pickup by';
+
+  @override
+  String get rejectTitle => 'Reject trip';
+
+  @override
+  String get rejectReasonLabel => 'Reason (required)';
+
+  @override
+  String get rejectVehicle => 'Vehicle issue';
+
+  @override
+  String get rejectHealth => 'Health';
+
+  @override
+  String get rejectPersonal => 'Personal';
+
+  @override
+  String get rejectRoute => 'Route not known';
+
+  @override
+  String get rejectOther => 'Other';
+
+  @override
+  String get rejectNoteHint => 'Details (optional)';
+
+  @override
+  String get submitAction => 'Submit';
+
+  @override
+  String get lrEwayLabel => 'LR / E-way bill';
+
+  @override
+  String get addExpenseAction => 'Add Expense';
+
+  @override
+  String get requestAdvanceAction => 'Request Advance';
+
+  @override
+  String get stepReachedPickup => 'Reached Pickup';
+
+  @override
+  String get stepLoadingDone => 'Loading Done';
+
+  @override
+  String get stepStartTrip => 'Start Trip';
+
+  @override
+  String get stepReachedDrop => 'Reached Drop';
+
+  @override
+  String get stepUnloaded => 'Unloaded';
+
+  @override
+  String get slideHint => 'Slide to confirm';
+
+  @override
+  String get photoRequired => 'A photo is required for this step';
+
+  @override
+  String get stepDone => 'Status updated';
+
+  @override
+  String get stepQueued => 'Offline - will sync automatically';
+
+  @override
+  String get conflictTitle => 'Trip changed';
+
+  @override
+  String get conflictMessage =>
+      'Ops changed this trip. Your action was rejected and the trip was refreshed.';
+
+  @override
+  String get okAction => 'OK';
+
+  @override
+  String get timelineTitle => 'Timeline';
+
+  @override
+  String get podPromptTitle => 'Trip unloaded - capture POD';
+
+  @override
+  String get podPromptAction => 'Capture POD';
+
+  @override
+  String get callOps => 'Call Ops';
+
+  @override
+  String get opsAlerted => 'Ops has been alerted';
+
+  @override
+  String get trackingOn => 'GPS tracking on';
+
+  @override
+  String get advanceBalance => 'Advance balance';
+
+  @override
+  String get podTitle => 'Proof of Delivery';
+
+  @override
+  String get podStep1 => 'Photo of the signed LR';
+
+  @override
+  String get podStep2 => 'Consignee confirmation';
+
+  @override
+  String get podOtpHint => '4-digit OTP with consignee';
+
+  @override
+  String get podOtpWrong => 'Wrong consignee OTP';
+
+  @override
+  String get podOr => 'OR';
+
+  @override
+  String get podSignHint => 'Consignee e-signature';
+
+  @override
+  String get podNameHint => 'Consignee name';
+
+  @override
+  String get podDamageToggle => 'Any damage or shortage?';
+
+  @override
+  String get podDamageRemark => 'Remark';
+
+  @override
+  String get podDamageQty => 'Quantity affected';
+
+  @override
+  String get podSubmit => 'Submit POD';
+
+  @override
+  String get podDone => 'POD submitted';
+
+  @override
+  String get earningsPreview => 'Earnings preview';
+
+  @override
+  String get demoOtpHint => 'Demo consignee OTP: 4321';
+
+  @override
+  String get expenseTitle => 'Add Expense';
+
+  @override
+  String get expenseDiesel => 'Diesel';
+
+  @override
+  String get expenseToll => 'Toll';
+
+  @override
+  String get expenseRepair => 'Repair';
+
+  @override
+  String get expenseLoading => 'Loading';
+
+  @override
+  String get expensePolice => 'Police/RTO';
+
+  @override
+  String get expenseFood => 'Food';
+
+  @override
+  String get expenseOther => 'Other';
+
+  @override
+  String get amountLabel => 'Amount';
+
+  @override
+  String get litresLabel => 'Litres';
+
+  @override
+  String get rateLabel => 'Rate / litre';
+
+  @override
+  String get billPhotoLabel => 'Bill photo';
+
+  @override
+  String get photoCamera => 'Camera';
+
+  @override
+  String get photoGallery => 'Gallery';
+
+  @override
+  String get billRequired => 'Bill photo is required above Rs.100';
+
+  @override
+  String get noteHint => 'Note (optional)';
+
+  @override
+  String get voiceNoteAction => 'Voice note';
+
+  @override
+  String get voiceConsentTitle => 'Record a voice note?';
+
+  @override
+  String get voiceConsentMessage =>
+      'Voice notes are stored with the expense and uploaded on sync.';
+
+  @override
+  String get agreeAction => 'Agree';
+
+  @override
+  String get aboveNorm => 'Above usual for this route. Ops may review.';
+
+  @override
+  String get saveAction => 'Save';
+
+  @override
+  String get expenseSaved => 'Expense saved';
+
+  @override
+  String get expensesTitle => 'Expenses';
+
+  @override
+  String get advancesTitle => 'Advances';
+
+  @override
+  String get requestAdvanceTitle => 'Request Advance';
+
+  @override
+  String get purposeLabel => 'Purpose';
+
+  @override
+  String get purposeFuel => 'Fuel';
+
+  @override
+  String get purposeToll => 'Toll';
+
+  @override
+  String get purposeRepair => 'Repair';
+
+  @override
+  String get purposeFood => 'Food';
+
+  @override
+  String get purposeOther => 'Other';
+
+  @override
+  String get requestAction => 'Request';
+
+  @override
+  String get advanceRequested => 'Advance requested';
+
+  @override
+  String get statusRequested => 'Requested';
+
+  @override
+  String get statusApproved => 'Approved';
+
+  @override
+  String get statusPaid => 'Paid';
+
+  @override
+  String get statusRejected => 'Rejected';
+
+  @override
+  String get earningsTitle => 'Earnings';
+
+  @override
+  String get monthTotal => 'This month';
+
+  @override
+  String get allowancesTitle => 'Trip allowances';
+
+  @override
+  String get incentivesLabel => 'Incentives';
+
+  @override
+  String get settlementTitle => 'Settlement balance';
+
+  @override
+  String get payableLabel => 'Payable to you';
+
+  @override
+  String get recoverableLabel => 'Recoverable from you';
+
+  @override
+  String get slipsTitle => 'Salary slips';
+
+  @override
+  String get tripsDoneLabel => 'Trips done';
+
+  @override
+  String get onTimeLabel => 'On-time';
+
+  @override
+  String get documentsTitle => 'Documents';
+
+  @override
+  String get docLicence => 'Driving Licence';
+
+  @override
+  String get docRc => 'RC';
+
+  @override
+  String get docInsurance => 'Insurance';
+
+  @override
+  String get docFitness => 'Fitness';
+
+  @override
+  String get docPermit => 'Permit';
+
+  @override
+  String get docPuc => 'PUC';
+
+  @override
+  String expiresInDays(int days) {
+    return '$days days left';
+  }
+
+  @override
+  String get expiredLabel => 'Expired';
+
+  @override
+  String get docNumberLabel => 'Number';
+
+  @override
+  String get sosTitle => 'SOS';
+
+  @override
+  String get sosPrompt => 'Press and hold for 3 seconds to alert Ops';
+
+  @override
+  String get sosSelectType => 'What happened?';
+
+  @override
+  String get sosBreakdown => 'Breakdown';
+
+  @override
+  String get sosAccident => 'Accident';
+
+  @override
+  String get sosMedical => 'Medical';
+
+  @override
+  String get sosThreat => 'Threat';
+
+  @override
+  String get sosOther => 'Other';
+
+  @override
+  String get sosSent => 'SOS sent. Ops has been alerted.';
+
+  @override
+  String get sosQueued => 'Offline - SOS queued and will send automatically';
+
+  @override
+  String get queueTitle => 'Offline queue';
+
+  @override
+  String get queueEmpty => 'Everything is synced';
+
+  @override
+  String get statusPending => 'Pending';
+
+  @override
+  String get statusUploading => 'Uploading';
+
+  @override
+  String get statusFailed => 'Failed';
+
+  @override
+  String get actionTripStatus => 'Trip status';
+
+  @override
+  String get actionOffer => 'Trip offer';
+
+  @override
+  String get actionPod => 'POD';
+
+  @override
+  String get actionExpense => 'Expense';
+
+  @override
+  String get actionAdvance => 'Advance';
+
+  @override
+  String get actionSos => 'SOS';
+
+  @override
+  String get actionGps => 'GPS batch';
+
+  @override
+  String get actionOther => 'Sync item';
+
+  @override
+  String get statusDone => 'Done';
+
+  @override
+  String get listeningLabel => 'Listening...';
+
+  @override
+  String voiceConfirm(String step) {
+    return 'Mark \'$step\'?';
+  }
+
+  @override
+  String get yesAction => 'Yes';
+
+  @override
+  String get noAction => 'No';
+
+  @override
+  String get voiceNotAvailable => 'Voice input is not available right now';
+
+  @override
+  String get voiceCommandsLabel => 'Voice commands';
+
+  @override
+  String get textSizeLabel => 'Text size';
+
+  @override
+  String get closeAction => 'Close';
+
+  @override
+  String get callAction => 'Call';
+
+  @override
+  String get tripAssigned => 'Assigned';
+
+  @override
+  String get tripDelivered => 'Delivered';
+
+  @override
+  String get tripClosed => 'Closed';
+
+  @override
+  String get tripCancelled => 'Cancelled';
+
+  @override
   String phaseComingSoon(String phase) {
     return 'Coming in $phase';
   }

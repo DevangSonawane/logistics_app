@@ -57,24 +57,27 @@ final class AuthRepositoryProvider
 
 String _$authRepositoryHash() => r'387b6e9a78d246a81ba25c340fe035788819ea94';
 
-/// Minimal in Phase 2 (logout blocker only). Full trip store in Phase 3.
+/// Driver-scope stores with in-memory demo state (Phase 3).
+/// Ops/owner/finance repositories land in Phases 4-7.
 
 @ProviderFor(tripRepository)
 final tripRepositoryProvider = TripRepositoryProvider._();
 
-/// Minimal in Phase 2 (logout blocker only). Full trip store in Phase 3.
+/// Driver-scope stores with in-memory demo state (Phase 3).
+/// Ops/owner/finance repositories land in Phases 4-7.
 
 final class TripRepositoryProvider
     extends $FunctionalProvider<TripRepository, TripRepository, TripRepository>
     with $Provider<TripRepository> {
-  /// Minimal in Phase 2 (logout blocker only). Full trip store in Phase 3.
+  /// Driver-scope stores with in-memory demo state (Phase 3).
+  /// Ops/owner/finance repositories land in Phases 4-7.
   TripRepositoryProvider._()
       : super(
           from: null,
           argument: null,
           retry: null,
           name: r'tripRepositoryProvider',
-          isAutoDispose: true,
+          isAutoDispose: false,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
@@ -101,4 +104,137 @@ final class TripRepositoryProvider
   }
 }
 
-String _$tripRepositoryHash() => r'c24abdf7d1f65a1bb6205540f92d291cae18ff3d';
+String _$tripRepositoryHash() => r'69dd2422bdc3dd61da75df076445121c130d5e05';
+
+/// Mock stores hold demo state per container; keep alive for the session.
+
+@ProviderFor(expenseRepository)
+final expenseRepositoryProvider = ExpenseRepositoryProvider._();
+
+/// Mock stores hold demo state per container; keep alive for the session.
+
+final class ExpenseRepositoryProvider extends $FunctionalProvider<
+    ExpenseRepository,
+    ExpenseRepository,
+    ExpenseRepository> with $Provider<ExpenseRepository> {
+  /// Mock stores hold demo state per container; keep alive for the session.
+  ExpenseRepositoryProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'expenseRepositoryProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$expenseRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<ExpenseRepository> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  ExpenseRepository create(Ref ref) {
+    return expenseRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ExpenseRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ExpenseRepository>(value),
+    );
+  }
+}
+
+String _$expenseRepositoryHash() => r'a210aa8a9c81b5400c0260443b78fc3b7eb49878';
+
+@ProviderFor(advanceRepository)
+final advanceRepositoryProvider = AdvanceRepositoryProvider._();
+
+final class AdvanceRepositoryProvider extends $FunctionalProvider<
+    AdvanceRepository,
+    AdvanceRepository,
+    AdvanceRepository> with $Provider<AdvanceRepository> {
+  AdvanceRepositoryProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'advanceRepositoryProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$advanceRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<AdvanceRepository> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  AdvanceRepository create(Ref ref) {
+    return advanceRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AdvanceRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AdvanceRepository>(value),
+    );
+  }
+}
+
+String _$advanceRepositoryHash() => r'f19b777f5591bd97f3b7297636d1f738911930e4';
+
+@ProviderFor(driverRepository)
+final driverRepositoryProvider = DriverRepositoryProvider._();
+
+final class DriverRepositoryProvider extends $FunctionalProvider<
+    DriverRepository,
+    DriverRepository,
+    DriverRepository> with $Provider<DriverRepository> {
+  DriverRepositoryProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'driverRepositoryProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$driverRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<DriverRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  DriverRepository create(Ref ref) {
+    return driverRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DriverRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DriverRepository>(value),
+    );
+  }
+}
+
+String _$driverRepositoryHash() => r'eb119be8cc67c75d3d954e1bfcf6f7b5634b7876';

@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/models/app_user.dart';
+import '../../data/models/driver.dart';
+import '../../data/models/trip.dart';
 import '../../features/auth/application/logout_flow.dart';
 import '../../features/auth/application/session_provider.dart';
 import '../../features/auth/presentation/biometric_setup_page.dart';
@@ -13,6 +15,18 @@ import '../../features/auth/presentation/otp_page.dart';
 import '../../features/auth/presentation/permissions_page.dart';
 import '../../features/auth/presentation/role_picker_page.dart';
 import '../../features/common/profile/profile_page.dart';
+import '../../features/driver/advances/advance_ledger_page.dart';
+import '../../features/driver/advances/request_advance_page.dart';
+import '../../features/driver/documents/driver_documents_page.dart';
+import '../../features/driver/earnings/earnings_page.dart';
+import '../../features/driver/earnings/payslip_page.dart';
+import '../../features/driver/expenses/add_expense_page.dart';
+import '../../features/driver/expenses/expense_list_page.dart';
+import '../../features/driver/my_trip/my_trip_page.dart';
+import '../../features/driver/pod/pod_capture_page.dart';
+import '../../features/driver/shell/driver_shell.dart';
+import '../../features/driver/sos/sos_page.dart';
+import '../../features/driver/sync/offline_queue_page.dart';
 import '../../features/onboarding/language_select_page.dart';
 import '../../features/splash/splash_page.dart';
 import '../l10n/app_localizations.dart';
@@ -28,10 +42,9 @@ part 'app_router.g.dart';
 /// App router with role-based redirect guards. The router is created once
 /// and re-evaluates [roleGuard] on every session change via refresh().
 ///
-/// Each role gets its own ShellRoute; real tabbed shells land with the
+/// Each role gets its own ShellRoute; staff tabbed shells land with the
 /// feature phases (TODOs below). Deep links (roadops://trip/{id} ...)
 /// are wired in Phase 3+.
-/// TODO(Phase 3): driver_shell with 4 tabs + deep links.
 /// TODO(Phase 4): owner_shell (5 tabs) + ops_shell (5 tabs).
 /// TODO(Phase 6): notification centre, global search, settings pages.
 /// TODO(Phase 7): sales, supervisor and accountant shells.
@@ -86,16 +99,101 @@ GoRouter appRouter(Ref ref) {
         builder: (context, state) => const _ForbiddenPage(),
       ),
       for (final AppRole role in AppRole.values)
-        ShellRoute(
-          builder: (context, state, child) =>
-              _RoleShell(role: role, child: child),
-          routes: [
-            GoRoute(
-              path: '/${role.name}/home',
-              builder: (context, state) => _RoleHomePage(role: role),
-            ),
-          ],
-        ),
+        if (role != AppRole.driver)
+          ShellRoute(
+            builder: (context, state, child) =>
+                _RoleShell(role: role, child: child),
+            routes: [
+              GoRoute(
+                path: '/${role.name}/home',
+                builder: (context, state) => _RoleHomePage(role: role),
+              ),
+            ],
+          ),
+      // Driver shell: 4 tabs (My Trip, Earnings, Documents, Profile).
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            DriverShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.driverHome,
+                builder: (context, state) => const MyTripPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.driverEarnings,
+                builder: (context, state) => const EarningsPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.driverDocuments,
+                builder: (context, state) => const DriverDocumentsPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.driverProfile,
+                builder: (context, state) => const ProfilePage(),
+              ),
+            ],
+          ),
+        ],
+      ),
+      GoRoute(
+        path: RouteNames.driverPod,
+        builder: (context, state) {
+          final Trip trip = state.extra as Trip;
+          return PodCapturePage(trip: trip);
+        },
+      ),
+      GoRoute(
+        path: RouteNames.driverExpenses,
+        builder: (context, state) => const ExpenseListPage(),
+      ),
+      GoRoute(
+        path: RouteNames.driverAddExpense,
+        builder: (context, state) {
+          final Trip trip = state.extra as Trip;
+          return AddExpensePage(trip: trip);
+        },
+      ),
+      GoRoute(
+        path: RouteNames.driverAdvances,
+        builder: (context, state) => const AdvanceLedgerPage(),
+      ),
+      GoRoute(
+        path: RouteNames.driverRequestAdvance,
+        builder: (context, state) {
+          final Trip trip = state.extra as Trip;
+          return RequestAdvancePage(trip: trip);
+        },
+      ),
+      GoRoute(
+        path: RouteNames.driverSos,
+        builder: (context, state) => const SosPage(),
+      ),
+      GoRoute(
+        path: RouteNames.driverQueue,
+        builder: (context, state) => const OfflineQueuePage(),
+      ),
+      GoRoute(
+        path: RouteNames.driverPayslip,
+        builder: (context, state) {
+          final Map<String, dynamic> extra =
+              state.extra as Map<String, dynamic>;
+          return PayslipPage(slip: extra['slip'] as SalarySlip);
+        },
+      ),
     ],
   );
   ref.onDispose(router.dispose);

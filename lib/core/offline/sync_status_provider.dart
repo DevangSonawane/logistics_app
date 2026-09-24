@@ -14,3 +14,14 @@ SyncPillState syncPillState(Ref ref) {
   final SyncActivity activity = ref.watch(syncStatusProvider);
   return (pending: pending, activity: activity);
 }
+
+/// Bumped after every drain so trip views reconcile with server truth.
+@Riverpod(keepAlive: true)
+class SyncGeneration extends _$SyncGeneration {
+  @override
+  int build() => 0;
+
+  void bump() {
+    state++;
+  }
+}

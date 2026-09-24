@@ -15,6 +15,17 @@ abstract final class RouteNames {
   static const String profile = '/profile';
 
   static const String driverHome = '/driver/home';
+  static const String driverEarnings = '/driver/earnings';
+  static const String driverDocuments = '/driver/documents';
+  static const String driverProfile = '/driver/profile';
+  static const String driverPod = '/driver/pod';
+  static const String driverExpenses = '/driver/expenses';
+  static const String driverAddExpense = '/driver/expenses/add';
+  static const String driverAdvances = '/driver/advances';
+  static const String driverRequestAdvance = '/driver/advances/request';
+  static const String driverSos = '/driver/sos';
+  static const String driverQueue = '/driver/queue';
+  static const String driverPayslip = '/driver/payslip';
   static const String ownerHome = '/owner/home';
   static const String opsHome = '/ops/home';
   static const String salesHome = '/sales/home';

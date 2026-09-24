@@ -1,0 +1,48 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'vehicle.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_VehicleDoc _$VehicleDocFromJson(Map<String, dynamic> json) => _VehicleDoc(
+      type: $enumDecode(_$VehicleDocTypeEnumMap, json['type']),
+      number: json['number'] as String,
+      expiry: DateTime.parse(json['expiry'] as String),
+      photoPath: json['photoPath'] as String?,
+    );
+
+Map<String, dynamic> _$VehicleDocToJson(_VehicleDoc instance) =>
+    <String, dynamic>{
+      'type': _$VehicleDocTypeEnumMap[instance.type]!,
+      'number': instance.number,
+      'expiry': instance.expiry.toIso8601String(),
+      'photoPath': instance.photoPath,
+    };
+
+const _$VehicleDocTypeEnumMap = {
+  VehicleDocType.licence: 'licence',
+  VehicleDocType.rc: 'rc',
+  VehicleDocType.insurance: 'insurance',
+  VehicleDocType.fitness: 'fitness',
+  VehicleDocType.permit: 'permit',
+  VehicleDocType.puc: 'puc',
+};
+
+_Vehicle _$VehicleFromJson(Map<String, dynamic> json) => _Vehicle(
+      id: json['id'] as String,
+      regNo: json['regNo'] as String,
+      type: json['type'] as String,
+      docs: (json['docs'] as List<dynamic>?)
+              ?.map((e) => VehicleDoc.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+    );
+
+Map<String, dynamic> _$VehicleToJson(_Vehicle instance) => <String, dynamic>{
+      'id': instance.id,
+      'regNo': instance.regNo,
+      'type': instance.type,
+      'docs': instance.docs,
+    };

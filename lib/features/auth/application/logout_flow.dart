@@ -5,8 +5,7 @@ import '../../../core/config/app_config.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/offline/offline_queue.dart';
 import '../../../core/offline/sync_engine.dart';
-import '../../../core/widgets/confirm_dialog.dart';
-import '../../../data/models/app_user.dart';
+import '../../../core/widgets/confirm_dialog.dart';import '../../../data/models/app_user.dart';
 import '../../../data/repositories/repository_providers.dart';
 import 'session_provider.dart';
 
@@ -83,18 +82,23 @@ Future<void> _showUnsyncedBlocker(
           child: Text(l10n.cancelAction),
         ),
         TextButton(
-          onPressed: () {
-            // TODO(Phase 3): run the real drain loop; for now flip the
-            // sync indicator and keep the items queued.
-            ref
-                .read(syncStatusProvider.notifier)
-                .setActivity(SyncActivity.syncing);
+          onPressed: () async {
             Navigator.of(dialogContext).pop();
-            Future<void>.delayed(const Duration(milliseconds: 600), () {
-              ref
-                  .read(syncStatusProvider.notifier)
-                  .setActivity(SyncActivity.idle);
-            });
+            await ref.read(syncControllerProvider.notifier).syncNow();
+            if (!context.mounted) return;
+            if (ref.read(pendingSyncCountProvider) == 0) {
+              await ref.read(sessionProvider.notifier).signOut();
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    l10n.logoutPendingSync(
+                      ref.read(pendingSyncCountProvider),
+                    ),
+                  ),
+                ),
+              );
+            }
           },
           child: Text(l10n.syncNow),
         ),

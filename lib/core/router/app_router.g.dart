@@ -11,10 +11,9 @@ part of 'app_router.dart';
 /// App router with role-based redirect guards. The router is created once
 /// and re-evaluates [roleGuard] on every session change via refresh().
 ///
-/// Each role gets its own ShellRoute; real tabbed shells land with the
+/// Each role gets its own ShellRoute; staff tabbed shells land with the
 /// feature phases (TODOs below). Deep links (roadops://trip/{id} ...)
 /// are wired in Phase 3+.
-/// TODO(Phase 3): driver_shell with 4 tabs + deep links.
 /// TODO(Phase 4): owner_shell (5 tabs) + ops_shell (5 tabs).
 /// TODO(Phase 6): notification centre, global search, settings pages.
 /// TODO(Phase 7): sales, supervisor and accountant shells.
@@ -25,10 +24,9 @@ final appRouterProvider = AppRouterProvider._();
 /// App router with role-based redirect guards. The router is created once
 /// and re-evaluates [roleGuard] on every session change via refresh().
 ///
-/// Each role gets its own ShellRoute; real tabbed shells land with the
+/// Each role gets its own ShellRoute; staff tabbed shells land with the
 /// feature phases (TODOs below). Deep links (roadops://trip/{id} ...)
 /// are wired in Phase 3+.
-/// TODO(Phase 3): driver_shell with 4 tabs + deep links.
 /// TODO(Phase 4): owner_shell (5 tabs) + ops_shell (5 tabs).
 /// TODO(Phase 6): notification centre, global search, settings pages.
 /// TODO(Phase 7): sales, supervisor and accountant shells.
@@ -39,10 +37,9 @@ final class AppRouterProvider
   /// App router with role-based redirect guards. The router is created once
   /// and re-evaluates [roleGuard] on every session change via refresh().
   ///
-  /// Each role gets its own ShellRoute; real tabbed shells land with the
+  /// Each role gets its own ShellRoute; staff tabbed shells land with the
   /// feature phases (TODOs below). Deep links (roadops://trip/{id} ...)
   /// are wired in Phase 3+.
-  /// TODO(Phase 3): driver_shell with 4 tabs + deep links.
   /// TODO(Phase 4): owner_shell (5 tabs) + ops_shell (5 tabs).
   /// TODO(Phase 6): notification centre, global search, settings pages.
   /// TODO(Phase 7): sales, supervisor and accountant shells.
@@ -79,4 +76,4 @@ final class AppRouterProvider
   }
 }
 
-String _$appRouterHash() => r'a4134d856ad31f52b8e25332ef988b41e45e7978';
+String _$appRouterHash() => r'05f0bd576234ca92716843f7325ab2e0e350f8dc';

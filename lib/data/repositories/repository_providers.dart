@@ -1,7 +1,13 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'advance_repository.dart';
 import 'auth_repository.dart';
+import 'driver_repository.dart';
+import 'expense_repository.dart';
+import 'mock_advance_repository.dart';
 import 'mock_auth_repository.dart';
+import 'mock_driver_repository.dart';
+import 'mock_expense_repository.dart';
 import 'mock_trip_repository.dart';
 import 'trip_repository.dart';
 
@@ -12,9 +18,20 @@ part 'repository_providers.g.dart';
 @riverpod
 AuthRepository authRepository(Ref ref) => MockAuthRepository();
 
-/// Minimal in Phase 2 (logout blocker only). Full trip store in Phase 3.
-@riverpod
+/// Driver-scope stores with in-memory demo state (Phase 3).
+/// Ops/owner/finance repositories land in Phases 4-7.
+@Riverpod(keepAlive: true)
 TripRepository tripRepository(Ref ref) => MockTripRepository();
+
+/// Mock stores hold demo state per container; keep alive for the session.
+@Riverpod(keepAlive: true)
+ExpenseRepository expenseRepository(Ref ref) => MockExpenseRepository();
+
+@Riverpod(keepAlive: true)
+AdvanceRepository advanceRepository(Ref ref) => MockAdvanceRepository();
+
+@Riverpod(keepAlive: true)
+DriverRepository driverRepository(Ref ref) => MockDriverRepository();
 
 // TODO(Phase 3): tripRepository, orderRepository (ops), vehicleRepository,
 // driverRepository, expenseRepository, advanceRepository (+ mocks).

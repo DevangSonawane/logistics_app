@@ -49,3 +49,55 @@ final class SyncPillStateProvider
 }
 
 String _$syncPillStateHash() => r'aaff609bfe1380cdff640e26509888ff2f92e140';
+
+/// Bumped after every drain so trip views reconcile with server truth.
+
+@ProviderFor(SyncGeneration)
+final syncGenerationProvider = SyncGenerationProvider._();
+
+/// Bumped after every drain so trip views reconcile with server truth.
+final class SyncGenerationProvider
+    extends $NotifierProvider<SyncGeneration, int> {
+  /// Bumped after every drain so trip views reconcile with server truth.
+  SyncGenerationProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'syncGenerationProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$syncGenerationHash();
+
+  @$internal
+  @override
+  SyncGeneration create() => SyncGeneration();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
+}
+
+String _$syncGenerationHash() => r'86cc7715e82c1ba14c99260f3782db8a9e8ab4a5';
+
+/// Bumped after every drain so trip views reconcile with server truth.
+
+abstract class _$SyncGeneration extends $Notifier<int> {
+  int build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<int, int>;
+    final element = ref.element
+        as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
+  }
+}

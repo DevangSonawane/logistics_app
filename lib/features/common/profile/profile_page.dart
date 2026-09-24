@@ -5,6 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../auth/application/logout_flow.dart';
 import '../../auth/application/session_provider.dart';
+import '../../driver/application/driver_settings.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/l10n/locale_provider.dart';
@@ -14,6 +15,7 @@ import '../../../core/storage/hive_boxes.dart';
 import '../../../core/storage/session_store.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
+import '../../../core/utils/launch_helpers.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/avatar.dart';
@@ -69,6 +71,10 @@ class ProfilePage extends ConsumerWidget {
           const SizedBox(height: AppSpacing.xl),
           _LanguageRow(),
           const SizedBox(height: AppSpacing.sm),
+          if (session.activeRole == AppRole.driver) ...[
+            const _DriverSettingsSection(),
+            const SizedBox(height: AppSpacing.sm),
+          ],
           FutureBuilder<PackageInfo>(
             future: _packageInfo(),
             builder: (context, snapshot) {
@@ -157,6 +163,53 @@ class _LanguageRow extends ConsumerWidget {
           }
         },
       ),
+    );
+  }
+}
+
+/// Driver-only settings (D9): voice commands toggle, text size,
+/// help & call Ops. Other roles use the shared rows above.
+class _DriverSettingsSection extends ConsumerWidget {
+  const _DriverSettingsSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    final DriverSettingsState settings = ref.watch(driverSettingsProvider);
+    return Column(
+      children: [
+        SwitchListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(l10n.voiceCommandsLabel),
+          value: settings.voiceEnabled,
+          onChanged: (value) => ref
+              .read(driverSettingsProvider.notifier)
+              .setVoiceEnabled(value),
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Icons.text_fields_outlined),
+          title: Text(l10n.textSizeLabel),
+          trailing: SegmentedButton<double>(
+            segments: const [
+              ButtonSegment(value: 1.0, label: Text('S')),
+              ButtonSegment(value: 1.15, label: Text('M')),
+              ButtonSegment(value: 1.3, label: Text('L')),
+            ],
+            selected: {settings.textScale},
+            onSelectionChanged: (s) => ref
+                .read(driverSettingsProvider.notifier)
+                .setTextScale(s.first),
+          ),
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Icons.support_agent_outlined),
+          title: Text(l10n.callOps),
+          trailing: const Icon(Icons.phone_outlined),
+          onTap: () => LaunchHelpers.call('9000000021'),
+        ),
+      ],
     );
   }
 }

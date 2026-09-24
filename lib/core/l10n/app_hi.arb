@@ -1,0 +1,117 @@
+{
+  "@@locale": "hi",
+  "appName": "RoadOps",
+  "splashTagline": "आपका लॉजिस्टिक्स साथी",
+  "languageTitle": "अपनी भाषा चुनें",
+  "languageSubtitle": "इसे आप बाद में सेटिंग्स में बदल सकते हैं",
+  "continueAction": "आगे बढ़ें",
+  "langEnglish": "अंग्रेज़ी",
+  "langHindi": "हिन्दी",
+  "langMarathi": "मराठी",
+  "langTamil": "तमिल",
+  "langTelugu": "तेलुगु",
+  "langKannada": "कन्नड़",
+  "langBengali": "बंगाली",
+  "langPunjabi": "पंजाबी",
+  "loginTitle": "अपने फोन नंबर से लॉगिन करें",
+  "loginSubtitle": "यूज़र सिर्फ एडमिन बनाता है। साइन-अप की ज़रूरत नहीं।",
+  "phoneLabel": "मोबाइल नंबर",
+  "phoneHint": "10 अंकों का नंबर",
+  "phoneError": "सही 10 अंकों का मोबाइल नंबर डालें",
+  "getOtp": "OTP पाएं",
+  "demoAccounts": "डेमो अकाउंट",
+  "demoAccountsHint": "डेमो नंबर भरने के लिए भूमिका पर टैप करें",
+  "invalidPhone": "यह नंबर रजिस्टर नहीं है। अपने एडमिन से संपर्क करें।",
+  "blockedAccount": "आपका अकाउंट सक्रिय नहीं है। अपने एडमिन से संपर्क करें।",
+  "otpTitle": "+91 {phone} पर भेजा OTP डालें",
+  "@otpTitle": {
+    "placeholders": {
+      "phone": { "type": "String" }
+    }
+  },
+  "otpSubtitle": "6 अंकों का कोड। कुछ मिनट में खत्म हो जाएगा।",
+  "otpError": "गलत OTP, फिर कोशिश करें",
+  "otpExpired": "इस OTP की समय सीमा खत्म हो गई। नया OTP मंगाएं।",
+  "otpResend": "OTP दोबारा भेजें",
+  "otpResendIn": "{seconds} सेकंड में दोबारा भेजें",
+  "@otpResendIn": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "otpAttemptsLeft": "{count} मौके बचे हैं",
+  "@otpAttemptsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "verifyAction": "सत्यापित करें",
+  "roleDriver": "ड्राइवर",
+  "roleOwner": "मालिक",
+  "roleOps": "ऑप्स",
+  "roleSales": "सेल्स",
+  "roleSupervisor": "सुपरवाइज़र",
+  "roleAccountant": "अकाउंटेंट",
+  "rolePickerTitle": "अपनी भूमिका चुनें",
+  "rolePickerSubtitle": "आपके पास एक से ज़्यादा भूमिकाएं हैं। आज कहां जाना है चुनें।",
+  "permissionsTitle": "कुछ अनुमतियां चाहिए",
+  "permissionsSubtitle": "हर अनुमति आपकी भूमिका के काम में मदद करती है।",
+  "permissionAllow": "अनुमति दें",
+  "permissionDeny": "मना करें",
+  "permNotificationsTitle": "नोटिफिकेशन",
+  "permNotificationsWhy": "ट्रिप, अप्रूवल और पेमेंट की जानकारी के लिए।",
+  "permCameraTitle": "कैमरा",
+  "permCameraWhy": "POD, बिल, लोडिंग फोटो और स्कैन के लिए।",
+  "permLocationTitle": "लोकेशन",
+  "permLocationWhy": "नेविगेशन और ट्रिप चेकपॉइंट के लिए।",
+  "permLocationAlwaysTitle": "बैकग्राउंड लोकेशन",
+  "permLocationAlwaysWhy": "ऐप बंद होने पर भी आपकी ट्रिप ट्रैक करने के लिए।",
+  "permBatteryTitle": "बैटरी ऑप्टिमाइज़ेशन",
+  "permBatteryWhy": "ताकि लंबे रूट पर ट्रिप ट्रैकिंग चलती रहे।",
+  "permMicrophoneTitle": "माइक्रोफोन",
+  "permMicrophoneWhy": "वॉइस कमांड और वॉइस नोट के लिए।",
+  "locationDisclosure": "ऐप बंद होने या इस्तेमाल न होने पर भी आपकी ट्रिप ट्रैक करने के लिए RoadOps लोकेशन डेटा लेता है।",
+  "acceptAction": "स्वीकार करें",
+  "denyAction": "मना करें",
+  "rejectAction": "अस्वीकार करें",
+  "navigateAction": "नेविगेट करें",
+  "biometricTitle": "ऐप लॉक करें",
+  "biometricSubtitle": "फिंगरप्रिंट, फेस अनलॉक या 4 अंकों का PIN इस्तेमाल करें।",
+  "biometricEnable": "चालू करें",
+  "biometricSkip": "PIN इस्तेमाल करें",
+  "lockTitle": "वापसी पर स्वागत है",
+  "lockSubtitle": "आगे बढ़ने के लिए अनलॉक करें",
+  "useDemoPin": "डेमो PIN 1234 इस्तेमाल करें",
+  "logoutTitle": "लॉगआउट करें?",
+  "logoutMessage": "वापस लॉगिन के लिए OTP चाहिए होगा।",
+  "logoutAction": "लॉगआउट",
+  "cancelAction": "रद्द करें",
+  "retryAction": "पुनः प्रयास करें",
+  "commonLoading": "लोड हो रहा है…",
+  "commonEmpty": "यहां अभी कुछ नहीं है",
+  "commonError": "कुछ गड़बड़ हो गई",
+  "offlineMessage": "आप ऑफ़लाइन हैं। अपडेट अपने आप सिंक हो जाएंगे।",
+  "pendingSync": "{count} आइटम सिंक होना बाकी है",
+  "@pendingSync": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "syncNow": "अभी सिंक करें",
+  "viewQueue": "कतार देखें",
+  "forbiddenTitle": "अनुमति नहीं है",
+  "forbiddenMessage": "आपकी भूमिका यह स्क्रीन नहीं खोल सकती।",
+  "goBackAction": "वापस जाएं",
+  "phaseComingSoon": "{phase} में आ रहा है",
+  "@phaseComingSoon": {
+    "placeholders": {
+      "phase": { "type": "String" }
+    }
+  },
+  "greeting": "नमस्ते, {name}",
+  "@greeting": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  }
+}

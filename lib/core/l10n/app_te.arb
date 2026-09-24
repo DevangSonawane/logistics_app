@@ -1,0 +1,22 @@
+{
+  "@@locale": "te",
+  "roleDriver": "డ్రైవర్",
+  "roleOwner": "యజమాని",
+  "roleOps": "ఆప్స్",
+  "roleSales": "సేల్స్",
+  "roleSupervisor": "సూపర్‌వైజర్",
+  "roleAccountant": "అకౌంటెంట్",
+  "continueAction": "కొనసాగించు",
+  "cancelAction": "రద్దు చేయి",
+  "retryAction": "మళ్లీ ప్రయత్నించండి",
+  "acceptAction": "అంగీకరించు",
+  "rejectAction": "తిరస్కరించు",
+  "navigateAction": "నావిగేట్ చేయి",
+  "offlineMessage": "మీరు ఆఫ్‌లైన్‌లో ఉన్నారు. నవీకరణలు స్వయంచాలకంగా సింక్ అవుతాయి.",
+  "greeting": "నమస్కారం, {name}",
+  "@greeting": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  }
+}

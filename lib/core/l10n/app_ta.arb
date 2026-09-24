@@ -1,0 +1,22 @@
+{
+  "@@locale": "ta",
+  "roleDriver": "டிரைவர்",
+  "roleOwner": "உரிமையாளர்",
+  "roleOps": "ஆப்ஸ்",
+  "roleSales": "விற்பனை",
+  "roleSupervisor": "மேற்பார்வையாளர்",
+  "roleAccountant": "கணக்காளர்",
+  "continueAction": "தொடரவும்",
+  "cancelAction": "ரத்து",
+  "retryAction": "மீண்டும் முயல்க",
+  "acceptAction": "ஏற்கவும்",
+  "rejectAction": "நிராகரிக்கவும்",
+  "navigateAction": "வழிசெலுத்துக",
+  "offlineMessage": "நீங்கள் ஆஃப்லைனில் உள்ளீர்கள். புதுப்பிப்புகள் தானாக ஒத்திசைக்கப்படும்.",
+  "greeting": "வணக்கம், {name}",
+  "@greeting": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  }
+}

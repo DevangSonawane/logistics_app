@@ -1,0 +1,22 @@
+{
+  "@@locale": "kn",
+  "roleDriver": "ಚಾಲಕ",
+  "roleOwner": "ಮಾಲೀಕ",
+  "roleOps": "ಆಪ್ಸ್",
+  "roleSales": "ಸೇಲ್ಸ್",
+  "roleSupervisor": "ಸೂಪರ್‌ವೈಸರ್",
+  "roleAccountant": "ಲೆಕ್ಕಿಗ",
+  "continueAction": "ಮುಂದುವರಿಸಿ",
+  "cancelAction": "ರದ್ದುಮಾಡಿ",
+  "retryAction": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
+  "acceptAction": "ಸ್ವೀಕರಿಸಿ",
+  "rejectAction": "ತಿರಸ್ಕರಿಸಿ",
+  "navigateAction": "ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ",
+  "offlineMessage": "ನೀವು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿದ್ದೀರಿ. ನವೀಕರಣಗಳು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಸಿಂಕ್ ಆಗುತ್ತವೆ.",
+  "greeting": "ನಮಸ್ಕಾರ, {name}",
+  "@greeting": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "@@locale": "mr",
+  "roleDriver": "ड्रायव्हर",
+  "roleOwner": "मालक",
+  "roleOps": "ऑप्स",
+  "roleSales": "सेल्स",
+  "roleSupervisor": "सुपरवायझर",
+  "roleAccountant": "अकाउंटंट",
+  "continueAction": "पुढे जा",
+  "cancelAction": "रद्द करा",
+  "retryAction": "पुन्हा प्रयत्न करा",
+  "acceptAction": "स्वीकार करा",
+  "rejectAction": "नकार द्या",
+  "navigateAction": "नेव्हिगेट करा",
+  "offlineMessage": "तुम्ही ऑफलाइन आहात. अपडेट आपोआप सिंक होतील.",
+  "greeting": "नमस्कार, {name}",
+  "@greeting": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  }
+}

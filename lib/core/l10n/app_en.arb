@@ -1,0 +1,117 @@
+{
+  "@@locale": "en",
+  "appName": "RoadOps",
+  "splashTagline": "Your logistics companion",
+  "languageTitle": "Choose your language",
+  "languageSubtitle": "You can change this later in Settings",
+  "continueAction": "Continue",
+  "langEnglish": "English",
+  "langHindi": "Hindi",
+  "langMarathi": "Marathi",
+  "langTamil": "Tamil",
+  "langTelugu": "Telugu",
+  "langKannada": "Kannada",
+  "langBengali": "Bengali",
+  "langPunjabi": "Punjabi",
+  "loginTitle": "Log in with your phone number",
+  "loginSubtitle": "Users are created by your admin. No sign-up needed.",
+  "phoneLabel": "Mobile number",
+  "phoneHint": "10-digit number",
+  "phoneError": "Enter a valid 10-digit mobile number",
+  "getOtp": "Get OTP",
+  "demoAccounts": "Demo accounts",
+  "demoAccountsHint": "Tap a role to autofill the demo number",
+  "invalidPhone": "This number is not registered. Contact your admin.",
+  "blockedAccount": "Your account is not active. Contact your admin.",
+  "otpTitle": "Enter OTP sent to +91 {phone}",
+  "@otpTitle": {
+    "placeholders": {
+      "phone": { "type": "String" }
+    }
+  },
+  "otpSubtitle": "6-digit code. It expires in a few minutes.",
+  "otpError": "Wrong OTP, please try again",
+  "otpExpired": "This OTP has expired. Request a new one.",
+  "otpResend": "Resend OTP",
+  "otpResendIn": "Resend in {seconds}s",
+  "@otpResendIn": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "otpAttemptsLeft": "{count} attempts left",
+  "@otpAttemptsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "verifyAction": "Verify",
+  "roleDriver": "Driver",
+  "roleOwner": "Owner",
+  "roleOps": "Ops",
+  "roleSales": "Sales",
+  "roleSupervisor": "Supervisor",
+  "roleAccountant": "Accountant",
+  "rolePickerTitle": "Choose your role",
+  "rolePickerSubtitle": "You have more than one role. Pick where to go today.",
+  "permissionsTitle": "We need a few permissions",
+  "permissionsSubtitle": "Each one helps RoadOps do its job for your role.",
+  "permissionAllow": "Allow",
+  "permissionDeny": "Deny",
+  "permNotificationsTitle": "Notifications",
+  "permNotificationsWhy": "To alert you about trips, approvals and payments.",
+  "permCameraTitle": "Camera",
+  "permCameraWhy": "To capture POD, bills, loading photos and scans.",
+  "permLocationTitle": "Location",
+  "permLocationWhy": "To show navigation and record trip checkpoints.",
+  "permLocationAlwaysTitle": "Background location",
+  "permLocationAlwaysWhy": "To track your trip even when the app is closed.",
+  "permBatteryTitle": "Battery optimisation",
+  "permBatteryWhy": "So trip tracking keeps running on long routes.",
+  "permMicrophoneTitle": "Microphone",
+  "permMicrophoneWhy": "For voice commands and voice notes.",
+  "locationDisclosure": "RoadOps collects location data to track your trip even when the app is closed or not in use.",
+  "acceptAction": "Accept",
+  "denyAction": "Deny",
+  "rejectAction": "Reject",
+  "navigateAction": "Navigate",
+  "biometricTitle": "Lock your app",
+  "biometricSubtitle": "Use fingerprint or face unlock, or a 4-digit PIN.",
+  "biometricEnable": "Enable",
+  "biometricSkip": "Use PIN instead",
+  "lockTitle": "Welcome back",
+  "lockSubtitle": "Unlock to continue",
+  "useDemoPin": "Use demo PIN 1234",
+  "logoutTitle": "Log out?",
+  "logoutMessage": "You will need an OTP to log back in.",
+  "logoutAction": "Log out",
+  "cancelAction": "Cancel",
+  "retryAction": "Retry",
+  "commonLoading": "Loading…",
+  "commonEmpty": "Nothing here yet",
+  "commonError": "Something went wrong",
+  "offlineMessage": "You are offline. Updates will sync automatically.",
+  "pendingSync": "{count} items waiting to sync",
+  "@pendingSync": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "syncNow": "Sync now",
+  "viewQueue": "View queue",
+  "forbiddenTitle": "Not allowed",
+  "forbiddenMessage": "Your role cannot open this screen.",
+  "goBackAction": "Go back",
+  "phaseComingSoon": "Coming in {phase}",
+  "@phaseComingSoon": {
+    "placeholders": {
+      "phase": { "type": "String" }
+    }
+  },
+  "greeting": "Namaste, {name}",
+  "@greeting": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  }
+}

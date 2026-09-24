@@ -1,0 +1,22 @@
+{
+  "@@locale": "pa",
+  "roleDriver": "ਡਰਾਈਵਰ",
+  "roleOwner": "ਮਾਲਕ",
+  "roleOps": "ਆਪਸ",
+  "roleSales": "ਸੇਲਜ਼",
+  "roleSupervisor": "ਸੁਪਰਵਾਈਜ਼ਰ",
+  "roleAccountant": "ਅਕਾਊਂਟੈਂਟ",
+  "continueAction": "ਅੱਗੇ ਵਧੋ",
+  "cancelAction": "ਰੱਦ ਕਰੋ",
+  "retryAction": "ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
+  "acceptAction": "ਸਵੀਕਾਰ ਕਰੋ",
+  "rejectAction": "ਠੁਕਰਾਓ",
+  "navigateAction": "ਨੇਵੀਗੇਟ ਕਰੋ",
+  "offlineMessage": "ਤੁਸੀਂ ਔਫਲਾਈਨ ਹੋ। ਅੱਪਡੇਟ ਆਪਣੇ ਆਪ ਸਿੰਕ ਹੋ ਜਾਣਗੇ।",
+  "greeting": "ਸਤ ਸ੍ਰੀ ਅਕਾਲ, {name}",
+  "@greeting": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  }
+}

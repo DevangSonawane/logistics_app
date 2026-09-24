@@ -1,0 +1,22 @@
+{
+  "@@locale": "bn",
+  "roleDriver": "ড্রাইভার",
+  "roleOwner": "মালিক",
+  "roleOps": "অপস",
+  "roleSales": "সেলস",
+  "roleSupervisor": "সুপারভাইজার",
+  "roleAccountant": "হিসাবরক্ষক",
+  "continueAction": "এগিয়ে যান",
+  "cancelAction": "বাতিল করুন",
+  "retryAction": "আবার চেষ্টা করুন",
+  "acceptAction": "গ্রহণ করুন",
+  "rejectAction": "প্রত্যাখ্যান করুন",
+  "navigateAction": "নেভিগেট করুন",
+  "offlineMessage": "আপনি অফলাইনে আছেন। আপডেট স্বয়ংক্রিয়ভাবে সিঙ্ক হবে।",
+  "greeting": "নমস্কার, {name}",
+  "@greeting": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  }
+}

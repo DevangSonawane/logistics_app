@@ -50,4 +50,40 @@ class PdfService {
     );
     return doc.save();
   }
+
+  /// Generic two-column statement (ledgers, memos, briefs) for Share PDF.
+  Future<Uint8List> statement({
+    required String title,
+    required List<(String, String)> rows,
+  }) async {
+    final pw.Document doc = pw.Document();
+    doc.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) => pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Text(
+              'Shree Ganesh Roadlines Pvt Ltd',
+              style: pw.TextStyle(
+                fontSize: 20,
+                fontWeight: pw.FontWeight.bold,
+              ),
+            ),
+            pw.SizedBox(height: 4),
+            pw.Text(title),
+            pw.SizedBox(height: 16),
+            for (final (left, right) in rows) ...[
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [pw.Text(left), pw.Text(right)],
+              ),
+              pw.SizedBox(height: 6),
+            ],
+          ],
+        ),
+      ),
+    );
+    return doc.save();
+  }
 }

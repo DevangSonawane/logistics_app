@@ -389,6 +389,13 @@ mixin _$Vehicle {
   String get regNo;
   String get type;
   List<VehicleDoc> get docs;
+  double get capacityTons;
+  VehicleOwnership get ownership;
+  VehicleStatus get status;
+  double? get lastLat;
+  double? get lastLng;
+  DateTime? get lastUpdate;
+  int get mileageKm;
 
   /// Create a copy of Vehicle
   /// with the given fields replaced by the non-null parameter values.
@@ -410,21 +417,46 @@ mixin _$Vehicle {
             (identical(other.regNo, _this.regNo) ||
                 other.regNo == _this.regNo) &&
             (identical(other.type, _this.type) || other.type == _this.type) &&
-            const DeepCollectionEquality().equals(other.docs, _this.docs));
+            const DeepCollectionEquality().equals(other.docs, _this.docs) &&
+            (identical(other.capacityTons, _this.capacityTons) ||
+                other.capacityTons == _this.capacityTons) &&
+            (identical(other.ownership, _this.ownership) ||
+                other.ownership == _this.ownership) &&
+            (identical(other.status, _this.status) ||
+                other.status == _this.status) &&
+            (identical(other.lastLat, _this.lastLat) ||
+                other.lastLat == _this.lastLat) &&
+            (identical(other.lastLng, _this.lastLng) ||
+                other.lastLng == _this.lastLng) &&
+            (identical(other.lastUpdate, _this.lastUpdate) ||
+                other.lastUpdate == _this.lastUpdate) &&
+            (identical(other.mileageKm, _this.mileageKm) ||
+                other.mileageKm == _this.mileageKm));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode {
     final _this = this as Vehicle;
-    return Object.hash(runtimeType, _this.id, _this.regNo, _this.type,
-        const DeepCollectionEquality().hash(_this.docs));
+    return Object.hash(
+        runtimeType,
+        _this.id,
+        _this.regNo,
+        _this.type,
+        const DeepCollectionEquality().hash(_this.docs),
+        _this.capacityTons,
+        _this.ownership,
+        _this.status,
+        _this.lastLat,
+        _this.lastLng,
+        _this.lastUpdate,
+        _this.mileageKm);
   }
 
   @override
   String toString() {
     final _this = this as Vehicle;
-    return 'Vehicle(id: ${_this.id}, regNo: ${_this.regNo}, type: ${_this.type}, docs: ${_this.docs})';
+    return 'Vehicle(id: ${_this.id}, regNo: ${_this.regNo}, type: ${_this.type}, docs: ${_this.docs}, capacityTons: ${_this.capacityTons}, ownership: ${_this.ownership}, status: ${_this.status}, lastLat: ${_this.lastLat}, lastLng: ${_this.lastLng}, lastUpdate: ${_this.lastUpdate}, mileageKm: ${_this.mileageKm})';
   }
 }
 
@@ -433,7 +465,18 @@ abstract mixin class $VehicleCopyWith<$Res> {
   factory $VehicleCopyWith(Vehicle value, $Res Function(Vehicle) _then) =
       _$VehicleCopyWithImpl;
   @useResult
-  $Res call({String id, String regNo, String type, List<VehicleDoc> docs});
+  $Res call(
+      {String id,
+      String regNo,
+      String type,
+      List<VehicleDoc> docs,
+      double capacityTons,
+      VehicleOwnership ownership,
+      VehicleStatus status,
+      double? lastLat,
+      double? lastLng,
+      DateTime? lastUpdate,
+      int mileageKm});
 }
 
 /// @nodoc
@@ -452,6 +495,13 @@ class _$VehicleCopyWithImpl<$Res> implements $VehicleCopyWith<$Res> {
     Object? regNo = null,
     Object? type = null,
     Object? docs = null,
+    Object? capacityTons = null,
+    Object? ownership = null,
+    Object? status = null,
+    Object? lastLat = freezed,
+    Object? lastLng = freezed,
+    Object? lastUpdate = freezed,
+    Object? mileageKm = null,
   }) {
     return _then(Vehicle(
       id: null == id
@@ -470,6 +520,34 @@ class _$VehicleCopyWithImpl<$Res> implements $VehicleCopyWith<$Res> {
           ? _self.docs
           : docs // ignore: cast_nullable_to_non_nullable
               as List<VehicleDoc>,
+      capacityTons: null == capacityTons
+          ? _self.capacityTons
+          : capacityTons // ignore: cast_nullable_to_non_nullable
+              as double,
+      ownership: null == ownership
+          ? _self.ownership
+          : ownership // ignore: cast_nullable_to_non_nullable
+              as VehicleOwnership,
+      status: null == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as VehicleStatus,
+      lastLat: freezed == lastLat
+          ? _self.lastLat
+          : lastLat // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lastLng: freezed == lastLng
+          ? _self.lastLng
+          : lastLng // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lastUpdate: freezed == lastUpdate
+          ? _self.lastUpdate
+          : lastUpdate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      mileageKm: null == mileageKm
+          ? _self.mileageKm
+          : mileageKm // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -568,14 +646,35 @@ extension VehiclePatterns on Vehicle {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
-            String id, String regNo, String type, List<VehicleDoc> docs)?
+            String id,
+            String regNo,
+            String type,
+            List<VehicleDoc> docs,
+            double capacityTons,
+            VehicleOwnership ownership,
+            VehicleStatus status,
+            double? lastLat,
+            double? lastLng,
+            DateTime? lastUpdate,
+            int mileageKm)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _Vehicle() when $default != null:
-        return $default(_that.id, _that.regNo, _that.type, _that.docs);
+        return $default(
+            _that.id,
+            _that.regNo,
+            _that.type,
+            _that.docs,
+            _that.capacityTons,
+            _that.ownership,
+            _that.status,
+            _that.lastLat,
+            _that.lastLng,
+            _that.lastUpdate,
+            _that.mileageKm);
       case _:
         return orElse();
     }
@@ -597,13 +696,34 @@ extension VehiclePatterns on Vehicle {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
-            String id, String regNo, String type, List<VehicleDoc> docs)
+            String id,
+            String regNo,
+            String type,
+            List<VehicleDoc> docs,
+            double capacityTons,
+            VehicleOwnership ownership,
+            VehicleStatus status,
+            double? lastLat,
+            double? lastLng,
+            DateTime? lastUpdate,
+            int mileageKm)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Vehicle():
-        return $default(_that.id, _that.regNo, _that.type, _that.docs);
+        return $default(
+            _that.id,
+            _that.regNo,
+            _that.type,
+            _that.docs,
+            _that.capacityTons,
+            _that.ownership,
+            _that.status,
+            _that.lastLat,
+            _that.lastLng,
+            _that.lastUpdate,
+            _that.mileageKm);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -624,13 +744,34 @@ extension VehiclePatterns on Vehicle {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
-            String id, String regNo, String type, List<VehicleDoc> docs)?
+            String id,
+            String regNo,
+            String type,
+            List<VehicleDoc> docs,
+            double capacityTons,
+            VehicleOwnership ownership,
+            VehicleStatus status,
+            double? lastLat,
+            double? lastLng,
+            DateTime? lastUpdate,
+            int mileageKm)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Vehicle() when $default != null:
-        return $default(_that.id, _that.regNo, _that.type, _that.docs);
+        return $default(
+            _that.id,
+            _that.regNo,
+            _that.type,
+            _that.docs,
+            _that.capacityTons,
+            _that.ownership,
+            _that.status,
+            _that.lastLat,
+            _that.lastLng,
+            _that.lastUpdate,
+            _that.mileageKm);
       case _:
         return null;
     }
@@ -644,7 +785,14 @@ class _Vehicle implements Vehicle {
       {required this.id,
       required this.regNo,
       required this.type,
-      List<VehicleDoc> docs = const []})
+      List<VehicleDoc> docs = const [],
+      this.capacityTons = 0,
+      this.ownership = VehicleOwnership.own,
+      this.status = VehicleStatus.idle,
+      this.lastLat,
+      this.lastLng,
+      this.lastUpdate,
+      this.mileageKm = 0})
       : _docs = docs;
   factory _Vehicle.fromJson(Map<String, dynamic> json) =>
       _$VehicleFromJson(json);
@@ -663,6 +811,25 @@ class _Vehicle implements Vehicle {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_docs);
   }
+
+  @override
+  @JsonKey()
+  final double capacityTons;
+  @override
+  @JsonKey()
+  final VehicleOwnership ownership;
+  @override
+  @JsonKey()
+  final VehicleStatus status;
+  @override
+  final double? lastLat;
+  @override
+  final double? lastLng;
+  @override
+  final DateTime? lastUpdate;
+  @override
+  @JsonKey()
+  final int mileageKm;
 
   /// Create a copy of Vehicle
   /// with the given fields replaced by the non-null parameter values.
@@ -687,19 +854,41 @@ class _Vehicle implements Vehicle {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.regNo, regNo) || other.regNo == regNo) &&
             (identical(other.type, type) || other.type == type) &&
-            const DeepCollectionEquality().equals(other.docs, _docs));
+            const DeepCollectionEquality().equals(other.docs, _docs) &&
+            (identical(other.capacityTons, capacityTons) ||
+                other.capacityTons == capacityTons) &&
+            (identical(other.ownership, ownership) ||
+                other.ownership == ownership) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.lastLat, lastLat) || other.lastLat == lastLat) &&
+            (identical(other.lastLng, lastLng) || other.lastLng == lastLng) &&
+            (identical(other.lastUpdate, lastUpdate) ||
+                other.lastUpdate == lastUpdate) &&
+            (identical(other.mileageKm, mileageKm) ||
+                other.mileageKm == mileageKm));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode {
-    return Object.hash(runtimeType, id, regNo, type,
-        const DeepCollectionEquality().hash(_docs));
+    return Object.hash(
+        runtimeType,
+        id,
+        regNo,
+        type,
+        const DeepCollectionEquality().hash(_docs),
+        capacityTons,
+        ownership,
+        status,
+        lastLat,
+        lastLng,
+        lastUpdate,
+        mileageKm);
   }
 
   @override
   String toString() {
-    return 'Vehicle(id: $id, regNo: $regNo, type: $type, docs: $docs)';
+    return 'Vehicle(id: $id, regNo: $regNo, type: $type, docs: $docs, capacityTons: $capacityTons, ownership: $ownership, status: $status, lastLat: $lastLat, lastLng: $lastLng, lastUpdate: $lastUpdate, mileageKm: $mileageKm)';
   }
 }
 
@@ -709,7 +898,18 @@ abstract mixin class _$VehicleCopyWith<$Res> implements $VehicleCopyWith<$Res> {
       __$VehicleCopyWithImpl;
   @override
   @useResult
-  $Res call({String id, String regNo, String type, List<VehicleDoc> docs});
+  $Res call(
+      {String id,
+      String regNo,
+      String type,
+      List<VehicleDoc> docs,
+      double capacityTons,
+      VehicleOwnership ownership,
+      VehicleStatus status,
+      double? lastLat,
+      double? lastLng,
+      DateTime? lastUpdate,
+      int mileageKm});
 }
 
 /// @nodoc
@@ -728,6 +928,13 @@ class __$VehicleCopyWithImpl<$Res> implements _$VehicleCopyWith<$Res> {
     Object? regNo = null,
     Object? type = null,
     Object? docs = null,
+    Object? capacityTons = null,
+    Object? ownership = null,
+    Object? status = null,
+    Object? lastLat = freezed,
+    Object? lastLng = freezed,
+    Object? lastUpdate = freezed,
+    Object? mileageKm = null,
   }) {
     return _then(_Vehicle(
       id: null == id
@@ -746,6 +953,34 @@ class __$VehicleCopyWithImpl<$Res> implements _$VehicleCopyWith<$Res> {
           ? _self._docs
           : docs // ignore: cast_nullable_to_non_nullable
               as List<VehicleDoc>,
+      capacityTons: null == capacityTons
+          ? _self.capacityTons
+          : capacityTons // ignore: cast_nullable_to_non_nullable
+              as double,
+      ownership: null == ownership
+          ? _self.ownership
+          : ownership // ignore: cast_nullable_to_non_nullable
+              as VehicleOwnership,
+      status: null == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as VehicleStatus,
+      lastLat: freezed == lastLat
+          ? _self.lastLat
+          : lastLat // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lastLng: freezed == lastLng
+          ? _self.lastLng
+          : lastLng // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lastUpdate: freezed == lastUpdate
+          ? _self.lastUpdate
+          : lastUpdate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      mileageKm: null == mileageKm
+          ? _self.mileageKm
+          : mileageKm // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }

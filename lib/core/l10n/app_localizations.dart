@@ -1163,7 +1163,7 @@ abstract class AppLocalizations {
   /// No description provided for @rateLabel.
   ///
   /// In en, this message translates to:
-  /// **'Rate / litre'**
+  /// **'Rate (Rs.)'**
   String get rateLabel;
 
   /// No description provided for @billPhotoLabel.
@@ -1645,6 +1645,1044 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Call'**
   String get callAction;
+
+  /// No description provided for @viewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get viewDetails;
+
+  /// No description provided for @balanceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get balanceLabel;
+
+  /// No description provided for @tripsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'trips'**
+  String get tripsLabel;
+
+  /// No description provided for @doneAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get doneAction;
+
+  /// No description provided for @addAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get addAction;
+
+  /// No description provided for @ownerTabDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get ownerTabDashboard;
+
+  /// No description provided for @ownerTabApprovals.
+  ///
+  /// In en, this message translates to:
+  /// **'Approvals'**
+  String get ownerTabApprovals;
+
+  /// No description provided for @ownerTabAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get ownerTabAccounts;
+
+  /// No description provided for @ownerTabMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Map'**
+  String get ownerTabMap;
+
+  /// No description provided for @branchAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All Branches'**
+  String get branchAll;
+
+  /// No description provided for @revenueMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue this month'**
+  String get revenueMonth;
+
+  /// No description provided for @revenueToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue today'**
+  String get revenueToday;
+
+  /// No description provided for @revenueWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue last 7 days'**
+  String get revenueWeek;
+
+  /// No description provided for @todayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get todayLabel;
+
+  /// No description provided for @range7d.
+  ///
+  /// In en, this message translates to:
+  /// **'7D'**
+  String get range7d;
+
+  /// No description provided for @rangeMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get rangeMonth;
+
+  /// No description provided for @tripsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Trips today'**
+  String get tripsToday;
+
+  /// No description provided for @collectionsMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Collections'**
+  String get collectionsMonth;
+
+  /// No description provided for @outstandingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Outstanding'**
+  String get outstandingLabel;
+
+  /// No description provided for @cashBankLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash & Bank'**
+  String get cashBankLabel;
+
+  /// No description provided for @utilisationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fleet utilisation'**
+  String get utilisationLabel;
+
+  /// No description provided for @trendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue vs collection'**
+  String get trendTitle;
+
+  /// No description provided for @topLanesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Top lanes by margin'**
+  String get topLanesTitle;
+
+  /// No description provided for @bottomCustomersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Watchlist'**
+  String get bottomCustomersTitle;
+
+  /// No description provided for @attentionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs attention'**
+  String get attentionTitle;
+
+  /// No description provided for @briefTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI brief'**
+  String get briefTitle;
+
+  /// No description provided for @readFullBrief.
+  ///
+  /// In en, this message translates to:
+  /// **'Read full brief'**
+  String get readFullBrief;
+
+  /// No description provided for @askTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask your data'**
+  String get askTitle;
+
+  /// No description provided for @askHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Which customer gave the lowest margin?'**
+  String get askHint;
+
+  /// No description provided for @approvalsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Approvals'**
+  String get approvalsTitle;
+
+  /// No description provided for @filterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterAll;
+
+  /// No description provided for @approvalAdvance.
+  ///
+  /// In en, this message translates to:
+  /// **'Advances'**
+  String get approvalAdvance;
+
+  /// No description provided for @approvalExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get approvalExpense;
+
+  /// No description provided for @approvalRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate exceptions'**
+  String get approvalRate;
+
+  /// No description provided for @approvalCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit override'**
+  String get approvalCredit;
+
+  /// No description provided for @approvalVendor.
+  ///
+  /// In en, this message translates to:
+  /// **'Vendor payments'**
+  String get approvalVendor;
+
+  /// No description provided for @approvalPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase'**
+  String get approvalPurchase;
+
+  /// No description provided for @approveAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get approveAction;
+
+  /// No description provided for @askInfoAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for info'**
+  String get askInfoAction;
+
+  /// No description provided for @commentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get commentHint;
+
+  /// No description provided for @commentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'A comment is required to reject'**
+  String get commentRequired;
+
+  /// No description provided for @approvedMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get approvedMsg;
+
+  /// No description provided for @rejectedMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get rejectedMsg;
+
+  /// No description provided for @infoAskedMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Info requested from the requester'**
+  String get infoAskedMsg;
+
+  /// No description provided for @undoAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undoAction;
+
+  /// No description provided for @emptyApprovals.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re all caught up'**
+  String get emptyApprovals;
+
+  /// No description provided for @createdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Raised'**
+  String get createdLabel;
+
+  /// No description provided for @accountsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accountsTitle;
+
+  /// No description provided for @customerLedgerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer ledger'**
+  String get customerLedgerTitle;
+
+  /// No description provided for @vendorLedgerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vendor ledger'**
+  String get vendorLedgerTitle;
+
+  /// No description provided for @ageingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ageing'**
+  String get ageingTitle;
+
+  /// No description provided for @pnlTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit & Loss'**
+  String get pnlTitle;
+
+  /// No description provided for @daybookTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Day book'**
+  String get daybookTitle;
+
+  /// No description provided for @bankBalancesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank balances'**
+  String get bankBalancesTitle;
+
+  /// No description provided for @gstSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'GST summary'**
+  String get gstSummaryTitle;
+
+  /// No description provided for @tripPnlTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip P&L'**
+  String get tripPnlTitle;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchHint;
+
+  /// No description provided for @sharePdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Share PDF'**
+  String get sharePdf;
+
+  /// No description provided for @selectCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a customer'**
+  String get selectCustomer;
+
+  /// No description provided for @customerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get customerLabel;
+
+  /// No description provided for @groupBranch.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch'**
+  String get groupBranch;
+
+  /// No description provided for @groupVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get groupVehicle;
+
+  /// No description provided for @groupCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get groupCustomer;
+
+  /// No description provided for @groupLane.
+  ///
+  /// In en, this message translates to:
+  /// **'Lane'**
+  String get groupLane;
+
+  /// No description provided for @liveMapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Live map'**
+  String get liveMapTitle;
+
+  /// No description provided for @exceptionsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Exceptions'**
+  String get exceptionsFilter;
+
+  /// No description provided for @noGpsKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Map key not configured - showing the trip list. Nothing crashes.'**
+  String get noGpsKey;
+
+  /// No description provided for @shareWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'Share on WhatsApp'**
+  String get shareWhatsapp;
+
+  /// No description provided for @briefMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'Money'**
+  String get briefMoney;
+
+  /// No description provided for @briefRisks.
+  ///
+  /// In en, this message translates to:
+  /// **'Risks'**
+  String get briefRisks;
+
+  /// No description provided for @alertSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification settings'**
+  String get alertSettingsTitle;
+
+  /// No description provided for @alertPay.
+  ///
+  /// In en, this message translates to:
+  /// **'Large payment received'**
+  String get alertPay;
+
+  /// No description provided for @alertDelay.
+  ///
+  /// In en, this message translates to:
+  /// **'Big delay'**
+  String get alertDelay;
+
+  /// No description provided for @alertDoc.
+  ///
+  /// In en, this message translates to:
+  /// **'Document expiring'**
+  String get alertDoc;
+
+  /// No description provided for @alertCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit limit crossed'**
+  String get alertCredit;
+
+  /// No description provided for @channelPush.
+  ///
+  /// In en, this message translates to:
+  /// **'Push'**
+  String get channelPush;
+
+  /// No description provided for @channelWa.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get channelWa;
+
+  /// No description provided for @channelApp.
+  ///
+  /// In en, this message translates to:
+  /// **'In-app'**
+  String get channelApp;
+
+  /// No description provided for @opsTabOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get opsTabOrders;
+
+  /// No description provided for @opsTabPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan'**
+  String get opsTabPlan;
+
+  /// No description provided for @opsTabTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Trips'**
+  String get opsTabTrips;
+
+  /// No description provided for @opsTabExceptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Exceptions'**
+  String get opsTabExceptions;
+
+  /// No description provided for @ordersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get ordersTitle;
+
+  /// No description provided for @orderPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get orderPending;
+
+  /// No description provided for @orderPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned'**
+  String get orderPlanned;
+
+  /// No description provided for @orderRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'Running'**
+  String get orderRunning;
+
+  /// No description provided for @orderCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get orderCompleted;
+
+  /// No description provided for @orderCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get orderCancelled;
+
+  /// No description provided for @newOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'New order'**
+  String get newOrder;
+
+  /// No description provided for @orderTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get orderTypeLabel;
+
+  /// No description provided for @orderTypeFtl.
+  ///
+  /// In en, this message translates to:
+  /// **'FTL'**
+  String get orderTypeFtl;
+
+  /// No description provided for @orderTypePtl.
+  ///
+  /// In en, this message translates to:
+  /// **'PTL'**
+  String get orderTypePtl;
+
+  /// No description provided for @vehicleTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle type'**
+  String get vehicleTypeLabel;
+
+  /// No description provided for @commodityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Commodity'**
+  String get commodityLabel;
+
+  /// No description provided for @weightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight (kg)'**
+  String get weightLabel;
+
+  /// No description provided for @declaredValueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Declared value (Rs.)'**
+  String get declaredValueLabel;
+
+  /// No description provided for @stopsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Stops'**
+  String get stopsLabel;
+
+  /// No description provided for @planTripAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan'**
+  String get planTripAction;
+
+  /// No description provided for @planTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan trip'**
+  String get planTitle;
+
+  /// No description provided for @stepCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get stepCustomer;
+
+  /// No description provided for @stepRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Route'**
+  String get stepRoute;
+
+  /// No description provided for @stepCargo.
+  ///
+  /// In en, this message translates to:
+  /// **'Cargo'**
+  String get stepCargo;
+
+  /// No description provided for @stepRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate'**
+  String get stepRate;
+
+  /// No description provided for @pickupPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup point'**
+  String get pickupPoint;
+
+  /// No description provided for @dropPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop point'**
+  String get dropPoint;
+
+  /// No description provided for @neededByLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Needed by'**
+  String get neededByLabel;
+
+  /// No description provided for @pickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick date'**
+  String get pickDate;
+
+  /// No description provided for @pasteWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste WhatsApp message'**
+  String get pasteWhatsapp;
+
+  /// No description provided for @pasteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 2 trucks 32 ft Pune to Chennai tomorrow'**
+  String get pasteHint;
+
+  /// No description provided for @aiFilled.
+  ///
+  /// In en, this message translates to:
+  /// **'AI filled - please verify'**
+  String get aiFilled;
+
+  /// No description provided for @contractRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract rate'**
+  String get contractRate;
+
+  /// No description provided for @belowContract.
+  ///
+  /// In en, this message translates to:
+  /// **'Below contract rate - needs approval'**
+  String get belowContract;
+
+  /// No description provided for @createOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Create order'**
+  String get createOrder;
+
+  /// No description provided for @orderCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Order created'**
+  String get orderCreated;
+
+  /// No description provided for @planStepOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Order'**
+  String get planStepOrder;
+
+  /// No description provided for @planStepVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get planStepVehicle;
+
+  /// No description provided for @planStepDriver.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver'**
+  String get planStepDriver;
+
+  /// No description provided for @planStepSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get planStepSummary;
+
+  /// No description provided for @docsValid.
+  ///
+  /// In en, this message translates to:
+  /// **'Docs valid'**
+  String get docsValid;
+
+  /// No description provided for @docsInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Docs invalid'**
+  String get docsInvalid;
+
+  /// No description provided for @onTripBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Already on a trip'**
+  String get onTripBlock;
+
+  /// No description provided for @licenceInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Licence invalid'**
+  String get licenceInvalid;
+
+  /// No description provided for @routeKm.
+  ///
+  /// In en, this message translates to:
+  /// **'Route distance'**
+  String get routeKm;
+
+  /// No description provided for @tollEst.
+  ///
+  /// In en, this message translates to:
+  /// **'Toll estimate'**
+  String get tollEst;
+
+  /// No description provided for @dieselEst.
+  ///
+  /// In en, this message translates to:
+  /// **'Diesel estimate'**
+  String get dieselEst;
+
+  /// No description provided for @etaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'ETA'**
+  String get etaLabel;
+
+  /// No description provided for @advanceOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Advance (optional)'**
+  String get advanceOptional;
+
+  /// No description provided for @assignAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign & notify driver'**
+  String get assignAction;
+
+  /// No description provided for @assignedMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip assigned and driver notified:'**
+  String get assignedMsg;
+
+  /// No description provided for @returnLoadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Return load nearby'**
+  String get returnLoadTitle;
+
+  /// No description provided for @returnLoadBody.
+  ///
+  /// In en, this message translates to:
+  /// **'2 loads available near {place}. Ask the driver before they head back empty.'**
+  String returnLoadBody(String place);
+
+  /// No description provided for @liveTripsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Live trips'**
+  String get liveTripsTitle;
+
+  /// No description provided for @listTab.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get listTab;
+
+  /// No description provided for @mapTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get mapTab;
+
+  /// No description provided for @controlTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip control'**
+  String get controlTitle;
+
+  /// No description provided for @callDriver.
+  ///
+  /// In en, this message translates to:
+  /// **'Call driver'**
+  String get callDriver;
+
+  /// No description provided for @updateStatusAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Update status'**
+  String get updateStatusAction;
+
+  /// No description provided for @reasonRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'A reason is required'**
+  String get reasonRequired;
+
+  /// No description provided for @raiseAdvanceAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Raise advance'**
+  String get raiseAdvanceAction;
+
+  /// No description provided for @advanceRaised.
+  ///
+  /// In en, this message translates to:
+  /// **'Advance request raised'**
+  String get advanceRaised;
+
+  /// No description provided for @ewayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'E-way bill no.'**
+  String get ewayLabel;
+
+  /// No description provided for @shareTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Share tracking'**
+  String get shareTracking;
+
+  /// No description provided for @exceptionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exceptions'**
+  String get exceptionsTitle;
+
+  /// No description provided for @noExceptions.
+  ///
+  /// In en, this message translates to:
+  /// **'All clear - no open exceptions'**
+  String get noExceptions;
+
+  /// No description provided for @exDelay.
+  ///
+  /// In en, this message translates to:
+  /// **'Delay'**
+  String get exDelay;
+
+  /// No description provided for @exHalt.
+  ///
+  /// In en, this message translates to:
+  /// **'Long halt'**
+  String get exHalt;
+
+  /// No description provided for @exDeviation.
+  ///
+  /// In en, this message translates to:
+  /// **'Route deviation'**
+  String get exDeviation;
+
+  /// No description provided for @exOverspeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Overspeed'**
+  String get exOverspeed;
+
+  /// No description provided for @exDeviceOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Device off'**
+  String get exDeviceOff;
+
+  /// No description provided for @exEway.
+  ///
+  /// In en, this message translates to:
+  /// **'E-way expiring'**
+  String get exEway;
+
+  /// No description provided for @exPod.
+  ///
+  /// In en, this message translates to:
+  /// **'POD pending'**
+  String get exPod;
+
+  /// No description provided for @extendEway.
+  ///
+  /// In en, this message translates to:
+  /// **'Extend e-way'**
+  String get extendEway;
+
+  /// No description provided for @ewayExtended.
+  ///
+  /// In en, this message translates to:
+  /// **'E-way bill extended'**
+  String get ewayExtended;
+
+  /// No description provided for @escalateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Escalate'**
+  String get escalateAction;
+
+  /// No description provided for @resolveAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolve'**
+  String get resolveAction;
+
+  /// No description provided for @marketTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Market vehicles'**
+  String get marketTitle;
+
+  /// No description provided for @knownVehicles.
+  ///
+  /// In en, this message translates to:
+  /// **'Known broker vehicles'**
+  String get knownVehicles;
+
+  /// No description provided for @addVehicleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add broker vehicle'**
+  String get addVehicleTitle;
+
+  /// No description provided for @vehicleNoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle no.'**
+  String get vehicleNoLabel;
+
+  /// No description provided for @vehicleNoError.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid vehicle no. e.g. MH 12 AB 1234'**
+  String get vehicleNoError;
+
+  /// No description provided for @ownerNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner name'**
+  String get ownerNameLabel;
+
+  /// No description provided for @panLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PAN'**
+  String get panLabel;
+
+  /// No description provided for @panError.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid PAN e.g. AAKCS1234F'**
+  String get panError;
+
+  /// No description provided for @driverNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver name'**
+  String get driverNameLabel;
+
+  /// No description provided for @fillAllFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill all required fields'**
+  String get fillAllFields;
+
+  /// No description provided for @kycPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'KYC photos'**
+  String get kycPhotos;
+
+  /// No description provided for @memoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hire memo'**
+  String get memoTitle;
+
+  /// No description provided for @freightAgreed.
+  ///
+  /// In en, this message translates to:
+  /// **'Freight agreed'**
+  String get freightAgreed;
+
+  /// No description provided for @deductionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Deductions'**
+  String get deductionsLabel;
+
+  /// No description provided for @balanceOnPod.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance on POD'**
+  String get balanceOnPod;
+
+  /// No description provided for @payAdvanceAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay advance'**
+  String get payAdvanceAction;
+
+  /// No description provided for @approvalRaised.
+  ///
+  /// In en, this message translates to:
+  /// **'Above limit - approval raised'**
+  String get approvalRaised;
+
+  /// No description provided for @paidMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Advance paid'**
+  String get paidMsg;
 
   /// No description provided for @tripAssigned.
   ///

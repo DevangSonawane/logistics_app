@@ -32,4 +32,16 @@ abstract final class LaunchHelpers {
       return false;
     }
   }
+
+  /// Opens WhatsApp's share sheet (no recipient) with prefilled text.
+  static Future<bool> whatsappShare(String text) async {
+    final Uri uri = Uri.parse(
+      'https://wa.me/?text=${Uri.encodeComponent(text)}',
+    );
+    try {
+      return await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      return false;
+    }
+  }
 }

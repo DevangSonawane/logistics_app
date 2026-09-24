@@ -8,4 +8,7 @@ abstract class DriverRepository {
   Future<EarningsSummary> getEarnings(String driverId);
 
   Future<List<VehicleDoc>> getVehicleDocs(String regNo);
+
+  /// Fleet roster for ops planning (licence + on-trip checks upstream).
+  Future<List<Driver>> listDrivers();
 }

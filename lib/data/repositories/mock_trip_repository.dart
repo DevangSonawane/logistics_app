@@ -1,3 +1,4 @@
+import '../../mock/mock_business_data.dart';
 import '../../mock/mock_delay.dart';
 import '../../mock/mock_driver_data.dart';
 import '../../models/trip.dart';
@@ -9,6 +10,9 @@ class MockTripRepository implements TripRepository {
   MockTripRepository() {
     _trips[MockDriverData.rameshTrip().id] = MockDriverData.rameshTrip();
     _trips[MockDriverData.sureshOffer().id] = MockDriverData.sureshOffer();
+    for (final Trip trip in MockBusinessData.businessTrips()) {
+      _trips[trip.id] = trip;
+    }
   }
 
   final Map<String, Trip> _trips = {};
@@ -155,5 +159,37 @@ class MockTripRepository implements TripRepository {
   Future<Trip?> getTrip(String tripId) async {
     await mockDelay();
     return _trips[tripId];
+  }
+
+  /// Ops planning: books a trip as an offer the driver accepts in-app.
+  Future<Trip> assignTrip(Trip trip) async {
+    await mockDelay();
+    throwIfChaos();
+    _trips[trip.id] = trip;
+    return trip;
+  }
+
+  /// Ops attaches/enters the e-way bill number from trip control.
+  Future<Trip> updateEway(String tripId, String ewayNo) async {
+    await mockDelay();
+    throwIfChaos();
+    final Trip trip = _require(tripId);
+    final Trip updated = trip.copyWith(ewayBillNo: ewayNo);
+    _trips[tripId] = updated;
+    return updated;
+  }
+
+  /// Live-trips + map queries for ops/owner.
+  Future<List<Trip>> runningTrips() async {
+    await mockDelay();
+    return _trips.values
+        .where(
+          (t) =>
+              t.status == TripStatus.started ||
+              t.status == TripStatus.reachedDrop ||
+              t.status == TripStatus.reachedPickup ||
+              t.status == TripStatus.loadingDone,
+        )
+        .toList();
   }
 }

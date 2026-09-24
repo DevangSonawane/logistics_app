@@ -5,6 +5,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/models/app_user.dart';
 import '../../data/models/driver.dart';
+import '../../data/models/hire.dart';
+import '../../data/models/order.dart';
 import '../../data/models/trip.dart';
 import '../../features/auth/application/logout_flow.dart';
 import '../../features/auth/application/session_provider.dart';
@@ -28,6 +30,28 @@ import '../../features/driver/shell/driver_shell.dart';
 import '../../features/driver/sos/sos_page.dart';
 import '../../features/driver/sync/offline_queue_page.dart';
 import '../../features/onboarding/language_select_page.dart';
+import '../../features/ops/exceptions/exceptions_feed_page.dart';
+import '../../features/ops/market/hire_memo_page.dart';
+import '../../features/ops/market/hire_vehicle_page.dart';
+import '../../features/ops/orders/create_order_page.dart';
+import '../../features/ops/orders/order_detail_page.dart';
+import '../../features/ops/orders/order_list_page.dart';
+import '../../features/ops/planning/plan_landing_page.dart';
+import '../../features/ops/planning/plan_trip_page.dart';
+import '../../features/ops/shell/ops_shell.dart';
+import '../../features/ops/trips/live_trips_page.dart';
+import '../../features/ops/trips/trip_control_page.dart';
+import '../../features/owner/accounts/accounts_home_page.dart';
+import '../../features/owner/accounts/ageing_page.dart';
+import '../../features/owner/accounts/daybook_page.dart';
+import '../../features/owner/accounts/ledger_page.dart';
+import '../../features/owner/accounts/pnl_page.dart';
+import '../../features/owner/approvals/approvals_inbox_page.dart';
+import '../../features/owner/brief/daily_brief_page.dart';
+import '../../features/owner/dashboard/owner_dashboard_page.dart';
+import '../../features/owner/live_map/live_map_page.dart';
+import '../../features/owner/more/notification_settings_page.dart';
+import '../../features/owner/shell/owner_shell.dart';
 import '../../features/splash/splash_page.dart';
 import '../l10n/app_localizations.dart';
 import '../theme/app_colors.dart';
@@ -42,10 +66,9 @@ part 'app_router.g.dart';
 /// App router with role-based redirect guards. The router is created once
 /// and re-evaluates [roleGuard] on every session change via refresh().
 ///
-/// Each role gets its own ShellRoute; staff tabbed shells land with the
-/// feature phases (TODOs below). Deep links (roadops://trip/{id} ...)
-/// are wired in Phase 3+.
-/// TODO(Phase 4): owner_shell (5 tabs) + ops_shell (5 tabs).
+/// Each role gets its own ShellRoute; sales/supervisor/accountant tabbed
+/// shells land in Phase 7. Deep links (roadops://trip/{id} ...) are wired
+/// in Phase 6 with the notification centre.
 /// TODO(Phase 6): notification centre, global search, settings pages.
 /// TODO(Phase 7): sales, supervisor and accountant shells.
 @Riverpod(keepAlive: true)
@@ -99,7 +122,9 @@ GoRouter appRouter(Ref ref) {
         builder: (context, state) => const _ForbiddenPage(),
       ),
       for (final AppRole role in AppRole.values)
-        if (role != AppRole.driver)
+        if (role != AppRole.driver &&
+            role != AppRole.owner &&
+            role != AppRole.ops)
           ShellRoute(
             builder: (context, state, child) =>
                 _RoleShell(role: role, child: child),
@@ -110,6 +135,163 @@ GoRouter appRouter(Ref ref) {
               ),
             ],
           ),
+      // Owner shell: 5 tabs.
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            OwnerShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.ownerHome,
+                builder: (context, state) => const OwnerDashboardPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.ownerApprovals,
+                builder: (context, state) => const ApprovalsInboxPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.ownerAccounts,
+                builder: (context, state) => const AccountsHomePage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.ownerMap,
+                builder: (context, state) => const LiveMapPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.ownerMore,
+                builder: (context, state) => const ProfilePage(),
+              ),
+            ],
+          ),
+        ],
+      ),
+      GoRoute(
+        path: RouteNames.ownerLedger,
+        builder: (context, state) {
+          final String kind = state.extra as String? ?? 'customer';
+          return LedgerPage(kind: kind);
+        },
+      ),
+      GoRoute(
+        path: RouteNames.ownerAgeing,
+        builder: (context, state) => const AgeingPage(),
+      ),
+      GoRoute(
+        path: RouteNames.ownerPnl,
+        builder: (context, state) => const PnlPage(),
+      ),
+      GoRoute(
+        path: RouteNames.ownerDaybook,
+        builder: (context, state) => const DaybookPage(),
+      ),
+      GoRoute(
+        path: RouteNames.ownerBrief,
+        builder: (context, state) => const DailyBriefPage(),
+      ),
+      GoRoute(
+        path: RouteNames.ownerAlerts,
+        builder: (context, state) => const NotificationSettingsPage(),
+      ),
+      // Ops shell: 5 tabs.
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            OpsShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.opsOrders,
+                builder: (context, state) => const OrderListPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.opsPlan,
+                builder: (context, state) => const PlanLandingPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.opsTrips,
+                builder: (context, state) => const LiveTripsPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.opsExceptions,
+                builder: (context, state) => const ExceptionsFeedPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.opsMore,
+                builder: (context, state) => const ProfilePage(),
+              ),
+            ],
+          ),
+        ],
+      ),
+      GoRoute(
+        path: RouteNames.opsOrderNew,
+        builder: (context, state) => const CreateOrderPage(),
+      ),
+      GoRoute(
+        path: '${RouteNames.opsOrders}/:id',
+        builder: (context, state) {
+          final String id = state.pathParameters['id'] ?? '';
+          return OrderDetailPage(orderId: id);
+        },
+      ),
+      GoRoute(
+        path: '${RouteNames.opsPlan}/:orderId',
+        builder: (context, state) {
+          final String orderId = state.pathParameters['orderId'] ?? '';
+          return PlanTripPage(orderId: orderId);
+        },
+      ),
+      GoRoute(
+        path: '${RouteNames.opsTrips}/:id',
+        builder: (context, state) {
+          final String id = state.pathParameters['id'] ?? '';
+          return TripControlPage(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: RouteNames.opsMarket,
+        builder: (context, state) => const HireVehiclePage(),
+      ),
+      GoRoute(
+        path: RouteNames.opsMemo,
+        builder: (context, state) {
+          final MarketVehicle vehicle = state.extra as MarketVehicle;
+          return HireMemoPage(vehicle: vehicle);
+        },
+      ),
       // Driver shell: 4 tabs (My Trip, Earnings, Documents, Profile).
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>

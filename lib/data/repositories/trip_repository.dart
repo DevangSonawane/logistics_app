@@ -55,6 +55,15 @@ abstract class TripRepository {
   });
 
   Future<Trip?> getTrip(String tripId);
+
+  /// Ops planning: books a trip as an offer the driver accepts in-app.
+  Future<Trip> assignTrip(Trip trip);
+
+  /// Ops attaches/enters the e-way bill number from trip control.
+  Future<Trip> updateEway(String tripId, String ewayNo);
+
+  /// Live-trips + map queries for ops/owner.
+  Future<List<Trip>> runningTrips();
 }
 
 /// Step-order guard shared by mock and (later) real implementations.

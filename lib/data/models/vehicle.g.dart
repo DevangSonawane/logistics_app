@@ -38,6 +38,18 @@ _Vehicle _$VehicleFromJson(Map<String, dynamic> json) => _Vehicle(
               ?.map((e) => VehicleDoc.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      capacityTons: (json['capacityTons'] as num?)?.toDouble() ?? 0,
+      ownership:
+          $enumDecodeNullable(_$VehicleOwnershipEnumMap, json['ownership']) ??
+              VehicleOwnership.own,
+      status: $enumDecodeNullable(_$VehicleStatusEnumMap, json['status']) ??
+          VehicleStatus.idle,
+      lastLat: (json['lastLat'] as num?)?.toDouble(),
+      lastLng: (json['lastLng'] as num?)?.toDouble(),
+      lastUpdate: json['lastUpdate'] == null
+          ? null
+          : DateTime.parse(json['lastUpdate'] as String),
+      mileageKm: (json['mileageKm'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$VehicleToJson(_Vehicle instance) => <String, dynamic>{
@@ -45,4 +57,22 @@ Map<String, dynamic> _$VehicleToJson(_Vehicle instance) => <String, dynamic>{
       'regNo': instance.regNo,
       'type': instance.type,
       'docs': instance.docs,
+      'capacityTons': instance.capacityTons,
+      'ownership': _$VehicleOwnershipEnumMap[instance.ownership]!,
+      'status': _$VehicleStatusEnumMap[instance.status]!,
+      'lastLat': instance.lastLat,
+      'lastLng': instance.lastLng,
+      'lastUpdate': instance.lastUpdate?.toIso8601String(),
+      'mileageKm': instance.mileageKm,
     };
+
+const _$VehicleOwnershipEnumMap = {
+  VehicleOwnership.own: 'own',
+  VehicleOwnership.market: 'market',
+};
+
+const _$VehicleStatusEnumMap = {
+  VehicleStatus.idle: 'idle',
+  VehicleStatus.onTrip: 'onTrip',
+  VehicleStatus.maintenance: 'maintenance',
+};

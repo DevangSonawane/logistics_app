@@ -5,6 +5,10 @@ part 'vehicle.g.dart';
 
 enum VehicleDocType { licence, rc, insurance, fitness, permit, puc }
 
+enum VehicleOwnership { own, market }
+
+enum VehicleStatus { idle, onTrip, maintenance }
+
 /// One vehicle document with expiry tracking. Cached offline.
 @freezed
 abstract class VehicleDoc with _$VehicleDoc {
@@ -36,6 +40,13 @@ abstract class Vehicle with _$Vehicle {
     required String regNo,
     required String type,
     @Default([]) List<VehicleDoc> docs,
+    @Default(0) double capacityTons,
+    @Default(VehicleOwnership.own) VehicleOwnership ownership,
+    @Default(VehicleStatus.idle) VehicleStatus status,
+    double? lastLat,
+    double? lastLng,
+    DateTime? lastUpdate,
+    @Default(0) int mileageKm,
   }) = _Vehicle;
 
   factory Vehicle.fromJson(Map<String, dynamic> json) =>

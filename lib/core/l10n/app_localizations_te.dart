@@ -562,7 +562,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get litresLabel => 'Litres';
 
   @override
-  String get rateLabel => 'Rate / litre';
+  String get rateLabel => 'Rate (Rs.)';
 
   @override
   String get billPhotoLabel => 'Bill photo';
@@ -808,6 +808,528 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get callAction => 'Call';
+
+  @override
+  String get viewDetails => 'View details';
+
+  @override
+  String get balanceLabel => 'Balance';
+
+  @override
+  String get tripsLabel => 'trips';
+
+  @override
+  String get doneAction => 'Done';
+
+  @override
+  String get addAction => 'Add';
+
+  @override
+  String get ownerTabDashboard => 'Dashboard';
+
+  @override
+  String get ownerTabApprovals => 'Approvals';
+
+  @override
+  String get ownerTabAccounts => 'Accounts';
+
+  @override
+  String get ownerTabMap => 'Live Map';
+
+  @override
+  String get branchAll => 'All Branches';
+
+  @override
+  String get revenueMonth => 'Revenue this month';
+
+  @override
+  String get revenueToday => 'Revenue today';
+
+  @override
+  String get revenueWeek => 'Revenue last 7 days';
+
+  @override
+  String get todayLabel => 'Today';
+
+  @override
+  String get range7d => '7D';
+
+  @override
+  String get rangeMonth => 'Month';
+
+  @override
+  String get tripsToday => 'Trips today';
+
+  @override
+  String get collectionsMonth => 'Collections';
+
+  @override
+  String get outstandingLabel => 'Outstanding';
+
+  @override
+  String get cashBankLabel => 'Cash & Bank';
+
+  @override
+  String get utilisationLabel => 'Fleet utilisation';
+
+  @override
+  String get trendTitle => 'Revenue vs collection';
+
+  @override
+  String get topLanesTitle => 'Top lanes by margin';
+
+  @override
+  String get bottomCustomersTitle => 'Watchlist';
+
+  @override
+  String get attentionTitle => 'Needs attention';
+
+  @override
+  String get briefTitle => 'AI brief';
+
+  @override
+  String get readFullBrief => 'Read full brief';
+
+  @override
+  String get askTitle => 'Ask your data';
+
+  @override
+  String get askHint => 'e.g. Which customer gave the lowest margin?';
+
+  @override
+  String get approvalsTitle => 'Approvals';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get approvalAdvance => 'Advances';
+
+  @override
+  String get approvalExpense => 'Expenses';
+
+  @override
+  String get approvalRate => 'Rate exceptions';
+
+  @override
+  String get approvalCredit => 'Credit override';
+
+  @override
+  String get approvalVendor => 'Vendor payments';
+
+  @override
+  String get approvalPurchase => 'Purchase';
+
+  @override
+  String get approveAction => 'Approve';
+
+  @override
+  String get askInfoAction => 'Ask for info';
+
+  @override
+  String get commentHint => 'Comment';
+
+  @override
+  String get commentRequired => 'A comment is required to reject';
+
+  @override
+  String get approvedMsg => 'Approved';
+
+  @override
+  String get rejectedMsg => 'Rejected';
+
+  @override
+  String get infoAskedMsg => 'Info requested from the requester';
+
+  @override
+  String get undoAction => 'Undo';
+
+  @override
+  String get emptyApprovals => 'You\'re all caught up';
+
+  @override
+  String get createdLabel => 'Raised';
+
+  @override
+  String get accountsTitle => 'Accounts';
+
+  @override
+  String get customerLedgerTitle => 'Customer ledger';
+
+  @override
+  String get vendorLedgerTitle => 'Vendor ledger';
+
+  @override
+  String get ageingTitle => 'Ageing';
+
+  @override
+  String get pnlTitle => 'Profit & Loss';
+
+  @override
+  String get daybookTitle => 'Day book';
+
+  @override
+  String get bankBalancesTitle => 'Bank balances';
+
+  @override
+  String get gstSummaryTitle => 'GST summary';
+
+  @override
+  String get tripPnlTitle => 'Trip P&L';
+
+  @override
+  String get searchHint => 'Search';
+
+  @override
+  String get sharePdf => 'Share PDF';
+
+  @override
+  String get selectCustomer => 'Select a customer';
+
+  @override
+  String get customerLabel => 'Customer';
+
+  @override
+  String get groupBranch => 'Branch';
+
+  @override
+  String get groupVehicle => 'Vehicle';
+
+  @override
+  String get groupCustomer => 'Customer';
+
+  @override
+  String get groupLane => 'Lane';
+
+  @override
+  String get liveMapTitle => 'Live map';
+
+  @override
+  String get exceptionsFilter => 'Exceptions';
+
+  @override
+  String get noGpsKey =>
+      'Map key not configured - showing the trip list. Nothing crashes.';
+
+  @override
+  String get shareWhatsapp => 'Share on WhatsApp';
+
+  @override
+  String get briefMoney => 'Money';
+
+  @override
+  String get briefRisks => 'Risks';
+
+  @override
+  String get alertSettingsTitle => 'Notification settings';
+
+  @override
+  String get alertPay => 'Large payment received';
+
+  @override
+  String get alertDelay => 'Big delay';
+
+  @override
+  String get alertDoc => 'Document expiring';
+
+  @override
+  String get alertCredit => 'Credit limit crossed';
+
+  @override
+  String get channelPush => 'Push';
+
+  @override
+  String get channelWa => 'WhatsApp';
+
+  @override
+  String get channelApp => 'In-app';
+
+  @override
+  String get opsTabOrders => 'Orders';
+
+  @override
+  String get opsTabPlan => 'Plan';
+
+  @override
+  String get opsTabTrips => 'Live Trips';
+
+  @override
+  String get opsTabExceptions => 'Exceptions';
+
+  @override
+  String get ordersTitle => 'Orders';
+
+  @override
+  String get orderPending => 'Pending';
+
+  @override
+  String get orderPlanned => 'Planned';
+
+  @override
+  String get orderRunning => 'Running';
+
+  @override
+  String get orderCompleted => 'Completed';
+
+  @override
+  String get orderCancelled => 'Cancelled';
+
+  @override
+  String get newOrder => 'New order';
+
+  @override
+  String get orderTypeLabel => 'Type';
+
+  @override
+  String get orderTypeFtl => 'FTL';
+
+  @override
+  String get orderTypePtl => 'PTL';
+
+  @override
+  String get vehicleTypeLabel => 'Vehicle type';
+
+  @override
+  String get commodityLabel => 'Commodity';
+
+  @override
+  String get weightLabel => 'Weight (kg)';
+
+  @override
+  String get declaredValueLabel => 'Declared value (Rs.)';
+
+  @override
+  String get stopsLabel => 'Stops';
+
+  @override
+  String get planTripAction => 'Plan';
+
+  @override
+  String get planTitle => 'Plan trip';
+
+  @override
+  String get stepCustomer => 'Customer';
+
+  @override
+  String get stepRoute => 'Route';
+
+  @override
+  String get stepCargo => 'Cargo';
+
+  @override
+  String get stepRate => 'Rate';
+
+  @override
+  String get pickupPoint => 'Pickup point';
+
+  @override
+  String get dropPoint => 'Drop point';
+
+  @override
+  String get neededByLabel => 'Needed by';
+
+  @override
+  String get pickDate => 'Pick date';
+
+  @override
+  String get pasteWhatsapp => 'Paste WhatsApp message';
+
+  @override
+  String get pasteHint => 'e.g. 2 trucks 32 ft Pune to Chennai tomorrow';
+
+  @override
+  String get aiFilled => 'AI filled - please verify';
+
+  @override
+  String get contractRate => 'Contract rate';
+
+  @override
+  String get belowContract => 'Below contract rate - needs approval';
+
+  @override
+  String get createOrder => 'Create order';
+
+  @override
+  String get orderCreated => 'Order created';
+
+  @override
+  String get planStepOrder => 'Order';
+
+  @override
+  String get planStepVehicle => 'Vehicle';
+
+  @override
+  String get planStepDriver => 'Driver';
+
+  @override
+  String get planStepSummary => 'Summary';
+
+  @override
+  String get docsValid => 'Docs valid';
+
+  @override
+  String get docsInvalid => 'Docs invalid';
+
+  @override
+  String get onTripBlock => 'Already on a trip';
+
+  @override
+  String get licenceInvalid => 'Licence invalid';
+
+  @override
+  String get routeKm => 'Route distance';
+
+  @override
+  String get tollEst => 'Toll estimate';
+
+  @override
+  String get dieselEst => 'Diesel estimate';
+
+  @override
+  String get etaLabel => 'ETA';
+
+  @override
+  String get advanceOptional => 'Advance (optional)';
+
+  @override
+  String get assignAction => 'Assign & notify driver';
+
+  @override
+  String get assignedMsg => 'Trip assigned and driver notified:';
+
+  @override
+  String get returnLoadTitle => 'Return load nearby';
+
+  @override
+  String returnLoadBody(String place) {
+    return '2 loads available near $place. Ask the driver before they head back empty.';
+  }
+
+  @override
+  String get liveTripsTitle => 'Live trips';
+
+  @override
+  String get listTab => 'List';
+
+  @override
+  String get mapTab => 'Map';
+
+  @override
+  String get controlTitle => 'Trip control';
+
+  @override
+  String get callDriver => 'Call driver';
+
+  @override
+  String get updateStatusAction => 'Update status';
+
+  @override
+  String get reasonRequired => 'A reason is required';
+
+  @override
+  String get raiseAdvanceAction => 'Raise advance';
+
+  @override
+  String get advanceRaised => 'Advance request raised';
+
+  @override
+  String get ewayLabel => 'E-way bill no.';
+
+  @override
+  String get shareTracking => 'Share tracking';
+
+  @override
+  String get exceptionsTitle => 'Exceptions';
+
+  @override
+  String get noExceptions => 'All clear - no open exceptions';
+
+  @override
+  String get exDelay => 'Delay';
+
+  @override
+  String get exHalt => 'Long halt';
+
+  @override
+  String get exDeviation => 'Route deviation';
+
+  @override
+  String get exOverspeed => 'Overspeed';
+
+  @override
+  String get exDeviceOff => 'Device off';
+
+  @override
+  String get exEway => 'E-way expiring';
+
+  @override
+  String get exPod => 'POD pending';
+
+  @override
+  String get extendEway => 'Extend e-way';
+
+  @override
+  String get ewayExtended => 'E-way bill extended';
+
+  @override
+  String get escalateAction => 'Escalate';
+
+  @override
+  String get resolveAction => 'Resolve';
+
+  @override
+  String get marketTitle => 'Market vehicles';
+
+  @override
+  String get knownVehicles => 'Known broker vehicles';
+
+  @override
+  String get addVehicleTitle => 'Add broker vehicle';
+
+  @override
+  String get vehicleNoLabel => 'Vehicle no.';
+
+  @override
+  String get vehicleNoError => 'Enter a valid vehicle no. e.g. MH 12 AB 1234';
+
+  @override
+  String get ownerNameLabel => 'Owner name';
+
+  @override
+  String get panLabel => 'PAN';
+
+  @override
+  String get panError => 'Enter a valid PAN e.g. AAKCS1234F';
+
+  @override
+  String get driverNameLabel => 'Driver name';
+
+  @override
+  String get fillAllFields => 'Please fill all required fields';
+
+  @override
+  String get kycPhotos => 'KYC photos';
+
+  @override
+  String get memoTitle => 'Hire memo';
+
+  @override
+  String get freightAgreed => 'Freight agreed';
+
+  @override
+  String get deductionsLabel => 'Deductions';
+
+  @override
+  String get balanceOnPod => 'Balance on POD';
+
+  @override
+  String get payAdvanceAction => 'Pay advance';
+
+  @override
+  String get approvalRaised => 'Above limit - approval raised';
+
+  @override
+  String get paidMsg => 'Advance paid';
 
   @override
   String get tripAssigned => 'Assigned';

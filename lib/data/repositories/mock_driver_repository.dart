@@ -1,3 +1,4 @@
+import '../../mock/mock_business_data.dart';
 import '../../mock/mock_delay.dart';
 import '../../mock/mock_driver_data.dart';
 import '../models/driver.dart';
@@ -25,5 +26,12 @@ class MockDriverRepository implements DriverRepository {
     await mockDelay();
     throwIfChaos();
     return MockDriverData.vehicleDocs();
+  }
+
+  @override
+  Future<List<Driver>> listDrivers() async {
+    await mockDelay();
+    throwIfChaos();
+    return MockBusinessData.drivers();
   }
 }

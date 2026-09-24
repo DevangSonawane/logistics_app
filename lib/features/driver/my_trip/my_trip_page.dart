@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/app_localizations.dart';
+import '../../../core/l10n/trip_labels.dart';
 import '../../../core/router/route_names.dart';
 import '../../../core/services/image_service.dart';
 import '../../../core/services/voice_service.dart';import '../../../core/theme/app_colors.dart';
@@ -466,15 +467,8 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
     setState(() => _listening = true);
   }
 
-  String _stepLabel(AppLocalizations l10n, TripStepType step) {
-    return switch (step) {
-      TripStepType.reachedPickup => l10n.stepReachedPickup,
-      TripStepType.loadingDone => l10n.stepLoadingDone,
-      TripStepType.startTrip => l10n.stepStartTrip,
-      TripStepType.reachedDrop => l10n.stepReachedDrop,
-      TripStepType.unloaded => l10n.stepUnloaded,
-    };
-  }
+  String _stepLabel(AppLocalizations l10n, TripStepType step) =>
+      tripStepLabel(l10n, step);
 
   Future<void> _openDocs(Trip trip) async {
     final AppLocalizations l10n = AppLocalizations.of(context);
@@ -532,7 +526,7 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
                     ),
                   ),
                   StatusChip(
-                    label: _statusLabel(l10n, trip.status),
+                    label: tripStatusLabel(l10n, trip.status),
                     color: AppColors.primary,
                   ),
                 ],
@@ -878,22 +872,6 @@ class _ContactRow extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Localized trip status for chips.
-String _statusLabel(AppLocalizations l10n, TripStatus status) {
-  return switch (status) {
-    TripStatus.offered => l10n.offerTitle,
-    TripStatus.assigned => l10n.tripAssigned,
-    TripStatus.reachedPickup => l10n.stepReachedPickup,
-    TripStatus.loadingDone => l10n.stepLoadingDone,
-    TripStatus.started => l10n.stepStartTrip,
-    TripStatus.reachedDrop => l10n.stepReachedDrop,
-    TripStatus.unloaded => l10n.stepUnloaded,
-    TripStatus.podSubmitted || TripStatus.delivered => l10n.tripDelivered,
-    TripStatus.closed => l10n.tripClosed,
-    TripStatus.cancelled => l10n.tripCancelled,
-  };
 }
 
 class _Fact extends StatelessWidget {

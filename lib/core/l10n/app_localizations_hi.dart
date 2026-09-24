@@ -560,7 +560,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get litresLabel => 'लीटर';
 
   @override
-  String get rateLabel => 'रेट / लीटर';
+  String get rateLabel => 'रेट (₹)';
 
   @override
   String get billPhotoLabel => 'बिल की फोटो';
@@ -806,6 +806,527 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get callAction => 'कॉल करें';
+
+  @override
+  String get viewDetails => 'विवरण देखें';
+
+  @override
+  String get balanceLabel => 'बैलेंस';
+
+  @override
+  String get tripsLabel => 'ट्रिप';
+
+  @override
+  String get doneAction => 'हो गया';
+
+  @override
+  String get addAction => 'जोड़ें';
+
+  @override
+  String get ownerTabDashboard => 'डैशबोर्ड';
+
+  @override
+  String get ownerTabApprovals => 'अप्रूवल';
+
+  @override
+  String get ownerTabAccounts => 'अकाउंट्स';
+
+  @override
+  String get ownerTabMap => 'लाइव मैप';
+
+  @override
+  String get branchAll => 'सभी ब्रांच';
+
+  @override
+  String get revenueMonth => 'इस महीने की आय';
+
+  @override
+  String get revenueToday => 'आज की आय';
+
+  @override
+  String get revenueWeek => 'पिछले 7 दिन की आय';
+
+  @override
+  String get todayLabel => 'आज';
+
+  @override
+  String get range7d => '7 दिन';
+
+  @override
+  String get rangeMonth => 'महीना';
+
+  @override
+  String get tripsToday => 'आज की ट्रिप';
+
+  @override
+  String get collectionsMonth => 'वसूली';
+
+  @override
+  String get outstandingLabel => 'बकाया';
+
+  @override
+  String get cashBankLabel => 'कैश और बैंक';
+
+  @override
+  String get utilisationLabel => 'फ्लीट उपयोग';
+
+  @override
+  String get trendTitle => 'आय बनाम वसूली';
+
+  @override
+  String get topLanesTitle => 'सबसे फायदेमंद लेन';
+
+  @override
+  String get bottomCustomersTitle => 'नज़र रखें';
+
+  @override
+  String get attentionTitle => 'ध्यान दें';
+
+  @override
+  String get briefTitle => 'AI ब्रीफ';
+
+  @override
+  String get readFullBrief => 'पूरा ब्रीफ पढ़ें';
+
+  @override
+  String get askTitle => 'डेटा से पूछें';
+
+  @override
+  String get askHint => 'जैसे सबसे कम मार्जिन किस ग्राहक ने दिया?';
+
+  @override
+  String get approvalsTitle => 'अप्रूवल';
+
+  @override
+  String get filterAll => 'सभी';
+
+  @override
+  String get approvalAdvance => 'एडवांस';
+
+  @override
+  String get approvalExpense => 'खर्च';
+
+  @override
+  String get approvalRate => 'रेट अपवाद';
+
+  @override
+  String get approvalCredit => 'क्रेडिट छूट';
+
+  @override
+  String get approvalVendor => 'वेंडर पेमेंट';
+
+  @override
+  String get approvalPurchase => 'खरीद';
+
+  @override
+  String get approveAction => 'स्वीकार करें';
+
+  @override
+  String get askInfoAction => 'जानकारी मांगें';
+
+  @override
+  String get commentHint => 'टिप्पणी';
+
+  @override
+  String get commentRequired => 'अस्वीकार के लिए टिप्पणी ज़रूरी है';
+
+  @override
+  String get approvedMsg => 'स्वीकृत';
+
+  @override
+  String get rejectedMsg => 'अस्वीकृत';
+
+  @override
+  String get infoAskedMsg => 'मांगने वाले से जानकारी मांगी गई';
+
+  @override
+  String get undoAction => 'वापस लें';
+
+  @override
+  String get emptyApprovals => 'सब निपट गया';
+
+  @override
+  String get createdLabel => 'बनाया गया';
+
+  @override
+  String get accountsTitle => 'अकाउंट्स';
+
+  @override
+  String get customerLedgerTitle => 'ग्राहक खाता';
+
+  @override
+  String get vendorLedgerTitle => 'वेंडर खाता';
+
+  @override
+  String get ageingTitle => 'बकाया अवधि';
+
+  @override
+  String get pnlTitle => 'लाभ-हानि';
+
+  @override
+  String get daybookTitle => 'रोजनामचा';
+
+  @override
+  String get bankBalancesTitle => 'बैंक बैलेंस';
+
+  @override
+  String get gstSummaryTitle => 'GST सारांश';
+
+  @override
+  String get tripPnlTitle => 'ट्रिप लाभ-हानि';
+
+  @override
+  String get searchHint => 'खोजें';
+
+  @override
+  String get sharePdf => 'PDF शेयर करें';
+
+  @override
+  String get selectCustomer => 'ग्राहक चुनें';
+
+  @override
+  String get customerLabel => 'ग्राहक';
+
+  @override
+  String get groupBranch => 'ब्रांच';
+
+  @override
+  String get groupVehicle => 'गाड़ी';
+
+  @override
+  String get groupCustomer => 'ग्राहक';
+
+  @override
+  String get groupLane => 'लेन';
+
+  @override
+  String get liveMapTitle => 'लाइव मैप';
+
+  @override
+  String get exceptionsFilter => 'अपवाद';
+
+  @override
+  String get noGpsKey => 'मैप की नहीं है - ट्रिप सूची दिख रही है।';
+
+  @override
+  String get shareWhatsapp => 'WhatsApp पर शेयर करें';
+
+  @override
+  String get briefMoney => 'पैसा';
+
+  @override
+  String get briefRisks => 'जोखिम';
+
+  @override
+  String get alertSettingsTitle => 'नोटिफिकेशन सेटिंग';
+
+  @override
+  String get alertPay => 'बड़ा पेमेंट मिला';
+
+  @override
+  String get alertDelay => 'बड़ी देरी';
+
+  @override
+  String get alertDoc => 'दस्तावेज़ समाप्त हो रहा';
+
+  @override
+  String get alertCredit => 'क्रेडिट लिमिट पार';
+
+  @override
+  String get channelPush => 'पुश';
+
+  @override
+  String get channelWa => 'WhatsApp';
+
+  @override
+  String get channelApp => 'ऐप में';
+
+  @override
+  String get opsTabOrders => 'ऑर्डर';
+
+  @override
+  String get opsTabPlan => 'प्लान';
+
+  @override
+  String get opsTabTrips => 'लाइव ट्रिप';
+
+  @override
+  String get opsTabExceptions => 'अपवाद';
+
+  @override
+  String get ordersTitle => 'ऑर्डर';
+
+  @override
+  String get orderPending => 'बाकी';
+
+  @override
+  String get orderPlanned => 'प्लान किया';
+
+  @override
+  String get orderRunning => 'चल रहा';
+
+  @override
+  String get orderCompleted => 'पूरा';
+
+  @override
+  String get orderCancelled => 'रद्द';
+
+  @override
+  String get newOrder => 'नया ऑर्डर';
+
+  @override
+  String get orderTypeLabel => 'प्रकार';
+
+  @override
+  String get orderTypeFtl => 'FTL';
+
+  @override
+  String get orderTypePtl => 'PTL';
+
+  @override
+  String get vehicleTypeLabel => 'गाड़ी का प्रकार';
+
+  @override
+  String get commodityLabel => 'माल';
+
+  @override
+  String get weightLabel => 'वज़न (kg)';
+
+  @override
+  String get declaredValueLabel => 'घोषित मूल्य (₹)';
+
+  @override
+  String get stopsLabel => 'स्टॉप';
+
+  @override
+  String get planTripAction => 'प्लान';
+
+  @override
+  String get planTitle => 'ट्रिप प्लान करें';
+
+  @override
+  String get stepCustomer => 'ग्राहक';
+
+  @override
+  String get stepRoute => 'रूट';
+
+  @override
+  String get stepCargo => 'माल';
+
+  @override
+  String get stepRate => 'रेट';
+
+  @override
+  String get pickupPoint => 'पिकअप जगह';
+
+  @override
+  String get dropPoint => 'ड्रॉप जगह';
+
+  @override
+  String get neededByLabel => 'कब तक चाहिए';
+
+  @override
+  String get pickDate => 'तारीख चुनें';
+
+  @override
+  String get pasteWhatsapp => 'WhatsApp मैसेज पेस्ट करें';
+
+  @override
+  String get pasteHint => 'जैसे 2 trucks 32 ft Pune to Chennai tomorrow';
+
+  @override
+  String get aiFilled => 'AI ने भरा - जांच लें';
+
+  @override
+  String get contractRate => 'कॉन्ट्रैक्ट रेट';
+
+  @override
+  String get belowContract => 'कॉन्ट्रैक्ट से कम - अप्रूवल चाहिए';
+
+  @override
+  String get createOrder => 'ऑर्डर बनाएं';
+
+  @override
+  String get orderCreated => 'ऑर्डर बन गया';
+
+  @override
+  String get planStepOrder => 'ऑर्डर';
+
+  @override
+  String get planStepVehicle => 'गाड़ी';
+
+  @override
+  String get planStepDriver => 'ड्राइवर';
+
+  @override
+  String get planStepSummary => 'सारांश';
+
+  @override
+  String get docsValid => 'कागज़ सही';
+
+  @override
+  String get docsInvalid => 'कागज़ गलत';
+
+  @override
+  String get onTripBlock => 'पहले से ट्रिप पर';
+
+  @override
+  String get licenceInvalid => 'लाइसेंस गलत';
+
+  @override
+  String get routeKm => 'रूट दूरी';
+
+  @override
+  String get tollEst => 'टोल अनुमान';
+
+  @override
+  String get dieselEst => 'डीज़ल अनुमान';
+
+  @override
+  String get etaLabel => 'पहुंचने का समय';
+
+  @override
+  String get advanceOptional => 'एडवांस (वैकल्पिक)';
+
+  @override
+  String get assignAction => 'असाइन करें और ड्राइवर को बताएं';
+
+  @override
+  String get assignedMsg => 'ट्रिप असाइन हो गई, ड्राइवर को बता दिया:';
+
+  @override
+  String get returnLoadTitle => 'वापसी का माल पास में';
+
+  @override
+  String returnLoadBody(String place) {
+    return '$place के पास 2 लोड उपलब्ध हैं। खाली वापस भेजने से पहले ड्राइवर से पूछें।';
+  }
+
+  @override
+  String get liveTripsTitle => 'लाइव ट्रिप';
+
+  @override
+  String get listTab => 'सूची';
+
+  @override
+  String get mapTab => 'मैप';
+
+  @override
+  String get controlTitle => 'ट्रिप कंट्रोल';
+
+  @override
+  String get callDriver => 'ड्राइवर को कॉल';
+
+  @override
+  String get updateStatusAction => 'स्टेटस अपडेट';
+
+  @override
+  String get reasonRequired => 'कारण ज़रूरी है';
+
+  @override
+  String get raiseAdvanceAction => 'एडवांस बढ़ाएं';
+
+  @override
+  String get advanceRaised => 'एडवांस मांग भेज दी गई';
+
+  @override
+  String get ewayLabel => 'ई-वे बिल नंबर';
+
+  @override
+  String get shareTracking => 'ट्रैकिंग शेयर करें';
+
+  @override
+  String get exceptionsTitle => 'अपवाद';
+
+  @override
+  String get noExceptions => 'सब ठीक - कोई खुला अपवाद नहीं';
+
+  @override
+  String get exDelay => 'देरी';
+
+  @override
+  String get exHalt => 'लंबा ठहराव';
+
+  @override
+  String get exDeviation => 'रूट बदलाव';
+
+  @override
+  String get exOverspeed => 'ओवरस्पीड';
+
+  @override
+  String get exDeviceOff => 'डिवाइस बंद';
+
+  @override
+  String get exEway => 'ई-वे समाप्त हो रहा';
+
+  @override
+  String get exPod => 'POD बाकी';
+
+  @override
+  String get extendEway => 'ई-वे बढ़ाएं';
+
+  @override
+  String get ewayExtended => 'ई-वे बिल बढ़ा दिया गया';
+
+  @override
+  String get escalateAction => 'एस्केलेट करें';
+
+  @override
+  String get resolveAction => 'सुलझाएं';
+
+  @override
+  String get marketTitle => 'बाज़ार गाड़ियां';
+
+  @override
+  String get knownVehicles => 'जानी-पहचानी ब्रोकर गाड़ियां';
+
+  @override
+  String get addVehicleTitle => 'ब्रोकर गाड़ी जोड़ें';
+
+  @override
+  String get vehicleNoLabel => 'गाड़ी नंबर';
+
+  @override
+  String get vehicleNoError => 'सही गाड़ी नंबर डालें जैसे MH 12 AB 1234';
+
+  @override
+  String get ownerNameLabel => 'मालिक का नाम';
+
+  @override
+  String get panLabel => 'PAN';
+
+  @override
+  String get panError => 'सही PAN डालें जैसे AAKCS1234F';
+
+  @override
+  String get driverNameLabel => 'ड्राइवर का नाम';
+
+  @override
+  String get fillAllFields => 'सभी ज़रूरी खाने भरें';
+
+  @override
+  String get kycPhotos => 'KYC फोटो';
+
+  @override
+  String get memoTitle => 'हायर मेमो';
+
+  @override
+  String get freightAgreed => 'तय भाड़ा';
+
+  @override
+  String get deductionsLabel => 'कटौती';
+
+  @override
+  String get balanceOnPod => 'POD पर बैलेंस';
+
+  @override
+  String get payAdvanceAction => 'एडवांस दें';
+
+  @override
+  String get approvalRaised => 'लिमिट से ऊपर - अप्रूवल भेजा गया';
+
+  @override
+  String get paidMsg => 'एडवांस दे दिया गया';
 
   @override
   String get tripAssigned => 'स्वीकृत';

@@ -27,4 +27,9 @@ class AppConfig {
   /// Demo-tools toggle (Profile, Phase 6): ~3% of mock calls fail to
   /// exercise error + retry states on every screen.
   static const bool chaosMode = false;
+
+  /// Flip to true once a Google Maps API key is configured (android
+  /// manifest + iOS AppDelegate). Until then live maps render the
+  /// static MapPlaceholder fallback and never crash.
+  static const bool mapsEnabled = false;
 }

@@ -3,16 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/services/share_service.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/app_scaffold.dart';
-import '../../../core/widgets/app_search_bar.dart';
+import '../../../core/widgets/search_bar.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_state.dart';
 import '../../../core/widgets/skeleton_list.dart';
 import '../../../data/models/customer.dart';
 import '../../../data/models/finance.dart';
-import '../../../data/repositories/repository_providers.dart';
+import '../application/owner_providers.dart';
 
 /// Customer / vendor ledger with search + running balance + Share PDF.
 /// [kind] is 'customer' or 'vendor'.

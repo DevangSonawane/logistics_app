@@ -629,6 +629,7 @@
   "destHubLabel": "Destination hub",
   "lrPrintTitle": "LR print",
   "printAction": "Print",
+  "bluetoothPrinter": "Bluetooth printer",
   "bluetoothSoon": "Bluetooth printer coming soon",
   "scanToManifest": "Scan packages to build a manifest",
   "acctTabSummary": "Summary",

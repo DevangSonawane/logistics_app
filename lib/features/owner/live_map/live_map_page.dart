@@ -39,7 +39,7 @@ class _LiveMapPageState extends ConsumerState<LiveMapPage> {
       TripStatus.loadingDone =>
         AppColors.warning,
       TripStatus.unloaded || TripStatus.delivered => AppColors.success,
-      _ => AppColors.inkFaint,
+      _ => context.tokens.inkFaint,
     };
   }
 
@@ -50,7 +50,7 @@ class _LiveMapPageState extends ConsumerState<LiveMapPage> {
     final AsyncValue<List<ExceptionItem>> exceptions =
         ref.watch(openExceptionsProvider);
     final Set<String> exceptionTripIds = {
-      for (final e in exceptions.valueOrNull ?? const <ExceptionItem>[])
+      for (final e in exceptions.value ?? const <ExceptionItem>[])
         if (!e.resolved) e.tripId,
     };
     return AppScaffold(

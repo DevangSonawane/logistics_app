@@ -383,7 +383,7 @@ class _AddExpensePageState extends ConsumerState<AddExpensePage> {
           const SizedBox(height: AppSpacing.sm),
           Text(
             '${l10n.advanceBalance}: '
-            '${Formatters.inr(ref.watch(advanceBalanceProvider(widget.trip.driverId)).valueOrNull ?? 0)}',
+            '${Formatters.inr(ref.watch(advanceBalanceProvider(widget.trip.driverId)).value ?? 0)}',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall,
           ),

@@ -1,5 +1,5 @@
-import '../../mock/mock_business_data.dart';
-import '../../mock/mock_delay.dart';
+import '../mock/mock_business_data.dart';
+import '../mock/mock_delay.dart';
 import '../models/vehicle.dart';
 import 'vehicle_repository.dart';
 

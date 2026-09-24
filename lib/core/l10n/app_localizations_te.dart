@@ -1706,6 +1706,9 @@ class AppLocalizationsTe extends AppLocalizations {
   String get printAction => 'Print';
 
   @override
+  String get bluetoothPrinter => 'Bluetooth printer';
+
+  @override
   String get bluetoothSoon => 'Bluetooth printer coming soon';
 
   @override

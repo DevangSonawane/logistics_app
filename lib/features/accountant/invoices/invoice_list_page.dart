@@ -90,7 +90,7 @@ class _InvoiceListPageState extends ConsumerState<InvoiceListPage> {
                   itemBuilder: (context, index) {
                     final Invoice inv = visible[index];
                     final (String label, Color color) =
-                        _status(l10n, inv.status);
+                        _status(context, l10n, inv.status);
                     return Container(
                       padding:
                           const EdgeInsets.all(AppSpacing.md),
@@ -180,9 +180,16 @@ class _InvoiceListPageState extends ConsumerState<InvoiceListPage> {
     };
   }
 
-  (String, Color) _status(AppLocalizations l10n, InvoiceStatus status) {
+  (String, Color) _status(
+    BuildContext context,
+    AppLocalizations l10n,
+    InvoiceStatus status,
+  ) {
     return switch (status) {
-      InvoiceStatus.draft => (_statusLabel(l10n, status), AppColors.inkFaint),
+      InvoiceStatus.draft => (
+          _statusLabel(l10n, status),
+          context.tokens.inkFaint
+        ),
       InvoiceStatus.sent => (_statusLabel(l10n, status), AppColors.info),
       InvoiceStatus.partPaid => (
           _statusLabel(l10n, status),

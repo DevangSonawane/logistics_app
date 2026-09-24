@@ -7,7 +7,7 @@ void main() {
     expect(nextStepFor(TripStatus.assigned), TripStepType.reachedPickup);
     expect(nextStepFor(TripStatus.reachedPickup), TripStepType.loadingDone);
     expect(nextStepFor(TripStatus.loadingDone), TripStepType.startTrip);
-    expect(nextStepFor(TripStatus.startTrip), TripStepType.reachedDrop);
+    expect(nextStepFor(TripStatus.started), TripStepType.reachedDrop);
     expect(nextStepFor(TripStatus.reachedDrop), TripStepType.unloaded);
     expect(nextStepFor(TripStatus.unloaded), isNull);
     expect(nextStepFor(TripStatus.delivered), isNull);

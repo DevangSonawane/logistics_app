@@ -8,6 +8,7 @@ import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../data/models/approval.dart';
+import '../../../data/repositories/repository_providers.dart';
 import '../application/owner_providers.dart';
 
 /// Bottom-sheet detail for an approval: attachments, history, comment,

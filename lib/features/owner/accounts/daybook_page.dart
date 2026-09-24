@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/l10n/app_localizations.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/services/share_service.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
@@ -28,7 +29,7 @@ class DaybookPage extends ConsumerWidget {
           onPressed: () => ShareService().sharePdf(
             l10n.daybookTitle,
             [
-              for (final e in entries.valueOrNull ?? const <LedgerEntry>[])
+              for (final e in entries.value ?? const <LedgerEntry>[])
                 (
                   '${Formatters.date(e.date)} ${e.particulars}',
                   Formatters.inr(e.credit > 0 ? e.credit : -e.debit)

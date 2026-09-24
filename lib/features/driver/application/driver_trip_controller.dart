@@ -79,7 +79,7 @@ class DriverTrip extends _$DriverTrip {
     required bool accept,
     String? reason,
   }) async {
-    final DriverTripState? cur = state.valueOrNull;
+    final DriverTripState? cur = state.value;
     final Trip? offer = cur?.offer;
     if (cur == null || offer == null) {
       return (outcome: MutationOutcome.error, message: null);
@@ -130,7 +130,7 @@ class DriverTrip extends _$DriverTrip {
     String? photoPath,
     String? note,
   }) async {
-    final DriverTripState? cur = state.valueOrNull;
+    final DriverTripState? cur = state.value;
     final Trip? trip = cur?.activeTrip;
     if (cur == null || trip == null) {
       return (outcome: MutationOutcome.error, message: null);
@@ -199,7 +199,7 @@ class DriverTrip extends _$DriverTrip {
   }
 
   Future<MutationResult> submitPod(PodSubmission pod) async {
-    final DriverTripState? cur = state.valueOrNull;
+    final DriverTripState? cur = state.value;
     final Trip? trip = cur?.activeTrip;
     if (cur == null || trip == null) {
       return (outcome: MutationOutcome.error, message: null);

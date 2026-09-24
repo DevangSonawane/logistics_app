@@ -6,7 +6,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/l10n/locale_provider.dart';
-import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/theme_provider.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../auth/application/session_provider.dart';

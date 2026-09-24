@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/l10n/app_localizations.dart';
-import '../../../core/services/share_service.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/launch_helpers.dart';
 import '../../../core/widgets/app_button.dart';
@@ -132,7 +131,7 @@ class _DailyBriefPageState extends ConsumerState<DailyBriefPage> {
           AppButton(
             label: l10n.shareWhatsapp,
             icon: Icons.share_outlined,
-            onPressed: () => _share(brief.valueOrNull ?? ''),
+            onPressed: () => _share(brief.value ?? ''),
           ),
         ],
       ),

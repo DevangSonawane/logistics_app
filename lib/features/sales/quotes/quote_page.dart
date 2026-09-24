@@ -12,7 +12,6 @@ import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/error_state.dart';
 import '../../../data/mock/mock_business_data.dart';
-import '../../../data/repositories/repository_providers.dart';
 import '../application/sales_providers.dart';
 
 /// S4. Quote flow: lane rate lookup -> rate card -> quick quote form.
@@ -75,7 +74,7 @@ class _QuotePageState extends ConsumerState<QuotePage> {
             children: [
               Expanded(
                 child: DropdownButtonFormField<String>(
-                  value: _from,
+                  initialValue: _from,
                   decoration:
                       InputDecoration(labelText: l10n.fromLabel),
                   items: [
@@ -90,7 +89,7 @@ class _QuotePageState extends ConsumerState<QuotePage> {
               const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: DropdownButtonFormField<String>(
-                  value: _to,
+                  initialValue: _to,
                   decoration:
                       InputDecoration(labelText: l10n.toLabel),
                   items: [
@@ -106,7 +105,7 @@ class _QuotePageState extends ConsumerState<QuotePage> {
           ),
           const SizedBox(height: AppSpacing.md),
           DropdownButtonFormField<String>(
-            value: _vehicle,
+            initialValue: _vehicle,
             decoration:
                 InputDecoration(labelText: l10n.vehicleTypeLabel),
             items: [
@@ -191,7 +190,7 @@ class _QuotePageState extends ConsumerState<QuotePage> {
           ),
           const SizedBox(height: AppSpacing.sm),
           Builder(builder: (context) {
-            final int? contract = rate.valueOrNull;
+            final int? contract = rate.value;
             final int entered = int.tryParse(_rate.text.trim()) ?? 0;
             if (contract != null && entered > 0 && entered < contract) {
               return Container(

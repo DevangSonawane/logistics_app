@@ -3410,6 +3410,12 @@ abstract class AppLocalizations {
   /// **'Print'**
   String get printAction;
 
+  /// No description provided for @bluetoothPrinter.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth printer'**
+  String get bluetoothPrinter;
+
   /// No description provided for @bluetoothSoon.
   ///
   /// In en, this message translates to:

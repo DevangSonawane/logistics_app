@@ -93,7 +93,7 @@ class DriverDocumentsPage extends ConsumerWidget {
                               ?.copyWith(color: context.tokens.inkMuted),
                         ),
                         Text(
-                          '${Formatters.date(doc.expiry)}',
+                          Formatters.date(doc.expiry),
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall

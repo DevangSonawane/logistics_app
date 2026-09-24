@@ -326,7 +326,7 @@ class _DriverOptions extends ConsumerWidget {
           for (final Driver d in list)
             Builder(builder: (context) {
               final bool onTrip =
-                  load.valueOrNull?[d.id] ?? false;
+                  load.value?[d.id] ?? false;
               final bool licenceOk =
                   d.licenseExpiry.isAfter(DateTime.now());
               final bool blocked = onTrip || !licenceOk;

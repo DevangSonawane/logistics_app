@@ -9,7 +9,6 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/app_text_field.dart';
-import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_state.dart';
 import '../../../core/widgets/photo_capture_sheet.dart';
 import '../../../core/widgets/skeleton_list.dart';

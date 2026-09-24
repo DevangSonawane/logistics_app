@@ -74,7 +74,7 @@ class _ExceptionCardState extends ConsumerState<_ExceptionCard> {
 
   Color get _color {
     return switch (widget.item.severity) {
-      ExceptionSeverity.low => AppColors.inkFaint,
+      ExceptionSeverity.low => context.tokens.inkFaint,
       ExceptionSeverity.medium => AppColors.warning,
       ExceptionSeverity.high => AppColors.podPending,
       ExceptionSeverity.critical => AppColors.danger,

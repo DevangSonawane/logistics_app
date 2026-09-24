@@ -1,7 +1,7 @@
 import 'package:uuid/uuid.dart';
 
-import '../../mock/mock_business_data.dart';
-import '../../mock/mock_delay.dart';
+import '../mock/mock_business_data.dart';
+import '../mock/mock_delay.dart';
 import '../models/approval.dart';
 import 'approval_repository.dart';
 

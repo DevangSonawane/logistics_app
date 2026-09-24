@@ -35,7 +35,7 @@ TripStepType? nextStepFor(TripStatus status) {
     TripStatus.assigned => TripStepType.reachedPickup,
     TripStatus.reachedPickup => TripStepType.loadingDone,
     TripStatus.loadingDone => TripStepType.startTrip,
-    TripStatus.startTrip => TripStepType.reachedDrop,
+    TripStatus.started => TripStepType.reachedDrop,
     TripStatus.reachedDrop => TripStepType.unloaded,
     _ => null,
   };

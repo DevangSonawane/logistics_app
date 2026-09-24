@@ -43,7 +43,7 @@ class _LeadListPageState extends ConsumerState<LeadListPage> {
   }
 
   Color _slaColor(DateTime? slaDue) {
-    if (slaDue == null) return AppColors.inkFaint;
+    if (slaDue == null) return context.tokens.inkFaint;
     final Duration diff = slaDue.difference(DateTime.now());
     if (diff.isNegative) return AppColors.danger;
     if (diff.inMinutes < 30) return AppColors.warning;

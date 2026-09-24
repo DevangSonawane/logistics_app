@@ -1,7 +1,7 @@
 import 'package:uuid/uuid.dart';
 
-import '../../mock/mock_delay.dart';
-import '../../mock/mock_driver_data.dart';
+import '../mock/mock_delay.dart';
+import '../mock/mock_driver_data.dart';
 import '../models/advance.dart';
 import 'advance_repository.dart';
 

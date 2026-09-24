@@ -1,7 +1,7 @@
-import '../../mock/mock_business_data.dart';
-import '../../mock/mock_delay.dart';
-import '../../mock/mock_driver_data.dart';
-import '../../models/trip.dart';
+import '../mock/mock_business_data.dart';
+import '../mock/mock_delay.dart';
+import '../mock/mock_driver_data.dart';
+import '../models/trip.dart';
 import 'trip_repository.dart';
 
 /// Mock trip store with in-memory state per provider instance.
@@ -162,6 +162,7 @@ class MockTripRepository implements TripRepository {
   }
 
   /// Ops planning: books a trip as an offer the driver accepts in-app.
+  @override
   Future<Trip> assignTrip(Trip trip) async {
     await mockDelay();
     throwIfChaos();
@@ -170,6 +171,7 @@ class MockTripRepository implements TripRepository {
   }
 
   /// Ops attaches/enters the e-way bill number from trip control.
+  @override
   Future<Trip> updateEway(String tripId, String ewayNo) async {
     await mockDelay();
     throwIfChaos();
@@ -180,6 +182,7 @@ class MockTripRepository implements TripRepository {
   }
 
   /// Live-trips + map queries for ops/owner.
+  @override
   Future<List<Trip>> runningTrips() async {
     await mockDelay();
     return _trips.values

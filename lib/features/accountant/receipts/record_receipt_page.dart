@@ -9,7 +9,6 @@ import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_state.dart';
-import '../../../core/widgets/skeleton_list.dart';
 import '../../../data/models/app_user.dart';
 import '../../../data/models/customer.dart';
 import '../../../data/models/invoice.dart';
@@ -119,7 +118,7 @@ class _RecordReceiptPageState extends ConsumerState<RecordReceiptPage> {
             loading: () => const LinearProgressIndicator(),
             error: (e, _) => ErrorState(message: l10n.commonError),
             data: (List<Customer> list) => DropdownButtonFormField<String>(
-              value: _customerId,
+              initialValue: _customerId,
               decoration: InputDecoration(
                 labelText: l10n.customerLabel,
               ),

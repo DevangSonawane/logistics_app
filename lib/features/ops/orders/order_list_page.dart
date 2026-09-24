@@ -8,7 +8,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/app_scaffold.dart';
-import '../../../core/widgets/app_search_bar.dart';
+import '../../../core/widgets/search_bar.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_state.dart';
 import '../../../core/widgets/skeleton_list.dart';
@@ -41,7 +41,7 @@ class _OrderListPageState extends ConsumerState<OrderListPage> {
       OrderStatus.planned => AppColors.info,
       OrderStatus.running => AppColors.primary,
       OrderStatus.completed => AppColors.success,
-      OrderStatus.cancelled => AppColors.inkFaint,
+      OrderStatus.cancelled => context.tokens.inkFaint,
     };
   }
 

@@ -14,6 +14,7 @@ import '../../../core/widgets/skeleton_list.dart';
 import '../../../data/models/app_user.dart';
 import '../../../data/models/notification.dart';
 import '../../../data/repositories/repository_providers.dart';
+import '../../owner/application/owner_providers.dart';
 import '../../auth/application/session_provider.dart';
 
 /// Notification centre: Today / Earlier groups, unread dots, type icons,

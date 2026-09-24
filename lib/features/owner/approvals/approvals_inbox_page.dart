@@ -11,7 +11,10 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_state.dart';
 import '../../../core/widgets/skeleton_list.dart';
 import '../../../core/widgets/status_chip.dart';
+import '../../../data/models/app_user.dart';
 import '../../../data/models/approval.dart';
+import '../../../data/repositories/repository_providers.dart';
+import '../application/owner_providers.dart';
 import '../../auth/application/session_provider.dart';
 import '../application/owner_providers.dart';
 import 'approval_detail_sheet.dart';
@@ -140,7 +143,7 @@ class _ApprovalsInboxPageState extends ConsumerState<ApprovalsInboxPage> {
           ? FloatingActionButton.extended(
               heroTag: 'bulk-approve',
               onPressed: () => _bulkApprove(
-                inbox.valueOrNull ?? const [],
+                inbox.value ?? const [],
               ),
               icon: const Icon(Icons.done_all_outlined),
               label: Text('${l10n.approveAction} (${_selected.length})'),

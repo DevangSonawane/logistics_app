@@ -1,6 +1,6 @@
-import '../../mock/mock_business_data.dart';
-import '../../mock/mock_delay.dart';
-import '../../mock/mock_driver_data.dart';
+import '../mock/mock_business_data.dart';
+import '../mock/mock_delay.dart';
+import '../mock/mock_driver_data.dart';
 import '../models/driver.dart';
 import '../models/vehicle.dart';
 import 'driver_repository.dart';

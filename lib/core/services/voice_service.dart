@@ -29,8 +29,10 @@ class VoiceService {
       if (!available) return false;
       await _stt.listen(
         onResult: (result) => onResult(result.recognizedWords),
-        localeId: localeId,
-        partialResults: true,
+        listenOptions: SpeechListenOptions(
+          localeId: localeId,
+          partialResults: true,
+        ),
       );
       return true;
     } catch (_) {

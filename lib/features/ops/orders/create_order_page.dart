@@ -369,7 +369,7 @@ class _CreateOrderPageState extends ConsumerState<CreateOrderPage> {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 DropdownButtonFormField<String>(
-                  value: _vehicleType,
+                  initialValue: _vehicleType,
                   decoration: InputDecoration(
                     labelText: l10n.vehicleTypeLabel,
                   ),
@@ -424,7 +424,7 @@ class _CustomerDropdown extends ConsumerWidget {
       loading: () => const LinearProgressIndicator(),
       error: (e, _) => Text(l10n.commonError),
       data: (List<Customer> list) => DropdownButtonFormField<String>(
-        value: value,
+        initialValue: value,
         decoration: InputDecoration(labelText: l10n.customerLabel),
         items: [
           for (final Customer c in list)

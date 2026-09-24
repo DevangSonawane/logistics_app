@@ -23,7 +23,7 @@ class AccountantShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final int pending =
-        ref.watch(pendingApprovalsCountProvider).valueOrNull ?? 0;
+        ref.watch(pendingApprovalsCountProvider).value ?? 0;
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: AppBottomNavBar(

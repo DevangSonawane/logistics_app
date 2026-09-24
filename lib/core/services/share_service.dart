@@ -19,7 +19,9 @@ class ShareService {
       final String path =
           '${dir.path}/roadops_${DateTime.now().millisecondsSinceEpoch}.pdf';
       await File(path).writeAsBytes(bytes);
-      await Share.shareXFiles([XFile(path)], text: title);
+      await SharePlus.instance.share(
+        ShareParams(files: [XFile(path)], text: title),
+      );
       return true;
     } catch (_) {
       return false;
@@ -28,7 +30,7 @@ class ShareService {
 
   Future<bool> shareText(String text) async {
     try {
-      await Share.share(text);
+      await SharePlus.instance.share(ShareParams(text: text));
       return true;
     } catch (_) {
       return false;

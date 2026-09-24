@@ -31,7 +31,7 @@ class AgeingPage extends ConsumerWidget {
           onPressed: () => ShareService().sharePdf(
             l10n.ageingTitle,
             [
-              for (final b in buckets.valueOrNull ?? const <AgeingBucket>[])
+              for (final b in buckets.value ?? const <AgeingBucket>[])
                 (b.label, Formatters.inr(b.amount)),
             ],
           ),

@@ -135,7 +135,7 @@ class _BanksCard extends ConsumerWidget {
                   l10n.bankBalancesTitle,
                   [
                     for (final b
-                        in banks.valueOrNull ?? const <BankAccount>[])
+                        in banks.value ?? const <BankAccount>[])
                       (b.name, Formatters.inr(b.balance)),
                   ],
                 ),
@@ -187,7 +187,7 @@ class _GstCard extends ConsumerWidget {
               IconButton(
                 icon: const Icon(Icons.share_outlined),
                 onPressed: () async {
-                  final GstSummary? g = gst.valueOrNull;
+                  final GstSummary? g = gst.value;
                   await ShareService().sharePdf(
                     l10n.gstSummaryTitle,
                     g == null
@@ -288,7 +288,7 @@ class _TripPnlCard extends ConsumerWidget {
                   l10n.tripPnlTitle,
                   [
                     for (final t
-                        in pnl.valueOrNull ?? const <TripPnl>[])
+                        in pnl.value ?? const <TripPnl>[])
                       (
                         '${t.tripNo} ${t.lane}',
                         '${Formatters.inr(t.revenue)} / ${Formatters.inr(t.margin)}'

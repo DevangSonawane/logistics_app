@@ -45,7 +45,7 @@ class _PnlPageState extends ConsumerState<PnlPage> {
           onPressed: () => ShareService().sharePdf(
             l10n.pnlTitle,
             [
-              for (final line in pnl.valueOrNull ?? const <PnlLine>[])
+              for (final line in pnl.value ?? const <PnlLine>[])
                 (line.label, Formatters.inr(line.amount)),
             ],
           ),

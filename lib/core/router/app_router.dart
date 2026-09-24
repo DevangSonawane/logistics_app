@@ -1,14 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../data/models/app_user.dart';
 import '../../data/models/driver.dart';
 import '../../data/models/hire.dart';
-import '../../data/models/order.dart';
 import '../../data/models/trip.dart';
 import '../../features/accountant/approvals/account_approvals_page.dart';
 import '../../features/accountant/home/accounts_summary_page.dart';
@@ -35,7 +32,6 @@ import '../../features/common/search/global_search_page.dart';
 import '../../features/supervisor/gate/gate_entry_page.dart';
 import '../../features/supervisor/loading/loading_flow_page.dart';
 import '../../features/supervisor/lr_print/lr_print_page.dart';
-import '../../features/supervisor/scan/manifest_page.dart';
 import '../../features/supervisor/scan/scan_packages_page.dart';
 import '../../features/supervisor/shell/supervisor_shell.dart';
 import '../../features/supervisor/today/loadings_arrivals_page.dart';

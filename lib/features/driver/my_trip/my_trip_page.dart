@@ -336,13 +336,19 @@ class _RejectSheetState extends State<_RejectSheet> {
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(l10n.rejectReasonLabel),
-            for (final String reason in reasons)
-              RadioListTile<String>(
-                title: Text(reason),
-                value: reason,
-                groupValue: _reason,
-                onChanged: (v) => setState(() => _reason = v),
+            RadioGroup<String>(
+              groupValue: _reason,
+              onChanged: (v) => setState(() => _reason = v),
+              child: Column(
+                children: [
+                  for (final String reason in reasons)
+                    RadioListTile<String>(
+                      title: Text(reason),
+                      value: reason,
+                    ),
+                ],
               ),
+            ),
             TextField(
               controller: _note,
               decoration: InputDecoration(hintText: l10n.rejectNoteHint),

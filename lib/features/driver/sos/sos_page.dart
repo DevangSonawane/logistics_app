@@ -50,7 +50,7 @@ class _SosPageState extends ConsumerState<SosPage>
     if (session.user != null) {
       tripId = ref
           .read(driverTripProvider(session.user!.id))
-          .valueOrNull
+          .value
           ?.activeTrip
           ?.id;
     }

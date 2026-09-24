@@ -1,6 +1,6 @@
 import 'package:uuid/uuid.dart';
 
-import '../../mock/mock_delay.dart';
+import '../mock/mock_delay.dart';
 import '../models/hub.dart';
 import 'hub_repository.dart';
 

@@ -629,6 +629,7 @@
   "destHubLabel": "गंतव्य हब",
   "lrPrintTitle": "LR प्रिंट",
   "printAction": "प्रिंट",
+  "bluetoothPrinter": "ब्लूटूथ प्रिंटर",
   "bluetoothSoon": "ब्लूटूथ प्रिंटर जल्द आ रहा",
   "scanToManifest": "मेनिफेस्ट के लिए पैकेज स्कैन करें",
   "acctTabSummary": "सारांश",

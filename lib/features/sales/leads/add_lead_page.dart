@@ -260,7 +260,7 @@ class _AddLeadPageState extends ConsumerState<AddLeadPage> {
           ),
           const SizedBox(height: AppSpacing.md),
           DropdownButtonFormField<String>(
-            value: _vehicle,
+            initialValue: _vehicle,
             decoration: InputDecoration(
               labelText: l10n.vehicleTypeLabel,
             ),

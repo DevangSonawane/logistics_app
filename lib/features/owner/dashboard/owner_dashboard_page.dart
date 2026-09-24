@@ -19,6 +19,7 @@ import '../../../core/widgets/section_header.dart';
 import '../../../core/widgets/skeleton_list.dart';
 import '../../../data/mock/mock_users.dart';
 import '../../../data/models/dashboard.dart';
+import '../../../data/repositories/repository_providers.dart';
 import '../application/owner_providers.dart';
 
 /// O1. Owner dashboard: hero header, KPI grid, trend, lanes, attention,
@@ -95,7 +96,7 @@ class _OwnerDashboardPageState extends ConsumerState<OwnerDashboardPage> {
     final AsyncValue<List<TrendPoint>> trend =
         ref.watch(revenueTrendProvider);
     final int unread =
-        ref.watch(unreadNotificationsCountProvider).valueOrNull ?? 0;
+        ref.watch(unreadNotificationsCountProvider).value ?? 0;
     return AppScaffold(
       padding: EdgeInsets.zero,
       body: ListView(
@@ -172,7 +173,7 @@ class _OwnerDashboardPageState extends ConsumerState<OwnerDashboardPage> {
                   const SizedBox(height: AppSpacing.md),
                   Text(
                     Formatters.inrShort(
-                      kpis.valueOrNull?.revenueMonth ?? 0,
+                      kpis.value?.revenueMonth ?? 0,
                     ),
                     style: AppTypography.kpiNumber(Colors.white).copyWith(
                       fontSize: 36,
@@ -227,7 +228,7 @@ class _OwnerDashboardPageState extends ConsumerState<OwnerDashboardPage> {
                   SectionHeader(title: l10n.trendTitle),
                   const SizedBox(height: AppSpacing.sm),
                   _TrendChart(
-                    points: (trend.valueOrNull ?? const [])
+                    points: (trend.value ?? const [])
                         .take(_rangeDays)
                         .toList(),
                   ),

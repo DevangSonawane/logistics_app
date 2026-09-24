@@ -17,7 +17,6 @@ import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/otp_input.dart';
 import '../../../core/widgets/photo_capture_sheet.dart';
 import '../../../data/mock/mock_users.dart';
-import '../../../data/models/app_user.dart';
 import '../../../data/models/pod.dart';
 import '../../../data/models/trip.dart';
 import '../../auth/application/session_provider.dart';

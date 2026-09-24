@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
-import 'ops_providers.dart';
+import '../application/ops_providers.dart';
 
 /// Ops shell: Orders, Plan, Live Trips, Exceptions (badge), More.
 class OpsShell extends ConsumerWidget {
@@ -23,7 +23,7 @@ class OpsShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final int open =
-        ref.watch(openExceptionsCountProvider).valueOrNull ?? 0;
+        ref.watch(openExceptionsCountProvider).value ?? 0;
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: AppBottomNavBar(

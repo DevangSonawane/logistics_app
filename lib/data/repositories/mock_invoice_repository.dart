@@ -1,4 +1,4 @@
-import '../../mock/mock_delay.dart';
+import '../mock/mock_delay.dart';
 import '../models/invoice.dart';
 import 'invoice_repository.dart';
 

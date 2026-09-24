@@ -1,5 +1,5 @@
-import '../../mock/mock_business_data.dart';
-import '../../mock/mock_delay.dart';
+import '../mock/mock_business_data.dart';
+import '../mock/mock_delay.dart';
 import '../models/customer.dart';
 import 'customer_repository.dart';
 

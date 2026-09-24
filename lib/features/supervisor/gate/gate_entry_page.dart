@@ -96,11 +96,13 @@ class _GateEntryPageState extends ConsumerState<GateEntryPage> {
           for (final HubTask t in items) {
             if (t.id == _taskId) task = t;
           }
-          task ??= items.isEmpty ? null : items.first;
+          if (task == null) {
+            return Center(child: Text(l10n.selectVehicle));
+          }
           return ListView(
             children: [
               DropdownButtonFormField<String>(
-                value: task?.id,
+                initialValue: task?.id,
                 decoration: InputDecoration(
                   labelText: l10n.selectVehicle,
                 ),

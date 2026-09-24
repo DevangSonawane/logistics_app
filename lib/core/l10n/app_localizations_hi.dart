@@ -272,6 +272,95 @@ class AppLocalizationsHi extends AppLocalizations {
   String get goBackAction => 'वापस जाएं';
 
   @override
+  String get otpBackToLogin => 'लॉगिन पर वापस जाएं';
+
+  @override
+  String otpLockout(int minutes) {
+    return 'बहुत ज़्यादा गलत कोशिशें। $minutes मिनट बाद फिर कोशिश करें।';
+  }
+
+  @override
+  String get permissionNext => 'आगे';
+
+  @override
+  String get permissionDone => 'हो गया';
+
+  @override
+  String get appPinTitle => '4 अंकों का ऐप PIN बनाएं';
+
+  @override
+  String get appPinConfirmTitle => 'अपना PIN दोबारा डालें';
+
+  @override
+  String get appPinMismatch => 'PIN मेल नहीं खा रहे। फिर कोशिश करें।';
+
+  @override
+  String get pinHint => '4 अंकों का PIN';
+
+  @override
+  String get biometricSetupHint =>
+      'सिर्फ स्टाफ के लिए। ड्राइवर यह चरण छोड़ देते हैं।';
+
+  @override
+  String get biometricEnrolled => 'बायोमेट्रिक चालू हो गया';
+
+  @override
+  String get unlockAction => 'अनलॉक करें';
+
+  @override
+  String get wrongPin => 'गलत PIN, फिर कोशिश करें';
+
+  @override
+  String get unlockWithBio => 'फिंगरप्रिंट / फेस इस्तेमाल करें';
+
+  @override
+  String get profileTitle => 'प्रोफ़ाइल';
+
+  @override
+  String get switchRole => 'भूमिका बदलें';
+
+  @override
+  String appVersion(String version) {
+    return 'ऐप वर्शन $version';
+  }
+
+  @override
+  String get demoTools => 'डेमो टूल्स';
+
+  @override
+  String get demoSampleNotification => 'सैंपल नोटिफिकेशन भेजें';
+
+  @override
+  String get demoAdvanceTrip => 'ट्रिप सिम्युलेशन आगे बढ़ाएं';
+
+  @override
+  String get simulateOffline => 'ऑफ़लाइन सिम्युलेट करें';
+
+  @override
+  String get resetDemoData => 'डेमो डेटा रीसेट करें';
+
+  @override
+  String get demoActionDone => 'हो गया';
+
+  @override
+  String get logoutRunningTrip =>
+      'आपकी ट्रिप चल रही है। लॉगआउट से पहले उसे पूरा करें या Ops से बंद करने को कहें।';
+
+  @override
+  String logoutPendingSync(int count) {
+    return '$count आइटम अभी अपलोड नहीं हुए हैं। लॉगआउट से पहले इंटरनेट से जुड़कर सिंक करें।';
+  }
+
+  @override
+  String get forceLogout => 'फोर्स लॉगआउट (डेमो)';
+
+  @override
+  String get roleContinueAs => 'आगे बढ़ें';
+
+  @override
+  String get lastUsedRole => 'पिछली बार इस्तेमाल';
+
+  @override
   String phaseComingSoon(String phase) {
     return '$phase में आ रहा है';
   }

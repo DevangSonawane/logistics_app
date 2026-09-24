@@ -102,6 +102,48 @@
   "forbiddenTitle": "Not allowed",
   "forbiddenMessage": "Your role cannot open this screen.",
   "goBackAction": "Go back",
+  "otpBackToLogin": "Back to login",
+  "otpLockout": "Too many wrong attempts. Try again after {minutes} min",
+  "@otpLockout": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "permissionNext": "Next",
+  "permissionDone": "Done",
+  "appPinTitle": "Set a 4-digit app PIN",
+  "appPinConfirmTitle": "Confirm your PIN",
+  "appPinMismatch": "PINs don't match. Try again.",
+  "pinHint": "4-digit PIN",
+  "biometricSetupHint": "Staff only. Drivers skip this step.",
+  "biometricEnrolled": "Biometrics enabled",
+  "unlockAction": "Unlock",
+  "wrongPin": "Wrong PIN, try again",
+  "unlockWithBio": "Use fingerprint / face",
+  "profileTitle": "Profile",
+  "switchRole": "Switch role",
+  "appVersion": "App version {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": { "type": "String" }
+    }
+  },
+  "demoTools": "Demo tools",
+  "demoSampleNotification": "Trigger sample notification",
+  "demoAdvanceTrip": "Advance trip simulation",
+  "simulateOffline": "Simulate offline",
+  "resetDemoData": "Reset demo data",
+  "demoActionDone": "Done",
+  "logoutRunningTrip": "You have a running trip. Please complete it or ask Ops to close it before logging out.",
+  "logoutPendingSync": "{count} items are not uploaded yet. Connect to the internet and sync before logging out.",
+  "@logoutPendingSync": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "forceLogout": "Force logout (demo)",
+  "roleContinueAs": "Continue",
+  "lastUsedRole": "Last used",
   "phaseComingSoon": "Coming in {phase}",
   "@phaseComingSoon": {
     "placeholders": {

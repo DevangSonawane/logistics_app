@@ -102,6 +102,48 @@
   "forbiddenTitle": "अनुमति नहीं है",
   "forbiddenMessage": "आपकी भूमिका यह स्क्रीन नहीं खोल सकती।",
   "goBackAction": "वापस जाएं",
+  "otpBackToLogin": "लॉगिन पर वापस जाएं",
+  "otpLockout": "बहुत ज़्यादा गलत कोशिशें। {minutes} मिनट बाद फिर कोशिश करें।",
+  "@otpLockout": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "permissionNext": "आगे",
+  "permissionDone": "हो गया",
+  "appPinTitle": "4 अंकों का ऐप PIN बनाएं",
+  "appPinConfirmTitle": "अपना PIN दोबारा डालें",
+  "appPinMismatch": "PIN मेल नहीं खा रहे। फिर कोशिश करें।",
+  "pinHint": "4 अंकों का PIN",
+  "biometricSetupHint": "सिर्फ स्टाफ के लिए। ड्राइवर यह चरण छोड़ देते हैं।",
+  "biometricEnrolled": "बायोमेट्रिक चालू हो गया",
+  "unlockAction": "अनलॉक करें",
+  "wrongPin": "गलत PIN, फिर कोशिश करें",
+  "unlockWithBio": "फिंगरप्रिंट / फेस इस्तेमाल करें",
+  "profileTitle": "प्रोफ़ाइल",
+  "switchRole": "भूमिका बदलें",
+  "appVersion": "ऐप वर्शन {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": { "type": "String" }
+    }
+  },
+  "demoTools": "डेमो टूल्स",
+  "demoSampleNotification": "सैंपल नोटिफिकेशन भेजें",
+  "demoAdvanceTrip": "ट्रिप सिम्युलेशन आगे बढ़ाएं",
+  "simulateOffline": "ऑफ़लाइन सिम्युलेट करें",
+  "resetDemoData": "डेमो डेटा रीसेट करें",
+  "demoActionDone": "हो गया",
+  "logoutRunningTrip": "आपकी ट्रिप चल रही है। लॉगआउट से पहले उसे पूरा करें या Ops से बंद करने को कहें।",
+  "logoutPendingSync": "{count} आइटम अभी अपलोड नहीं हुए हैं। लॉगआउट से पहले इंटरनेट से जुड़कर सिंक करें।",
+  "@logoutPendingSync": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "forceLogout": "फोर्स लॉगआउट (डेमो)",
+  "roleContinueAs": "आगे बढ़ें",
+  "lastUsedRole": "पिछली बार इस्तेमाल",
   "phaseComingSoon": "{phase} में आ रहा है",
   "@phaseComingSoon": {
     "placeholders": {

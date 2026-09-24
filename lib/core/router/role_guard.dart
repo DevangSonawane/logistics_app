@@ -10,6 +10,9 @@ import 'route_names.dart';
 String? roleGuard(SessionState session, GoRouterState state) {
   final String path = state.uri.path;
 
+  // Splash always runs its 1.2 s animation, then forwards into the flow.
+  if (path == RouteNames.splash) return null;
+
   if (!session.onboardingDone) {
     return path == RouteNames.language ? null : RouteNames.language;
   }

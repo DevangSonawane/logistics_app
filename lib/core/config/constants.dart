@@ -9,6 +9,9 @@ class AppConstants {
   static const int otpMaxAttempts = 5;
   static const int otpLockoutMinutes = 5;
 
+  // Splash
+  static const Duration splashDuration = Duration(milliseconds: 1200);
+
   // Driver GPS (background_gps_service, Phase 3)
   static const int gpsIntervalSeconds = 60;
   static const int gpsLowBatteryIntervalSeconds = 180;

@@ -602,6 +602,168 @@ abstract class AppLocalizations {
   /// **'Go back'**
   String get goBackAction;
 
+  /// No description provided for @otpBackToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to login'**
+  String get otpBackToLogin;
+
+  /// No description provided for @otpLockout.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many wrong attempts. Try again after {minutes} min'**
+  String otpLockout(int minutes);
+
+  /// No description provided for @permissionNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get permissionNext;
+
+  /// No description provided for @permissionDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get permissionDone;
+
+  /// No description provided for @appPinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a 4-digit app PIN'**
+  String get appPinTitle;
+
+  /// No description provided for @appPinConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your PIN'**
+  String get appPinConfirmTitle;
+
+  /// No description provided for @appPinMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'PINs don\'t match. Try again.'**
+  String get appPinMismatch;
+
+  /// No description provided for @pinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'4-digit PIN'**
+  String get pinHint;
+
+  /// No description provided for @biometricSetupHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff only. Drivers skip this step.'**
+  String get biometricSetupHint;
+
+  /// No description provided for @biometricEnrolled.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometrics enabled'**
+  String get biometricEnrolled;
+
+  /// No description provided for @unlockAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get unlockAction;
+
+  /// No description provided for @wrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong PIN, try again'**
+  String get wrongPin;
+
+  /// No description provided for @unlockWithBio.
+  ///
+  /// In en, this message translates to:
+  /// **'Use fingerprint / face'**
+  String get unlockWithBio;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// No description provided for @switchRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch role'**
+  String get switchRole;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App version {version}'**
+  String appVersion(String version);
+
+  /// No description provided for @demoTools.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo tools'**
+  String get demoTools;
+
+  /// No description provided for @demoSampleNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Trigger sample notification'**
+  String get demoSampleNotification;
+
+  /// No description provided for @demoAdvanceTrip.
+  ///
+  /// In en, this message translates to:
+  /// **'Advance trip simulation'**
+  String get demoAdvanceTrip;
+
+  /// No description provided for @simulateOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulate offline'**
+  String get simulateOffline;
+
+  /// No description provided for @resetDemoData.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset demo data'**
+  String get resetDemoData;
+
+  /// No description provided for @demoActionDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get demoActionDone;
+
+  /// No description provided for @logoutRunningTrip.
+  ///
+  /// In en, this message translates to:
+  /// **'You have a running trip. Please complete it or ask Ops to close it before logging out.'**
+  String get logoutRunningTrip;
+
+  /// No description provided for @logoutPendingSync.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} items are not uploaded yet. Connect to the internet and sync before logging out.'**
+  String logoutPendingSync(int count);
+
+  /// No description provided for @forceLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Force logout (demo)'**
+  String get forceLogout;
+
+  /// No description provided for @roleContinueAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get roleContinueAs;
+
+  /// No description provided for @lastUsedRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Last used'**
+  String get lastUsedRole;
+
   /// No description provided for @phaseComingSoon.
   ///
   /// In en, this message translates to:

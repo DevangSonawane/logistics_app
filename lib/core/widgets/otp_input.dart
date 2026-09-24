@@ -5,7 +5,8 @@ import '../config/constants.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 
-/// 6-digit OTP input with error shake state.
+/// OTP/PIN input with error state. Length defaults to the 6-digit OTP;
+/// app PIN flows pass [AppConstants.appPinLength].
 class OtpInput extends StatelessWidget {
   const OtpInput({
     super.key,
@@ -13,12 +14,14 @@ class OtpInput extends StatelessWidget {
     this.onCompleted,
     this.hasError = false,
     this.enabled = true,
+    this.length = AppConstants.otpLength,
   });
 
   final TextEditingController? controller;
   final ValueChanged<String>? onCompleted;
   final bool hasError;
   final bool enabled;
+  final int length;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,7 @@ class OtpInput extends StatelessWidget {
     );
     return Pinput(
       controller: controller,
-      length: AppConstants.otpLength,
+      length: length,
       onCompleted: onCompleted,
       enabled: enabled,
       showCursor: true,

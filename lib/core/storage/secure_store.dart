@@ -1,4 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'secure_store.g.dart';
+
+/// Overridable handle to the secure store. Tests inject a memory fake.
+@Riverpod(keepAlive: true)
+SecureStore secureStore(Ref ref) => SecureStore();
 
 /// Token storage. Auth tokens live ONLY here, never in Hive or logs.
 class SecureStore {

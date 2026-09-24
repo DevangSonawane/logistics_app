@@ -275,6 +275,94 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goBackAction => 'Go back';
 
   @override
+  String get otpBackToLogin => 'Back to login';
+
+  @override
+  String otpLockout(int minutes) {
+    return 'Too many wrong attempts. Try again after $minutes min';
+  }
+
+  @override
+  String get permissionNext => 'Next';
+
+  @override
+  String get permissionDone => 'Done';
+
+  @override
+  String get appPinTitle => 'Set a 4-digit app PIN';
+
+  @override
+  String get appPinConfirmTitle => 'Confirm your PIN';
+
+  @override
+  String get appPinMismatch => 'PINs don\'t match. Try again.';
+
+  @override
+  String get pinHint => '4-digit PIN';
+
+  @override
+  String get biometricSetupHint => 'Staff only. Drivers skip this step.';
+
+  @override
+  String get biometricEnrolled => 'Biometrics enabled';
+
+  @override
+  String get unlockAction => 'Unlock';
+
+  @override
+  String get wrongPin => 'Wrong PIN, try again';
+
+  @override
+  String get unlockWithBio => 'Use fingerprint / face';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get switchRole => 'Switch role';
+
+  @override
+  String appVersion(String version) {
+    return 'App version $version';
+  }
+
+  @override
+  String get demoTools => 'Demo tools';
+
+  @override
+  String get demoSampleNotification => 'Trigger sample notification';
+
+  @override
+  String get demoAdvanceTrip => 'Advance trip simulation';
+
+  @override
+  String get simulateOffline => 'Simulate offline';
+
+  @override
+  String get resetDemoData => 'Reset demo data';
+
+  @override
+  String get demoActionDone => 'Done';
+
+  @override
+  String get logoutRunningTrip =>
+      'You have a running trip. Please complete it or ask Ops to close it before logging out.';
+
+  @override
+  String logoutPendingSync(int count) {
+    return '$count items are not uploaded yet. Connect to the internet and sync before logging out.';
+  }
+
+  @override
+  String get forceLogout => 'Force logout (demo)';
+
+  @override
+  String get roleContinueAs => 'Continue';
+
+  @override
+  String get lastUsedRole => 'Last used';
+
+  @override
   String phaseComingSoon(String phase) {
     return 'Coming in $phase';
   }

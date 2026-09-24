@@ -12,6 +12,7 @@ abstract final class RouteNames {
   static const String biometricSetup = '/biometric-setup';
   static const String lock = '/lock';
   static const String forbidden = '/403';
+  static const String profile = '/profile';
 
   static const String driverHome = '/driver/home';
   static const String ownerHome = '/owner/home';

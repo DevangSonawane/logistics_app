@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Logistics App</string>
+	<string>RoadOps</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>logistics_app</string>
+	<string>RoadOps</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -26,6 +26,23 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<!-- Section 2.5 usage strings: location (trip tracking), camera/mic
+	     (POD, bills, voice), speech (driver voice commands), Face ID
+	     (staff lock), photo library (business card scan). -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>RoadOps needs your location for navigation and to record trip checkpoints.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>RoadOps tracks your trip location even when the app is closed, so Ops can follow the trip.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>RoadOps needs the camera to capture POD, bills, loading photos and scans.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>RoadOps needs the microphone for voice commands and voice notes.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>RoadOps uses speech recognition for driver voice commands.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>RoadOps uses Face ID to unlock the app for staff roles.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>RoadOps needs photo access to attach bills and scan business cards.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

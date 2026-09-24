@@ -54,6 +54,62 @@ final class ConnectivityProvider extends $FunctionalProvider<
 
 String _$connectivityHash() => r'69c6e2db8337a9ff832358c4a079a4846fa6f28c';
 
+/// Demo-tools override ("Simulate offline" in Profile). Forces the whole
+/// app offline: driver actions queue instead of syncing.
+
+@ProviderFor(SimulatedOffline)
+final simulatedOfflineProvider = SimulatedOfflineProvider._();
+
+/// Demo-tools override ("Simulate offline" in Profile). Forces the whole
+/// app offline: driver actions queue instead of syncing.
+final class SimulatedOfflineProvider
+    extends $NotifierProvider<SimulatedOffline, bool> {
+  /// Demo-tools override ("Simulate offline" in Profile). Forces the whole
+  /// app offline: driver actions queue instead of syncing.
+  SimulatedOfflineProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'simulatedOfflineProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$simulatedOfflineHash();
+
+  @$internal
+  @override
+  SimulatedOffline create() => SimulatedOffline();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$simulatedOfflineHash() => r'f51656b5a92b57601dbb1bb1b545787008eb3b02';
+
+/// Demo-tools override ("Simulate offline" in Profile). Forces the whole
+/// app offline: driver actions queue instead of syncing.
+
+abstract class _$SimulatedOffline extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
+  }
+}
+
 /// True unless all interfaces report [ConnectivityResult.none].
 /// Defaults to online while the first event is pending.
 
@@ -100,4 +156,4 @@ final class IsOnlineProvider extends $FunctionalProvider<bool, bool, bool>
   }
 }
 
-String _$isOnlineHash() => r'0edb2b02a076a1c2c4e765fdd2de1a93720f0f9e';
+String _$isOnlineHash() => r'97a63523d8c2d0aee7a2b2f56ea2ffce56a91c45';

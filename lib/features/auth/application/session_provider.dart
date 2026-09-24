@@ -19,6 +19,7 @@ class SessionState {
     this.permissionsDone = false,
     this.biometricSetup = false,
     this.locked = false,
+    this.lastRole,
   });
 
   final bool onboardingDone;
@@ -29,6 +30,9 @@ class SessionState {
   final bool permissionsDone;
   final bool biometricSetup;
   final bool locked;
+
+  /// Last role the user worked in. Pre-selected on the role picker.
+  final AppRole? lastRole;
 
   /// Staff roles use the biometric/PIN lock; drivers skip it.
   bool get isStaff => activeRole != null && activeRole != AppRole.driver;
@@ -42,6 +46,7 @@ class SessionState {
     bool? permissionsDone,
     bool? biometricSetup,
     bool? locked,
+    AppRole? lastRole,
   }) {
     return SessionState(
       onboardingDone: onboardingDone ?? this.onboardingDone,
@@ -52,6 +57,7 @@ class SessionState {
       permissionsDone: permissionsDone ?? this.permissionsDone,
       biometricSetup: biometricSetup ?? this.biometricSetup,
       locked: locked ?? this.locked,
+      lastRole: lastRole ?? this.lastRole,
     );
   }
 }
@@ -71,6 +77,7 @@ class Session extends _$Session {
       final AppUser user =
           AppUser.fromJson(Map<String, dynamic>.from(saved['user'] as Map));
       final String? roleName = saved['activeRole'] as String?;
+      final String? lastRoleName = saved['lastRole'] as String?;
       return SessionState(
         onboardingDone: _store.onboardingDone,
         loggedIn: true,
@@ -81,6 +88,9 @@ class Session extends _$Session {
         needsRolePick: saved['needsRolePick'] as bool? ?? false,
         permissionsDone: saved['permissionsDone'] as bool? ?? false,
         biometricSetup: saved['biometricSetup'] as bool? ?? false,
+        lastRole: lastRoleName == null
+            ? null
+            : AppRole.values.byName(lastRoleName),
       );
     } catch (_) {
       return SessionState(onboardingDone: _store.onboardingDone);
@@ -96,6 +106,7 @@ class Session extends _$Session {
     unawaited(_store.saveSessionMap({
       'user': s.user!.toJson(),
       'activeRole': s.activeRole?.name,
+      'lastRole': s.lastRole?.name,
       'needsRolePick': s.needsRolePick,
       'permissionsDone': s.permissionsDone,
       'biometricSetup': s.biometricSetup,
@@ -123,7 +134,17 @@ class Session extends _$Session {
   }
 
   void selectRole(AppRole role) {
-    state = state.copyWith(activeRole: role, needsRolePick: false);
+    state = state.copyWith(
+      activeRole: role,
+      needsRolePick: false,
+      lastRole: role,
+    );
+    _persist();
+  }
+
+  /// Re-opens the role picker without logging out (Profile -> Switch role).
+  void changeRole() {
+    state = state.copyWith(activeRole: null, needsRolePick: true);
     _persist();
   }
 
@@ -144,7 +165,7 @@ class Session extends _$Session {
   /// Clears secure storage, session and cached data. Keeps language +
   /// onboarding flag, stops GPS (Phase 3 wiring).
   Future<void> signOut() async {
-    await SecureStore().clearAll();
+    await ref.read(secureStoreProvider).clearAll();
     await _store.clearSession();
     state = SessionState(onboardingDone: _store.onboardingDone);
   }

@@ -5,7 +5,9 @@ plugins {
 }
 
 android {
-    namespace = "com.example.logistics_app"
+    // Canonical id: mirrors AppConfig.packageId ('com.yourcompany.roadops').
+    // Replace "yourcompany" here AND in AppConfig.packageId when rebranding.
+    namespace = "com.yourcompany.roadops"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -15,18 +17,20 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.logistics_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "com.yourcompany.roadops"
+        // Doc floor is minSdk 23 (Android 6). compile/target stay on the
+        // Flutter defaults so the 60+ dependency set keeps resolving.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
+        multiDexEnabled = true
         // Uses the version code from pubspec.yaml. When using split APKs, 1000 * ABI_VERSION
         // is added automatically by Flutter. (https://developer.android.com/studio/build/configure-apk-splits#configure-APK-versions)
         // You can force using the value of versionCode by specifying the `-P force-version-code-ignoring-abi=true`
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        // TODO(Phase 8): Google Maps API key placeholder YOUR_MAPS_KEY
+        // goes in the manifest meta-data when the live map ships.
     }
 
     buildTypes {

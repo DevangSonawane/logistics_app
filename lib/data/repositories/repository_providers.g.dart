@@ -56,3 +56,49 @@ final class AuthRepositoryProvider
 }
 
 String _$authRepositoryHash() => r'387b6e9a78d246a81ba25c340fe035788819ea94';
+
+/// Minimal in Phase 2 (logout blocker only). Full trip store in Phase 3.
+
+@ProviderFor(tripRepository)
+final tripRepositoryProvider = TripRepositoryProvider._();
+
+/// Minimal in Phase 2 (logout blocker only). Full trip store in Phase 3.
+
+final class TripRepositoryProvider
+    extends $FunctionalProvider<TripRepository, TripRepository, TripRepository>
+    with $Provider<TripRepository> {
+  /// Minimal in Phase 2 (logout blocker only). Full trip store in Phase 3.
+  TripRepositoryProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'tripRepositoryProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$tripRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<TripRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  TripRepository create(Ref ref) {
+    return tripRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(TripRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<TripRepository>(value),
+    );
+  }
+}
+
+String _$tripRepositoryHash() => r'c24abdf7d1f65a1bb6205540f92d291cae18ff3d';

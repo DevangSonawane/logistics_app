@@ -114,11 +114,14 @@ void main() {
           child: const RoadOpsApp(),
         ),
       );
+      // Splash holds 1.2 s, then the guard routes onward.
+      await tester.pump(const Duration(milliseconds: 1400));
       await tester.pumpAndSettle();
     }
 
     testWidgets('driver lands on driver home', (tester) async {
       await pumpApp(tester, driverState());
+      expect(find.text('Namaste, Ramesh Yadav'), findsOneWidget);
       expect(find.textContaining('Phase 3'), findsOneWidget);
     });
 
@@ -135,12 +138,12 @@ void main() {
         tester,
         const SessionState(onboardingDone: true),
       );
-      expect(find.text('Login'), findsOneWidget);
+      expect(find.text('Log in with your phone number'), findsOneWidget);
     });
 
     testWidgets('fresh install starts at language select', (tester) async {
       await pumpApp(tester, const SessionState());
-      expect(find.text('Language'), findsOneWidget);
+      expect(find.text('Choose your language'), findsOneWidget);
     });
   });
 }

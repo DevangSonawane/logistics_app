@@ -10,8 +10,10 @@ class AppConfig {
   static const String appName = 'RoadOps';
 
   /// Target application id for release builds.
-  /// TODO(Phase 8): align android/app/build.gradle[.kts] applicationId,
-  /// iOS bundle id and Google Maps key with this id.
+  /// Single source of truth for rebranding: this value is mirrored in
+  /// android/app/build.gradle.kts (namespace + applicationId) and the iOS
+  /// PRODUCT_BUNDLE_IDENTIFIER. Replace "yourcompany" in all three places.
+  /// TODO(Phase 8): align the Google Maps key with this id.
   static const String packageId = 'com.yourcompany.roadops';
 
   /// Demo build flag. When true the login page shows the tappable

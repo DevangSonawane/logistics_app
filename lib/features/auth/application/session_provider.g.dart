@@ -43,7 +43,7 @@ final class SessionProvider extends $NotifierProvider<Session, SessionState> {
   }
 }
 
-String _$sessionHash() => r'9085a09ecbd4272a537a4c89df54345ec22abb80';
+String _$sessionHash() => r'07df73ea769d979732866b3cbdbfdd7a7b600ca7';
 
 /// Current session. Restored from Hive on boot; every mutation persists.
 

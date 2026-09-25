@@ -70,24 +70,18 @@ class TimelineTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          title,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ),
-                      if (time != null)
-                        Text(
-                          time!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(color: tokens.inkMuted),
-                        ),
-                    ],
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
+                  if (time != null)
+                    Text(
+                      time!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: tokens.inkMuted),
+                    ),
                   if (detail != null) ...[
                     const SizedBox(height: AppSpacing.xs),
                     Text(

@@ -47,15 +47,23 @@ class LanguageSelectPage extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpacing.xxl),
           Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: AppSpacing.md,
-                crossAxisSpacing: AppSpacing.md,
-                childAspectRatio: 1.6,
-              ),
-              itemCount: options.length,
-              itemBuilder: (context, index) {
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: AppSpacing.md,
+                      crossAxisSpacing: AppSpacing.md,
+                      // Taller cells: labels wrap to 2 lines at 1.3x scale
+                      // without overflowing (scaling regression test).
+                      childAspectRatio: 1.3,
+                    ),
+                    itemCount: options.length,
+                    itemBuilder: (context, index) {
                 final option = options[index];
                 final bool selected =
                     option.locale.languageCode == current.languageCode;
@@ -81,12 +89,15 @@ class LanguageSelectPage extends ConsumerWidget {
                           option.label,
                           style: Theme.of(context).textTheme.headlineSmall,
                           textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: AppSpacing.xs),
                         Icon(
                           selected
                               ? Icons.check_circle
                               : Icons.circle_outlined,
+                          size: AppSpacing.xl,
                           color: selected
                               ? context.tokens.primary
                               : context.tokens.inkFaint,
@@ -97,6 +108,9 @@ class LanguageSelectPage extends ConsumerWidget {
                 );
               },
             ),
+                  ],
+                ),
+              ),
           ),
           const SizedBox(height: AppSpacing.lg),
           AppButton(

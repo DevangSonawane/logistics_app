@@ -75,6 +75,18 @@ class _RoadOpsAppState extends ConsumerState<RoadOpsApp>
       supportedLocales: supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       routerConfig: router,
+      // Clamp the system text scale: unclamped accessibility scales
+      // (common on low-end devices) otherwise render the whole UI
+      // "zoomed in". Driver mode adds its own intentional 1.15x on top
+      // inside /driver/* only (see DriverTheme).
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(
+          textScaler: TextScaler.linear(
+            MediaQuery.textScalerOf(context).scale(1.0).clamp(0.9, 1.15),
+          ),
+        ),
+        child: child ?? const SizedBox.shrink(),
+      ),
     );
   }
 }

@@ -39,7 +39,7 @@ flutter test --concurrency=1 --timeout 90s   # full suite (unit + widget)
 `--concurrency=1` matters on 8 GB machines: each widget file boots the whole
 app and parallel tester processes get OOM-killed.
 
-## Demo accounts (OTP for all: `123456`, expired: `000000`)
+## Demo accounts (no OTP — tap a card to sign straight in)
 
 | Role | Name | Phone | Lands on |
 |---|---|---|---|
@@ -54,8 +54,7 @@ app and parallel tester processes get OOM-killed.
 | Multi | Rajesh Iyer | `9000000099` | Role picker → … |
 
 Consignee POD OTP: `4321`. Lock screen demo PIN: `1234`.
-Invalid phone: `1234567890`. Blocked: `9000000000`.
-The login page shows a tappable demo-accounts panel (`AppConfig.demo`).
+Blocked: `9000000000` and unknown numbers show errors on tap.
 
 ## Architecture (text diagram)
 

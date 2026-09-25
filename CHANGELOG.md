@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — OTP login removed (user request)
+
+- Login is now tap-a-demo-account, no OTP: `AuthRepository.demoSignIn`,
+  rewritten login page, `/otp` route + OTP page + OTP controller deleted.
+- Widget tests reworked for the OTP-free flow (69 green).
+
 ## 1.0.0+1 — Phase 8: release candidate (all six roles, mock data)
 
 ### Added

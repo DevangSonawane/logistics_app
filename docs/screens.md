@@ -9,8 +9,7 @@ All routes are role-guarded; cross-role access lands on `/403`.
 |---|---|---|
 | `/` | Splash (1.2 s, forwards into flow) | done |
 | `/language` | Language select (8 cards) | done |
-| `/login` | Phone + OTP request, demo panel | done |
-| `/otp` | 6-digit OTP, resend, lockout, shake | done |
+| `/login` | Demo sign-in (tap-an-account cards, no OTP) | done |
 | `/role-picker` | Multi-role cards, last-used preselect | done |
 | `/permissions` | Role checklist + location disclosure | done |
 | `/biometric-setup` | Biometric or 4-digit PIN (staff) | done |

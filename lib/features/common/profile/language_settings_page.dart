@@ -29,7 +29,7 @@ class LanguageSettingsPage extends ConsumerWidget {
       title: l10n.languageTitle,
       body: ListView.separated(
         itemCount: options.length,
-        separatorBuilder: (_, __) =>
+        separatorBuilder: (_, _) =>
             const SizedBox(height: AppSpacing.sm),
         itemBuilder: (context, index) {
           final (code, label) = options[index];

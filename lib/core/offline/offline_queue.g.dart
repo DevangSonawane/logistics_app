@@ -56,7 +56,7 @@ final class OfflineQueueProvider
   }
 }
 
-String _$offlineQueueHash() => r'a3e9d73db039f5daac0fb8a7b1715a5c7ef88ca7';
+String _$offlineQueueHash() => r'f4af766eb7e8d5e339546ac0a23d9af2dfc9062b';
 
 /// Hive-backed FIFO queue of [OfflineAction].
 ///

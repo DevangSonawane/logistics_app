@@ -14,7 +14,7 @@ import 'package:roadops/core/widgets/status_chip.dart';
 import 'package:roadops/data/models/app_user.dart';
 import 'package:roadops/features/auth/application/session_provider.dart';
 
-import '../helpers/test_hive.dart';
+import '../helpers/memory_boxes.dart';
 
 /// Test session that skips Hive restore and returns a fixed state.
 class TestSession extends Session {
@@ -37,9 +37,7 @@ Widget _l10nWrap(Widget child) {
 void main() {
   setUpAll(() async {
     GoogleFonts.config.allowRuntimeFetching = false;
-    await ensureTestHive();
   });
-  setUp(clearTestBoxes);
 
   group('design-system widgets', () {
     testWidgets('StatusChip shows label', (tester) async {
@@ -110,6 +108,7 @@ void main() {
         ProviderScope(
           overrides: [
             sessionProvider.overrideWith(() => TestSession(state)),
+            ...memoryBoxOverrides(),
           ],
           child: const RoadOpsApp(),
         ),
@@ -121,13 +120,14 @@ void main() {
 
     testWidgets('driver lands on driver home', (tester) async {
       await pumpApp(tester, driverState());
+      // Real My Trip page: greeting header for the active trip.
       expect(find.text('Namaste, Ramesh Yadav'), findsOneWidget);
-      expect(find.textContaining('Phase 3'), findsOneWidget);
     });
 
     testWidgets('driver cannot open owner routes (403)', (tester) async {
       await pumpApp(tester, driverState());
-      final Element el = tester.element(find.textContaining('Phase 3'));
+      final Element el =
+          tester.element(find.text('Namaste, Ramesh Yadav'));
       GoRouter.of(el).go('/owner/home');
       await tester.pumpAndSettle();
       expect(find.text('Not allowed'), findsOneWidget);

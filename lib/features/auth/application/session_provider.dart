@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/storage/boxes.dart';
 import '../../../core/storage/secure_store.dart';
 import '../../../core/storage/session_store.dart';
 import '../../../data/models/app_user.dart';
@@ -65,7 +66,8 @@ class SessionState {
 /// Current session. Restored from Hive on boot; every mutation persists.
 @Riverpod(keepAlive: true)
 class Session extends _$Session {
-  SessionStore get _store => SessionStore();
+  SessionStore get _store =>
+      SessionStore(box: ref.read(sessionBoxProvider));
 
   @override
   SessionState build() {
@@ -113,9 +115,13 @@ class Session extends _$Session {
     }));
   }
 
+  /// State flips synchronously so navigation never waits on disk I/O;
+  /// the flag persists in the background.
   Future<void> completeOnboarding() async {
-    await _store.setOnboardingDone(true);
     state = state.copyWith(onboardingDone: true);
+    try {
+      await _store.setOnboardingDone(true);
+    } catch (_) {}
   }
 
   /// Called by the auth controller after OTP verification (Phase 2).
@@ -163,10 +169,13 @@ class Session extends _$Session {
   }
 
   /// Clears secure storage, session and cached data. Keeps language +
-  /// onboarding flag, stops GPS (Phase 3 wiring).
+  /// onboarding flag. GPS is stopped by the logout flow (Phase 3 wiring).
   Future<void> signOut() async {
     await ref.read(secureStoreProvider).clearAll();
     await _store.clearSession();
+    await ref.read(cacheBoxProvider).clear();
+    await ref.read(queueBoxProvider).clear();
+    await ref.read(gpsTrackBoxProvider).clear();
     state = SessionState(onboardingDone: _store.onboardingDone);
   }
 }

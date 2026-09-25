@@ -647,7 +647,7 @@ GoRouter appRouter(Ref ref) {
     ],
   );
   ref.onDispose(router.dispose);
-  ref.listen(sessionProvider, (_, __) => router.refresh());
+  ref.listen(sessionProvider, (_, _) => router.refresh());
   return router;
 }
 

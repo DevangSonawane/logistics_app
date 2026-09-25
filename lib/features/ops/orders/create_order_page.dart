@@ -47,13 +47,23 @@ ParsedOrderMessage parseWhatsappMessage(String text) {
   String? from;
   String? to;
   int? dateOffset;
-  final Match? truckMatch = RegExp(r'(\d+)\s*trucks?').firstMatch(lower);
+  final Match? truckMatch =
+      RegExp(r'(\d+)\s*(trucks?|trailers?|containers?|aces?)')
+          .firstMatch(lower);
   if (truckMatch != null) {
     cargo = '${truckMatch.group(1)} truck load';
   }
-  for (final String v in orderVehicleTypes) {
-    if (lower.contains(v.toLowerCase())) {
-      vehicle = v;
+  const Map<String, String> vehicleKeys = {
+    '32 ft': '32 ft MXL',
+    '20 ft': '20 ft',
+    'ace': 'Tata Ace',
+    'container': 'Container',
+    'reefer': 'Reefer',
+    'trailer': 'Trailer',
+  };
+  for (final MapEntry<String, String> entry in vehicleKeys.entries) {
+    if (lower.contains(entry.key)) {
+      vehicle = entry.value;
       break;
     }
   }

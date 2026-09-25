@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../auth/application/logout_flow.dart';
@@ -13,7 +12,7 @@ import '../../../core/l10n/locale_provider.dart';
 import '../../../core/network/connectivity_provider.dart';
 import '../../../core/router/role_labels.dart';
 import '../../../core/router/route_names.dart';
-import '../../../core/storage/hive_boxes.dart';
+import '../../../core/storage/boxes.dart';
 import '../../../core/storage/session_store.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -29,6 +28,23 @@ import '../../../data/models/app_user.dart';
 /// driver/staff shells point here until their own tabs land.
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
+
+  /// Loaded once per process: creating it in build would refire the
+  /// platform channel on every rebuild.
+  static final Future<PackageInfo> _infoFuture = _loadInfo();
+
+  static Future<PackageInfo> _loadInfo() async {
+    try {
+      return await PackageInfo.fromPlatform();
+    } catch (_) {
+      return PackageInfo(
+        appName: 'RoadOps',
+        packageName: AppConfig.packageId,
+        version: '1.0.0',
+        buildNumber: '1',
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -85,7 +101,7 @@ class ProfilePage extends ConsumerWidget {
             const SizedBox(height: AppSpacing.sm),
           ],
           FutureBuilder<PackageInfo>(
-            future: _packageInfo(),
+            future: _infoFuture,
             builder: (context, snapshot) {
               final String version = snapshot.data?.version ?? '1.0.0';
               return ListTile(
@@ -121,19 +137,6 @@ class ProfilePage extends ConsumerWidget {
         ],
       ),
     );
-  }
-
-  Future<PackageInfo> _packageInfo() async {
-    try {
-      return await PackageInfo.fromPlatform();
-    } catch (_) {
-      return PackageInfo(
-        appName: 'RoadOps',
-        packageName: AppConfig.packageId,
-        version: '1.0.0',
-        buildNumber: '1',
-      );
-    }
   }
 }
 
@@ -243,14 +246,12 @@ class _DemoTools extends ConsumerWidget {
           leading: const Icon(Icons.restart_alt_outlined),
           title: Text(l10n.resetDemoData),
           onTap: () async {
-            for (final String box in [
-              HiveBoxes.cache,
-              HiveBoxes.offlineQueue,
-              HiveBoxes.gpsTrack,
-            ]) {
-              await Hive.box(box).clear();
-            }
-            await SessionStore().clearSession();
+            await ref.read(cacheBoxProvider).clear();
+            await ref.read(queueBoxProvider).clear();
+            await ref.read(gpsTrackBoxProvider).clear();
+            await SessionStore(
+              box: ref.read(sessionBoxProvider),
+            ).clearSession();
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(l10n.demoActionDone)),

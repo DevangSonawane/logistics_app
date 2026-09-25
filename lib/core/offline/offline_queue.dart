@@ -1,6 +1,6 @@
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../storage/boxes.dart';
 import '../storage/hive_boxes.dart';
 import 'offline_action.dart';
 
@@ -18,11 +18,13 @@ class OfflineQueue extends _$OfflineQueue {
     return _readAll();
   }
 
-  Box<dynamic> get _box => Hive.box(HiveBoxes.offlineQueue);
+  KeyValueBox get _box => ref.read(queueBoxProvider);
 
   List<OfflineAction> _readAll() {
-    final List<dynamic> raw =
-        _box.get(HiveBoxes.keyActions, defaultValue: <dynamic>[]) as List;
+    final List<dynamic> raw = _box.read(
+      HiveBoxes.keyActions,
+      defaultValue: <dynamic>[],
+    ) as List;
     return raw
         .map((dynamic e) =>
             OfflineAction.fromJson(Map<String, dynamic>.from(e as Map)))
@@ -30,7 +32,7 @@ class OfflineQueue extends _$OfflineQueue {
   }
 
   Future<void> _persist(List<OfflineAction> actions) async {
-    await _box.put(
+    await _box.write(
       HiveBoxes.keyActions,
       actions.map((OfflineAction a) => a.toJson()).toList(),
     );

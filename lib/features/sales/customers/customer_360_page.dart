@@ -149,7 +149,7 @@ class CustomerListPage extends ConsumerWidget {
         ),
         data: (List<Customer> list) => ListView.separated(
           itemCount: list.length,
-          separatorBuilder: (_, __) => const SizedBox(
+          separatorBuilder: (_, _) => const SizedBox(
             height: AppSpacing.sm,
           ),
           itemBuilder: (context, index) {

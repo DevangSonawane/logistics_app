@@ -1,7 +1,6 @@
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../core/storage/hive_boxes.dart';
+import '../../../core/storage/boxes.dart';
 
 part 'owner_settings.g.dart';
 
@@ -15,12 +14,12 @@ class AlertSettings extends _$AlertSettings {
   @override
   Map<String, bool> build() {
     try {
-      final box = Hive.box(HiveBoxes.cache);
+      final KeyValueBox box = ref.read(cacheBoxProvider);
       final Map<String, bool> state = {};
       for (final String alert in alerts) {
         for (final String channel in channels) {
           state['$alert-$channel'] =
-              box.get('alert-$alert-$channel', defaultValue: true) as bool;
+              box.read('alert-$alert-$channel', defaultValue: true) as bool;
         }
       }
       return state;
@@ -34,7 +33,9 @@ class AlertSettings extends _$AlertSettings {
 
   Future<void> set(String alert, String channel, bool value) async {
     try {
-      await Hive.box(HiveBoxes.cache).put('alert-$alert-$channel', value);
+      await ref
+          .read(cacheBoxProvider)
+          .write('alert-$alert-$channel', value);
     } catch (_) {}
     state = {...state, '$alert-$channel': value};
   }

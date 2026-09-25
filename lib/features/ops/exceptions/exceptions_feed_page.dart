@@ -49,7 +49,7 @@ class ExceptionsFeedPage extends ConsumerWidget {
           }
           return ListView.separated(
             itemCount: open.length,
-            separatorBuilder: (_, __) =>
+            separatorBuilder: (_, _) =>
                 const SizedBox(height: AppSpacing.sm),
             itemBuilder: (context, index) =>
                 _ExceptionCard(item: open[index]),

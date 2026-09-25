@@ -1,7 +1,6 @@
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../core/storage/hive_boxes.dart';
+import '../../../core/storage/boxes.dart';
 
 part 'driver_settings.g.dart';
 
@@ -34,10 +33,11 @@ class DriverSettings extends _$DriverSettings {
   @override
   DriverSettingsState build() {
     try {
-      final box = Hive.box(HiveBoxes.cache);
+      final KeyValueBox box = ref.read(cacheBoxProvider);
       return DriverSettingsState(
-        voiceEnabled: box.get(_voiceKey, defaultValue: true) as bool,
-        textScale: (box.get(_scaleKey, defaultValue: 1.0) as num).toDouble(),
+        voiceEnabled: box.read(_voiceKey, defaultValue: true) as bool,
+        textScale:
+            (box.read(_scaleKey, defaultValue: 1.0) as num).toDouble(),
       );
     } catch (_) {
       return const DriverSettingsState();
@@ -46,14 +46,14 @@ class DriverSettings extends _$DriverSettings {
 
   Future<void> setVoiceEnabled(bool value) async {
     try {
-      await Hive.box(HiveBoxes.cache).put(_voiceKey, value);
+      await ref.read(cacheBoxProvider).write(_voiceKey, value);
     } catch (_) {}
     state = state.copyWith(voiceEnabled: value);
   }
 
   Future<void> setTextScale(double value) async {
     try {
-      await Hive.box(HiveBoxes.cache).put(_scaleKey, value);
+      await ref.read(cacheBoxProvider).write(_scaleKey, value);
     } catch (_) {}
     state = state.copyWith(textScale: value);
   }

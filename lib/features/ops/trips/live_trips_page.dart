@@ -81,7 +81,7 @@ class _LiveTripsPageState extends ConsumerState<LiveTripsPage> {
                     Expanded(
                       child: ListView.separated(
                         itemCount: items.length,
-                        separatorBuilder: (_, __) => const SizedBox(
+                        separatorBuilder: (_, _) => const SizedBox(
                           height: AppSpacing.sm,
                         ),
                         itemBuilder: (context, index) {

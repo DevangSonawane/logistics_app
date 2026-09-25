@@ -32,7 +32,7 @@ class SendReminderPage extends ConsumerWidget {
         ),
         data: (List<Customer> items) => ListView.separated(
           itemCount: items.length,
-          separatorBuilder: (_, __) =>
+          separatorBuilder: (_, _) =>
               const SizedBox(height: AppSpacing.sm),
           itemBuilder: (context, index) {
             final Customer customer = items[index];

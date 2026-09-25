@@ -78,7 +78,7 @@ class _LoadingsArrivalsPageState extends ConsumerState<LoadingsArrivalsPage> {
                 }
                 return ListView.separated(
                   itemCount: visible.length,
-                  separatorBuilder: (_, __) => const SizedBox(
+                  separatorBuilder: (_, _) => const SizedBox(
                     height: AppSpacing.sm,
                   ),
                   itemBuilder: (context, index) {

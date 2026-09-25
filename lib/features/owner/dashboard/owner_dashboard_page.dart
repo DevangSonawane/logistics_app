@@ -603,7 +603,7 @@ class _AttentionStrip extends ConsumerWidget {
             data: (List<AttentionItem> list) => ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: list.length,
-              separatorBuilder: (_, __) => const SizedBox(
+              separatorBuilder: (_, _) => const SizedBox(
                 width: AppSpacing.sm,
               ),
               itemBuilder: (context, index) {

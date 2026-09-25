@@ -1,5 +1,7 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:roadops/core/network/connectivity_provider.dart';
 import 'package:roadops/core/offline/offline_action.dart';
 import 'package:roadops/core/offline/offline_queue.dart';
 import 'package:roadops/core/offline/sync_engine.dart';
@@ -24,7 +26,14 @@ void main() {
       );
 
   test('drain uploads pending steps and prunes them', () async {
-    final ProviderContainer container = ProviderContainer();
+    // Unit tests have no platform channels: pin connectivity to wifi.
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        connectivityProvider.overrideWith(
+          (ref) => Stream.value([ConnectivityResult.wifi]),
+        ),
+      ],
+    );
     addTearDown(container.dispose);
 
     final OfflineQueue queue = container.read(offlineQueueProvider.notifier);
@@ -59,6 +68,9 @@ void main() {
   test('ops-cancelled trips reject queued actions', () async {
     final ProviderContainer container = ProviderContainer(
       overrides: [
+        connectivityProvider.overrideWith(
+          (ref) => Stream.value([ConnectivityResult.wifi]),
+        ),
         tripRepositoryProvider.overrideWithValue(MockTripRepository()),
       ],
     );

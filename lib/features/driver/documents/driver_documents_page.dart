@@ -43,7 +43,7 @@ class DriverDocumentsPage extends ConsumerWidget {
         ),
         data: (data) => ListView.separated(
           itemCount: data.docs.length,
-          separatorBuilder: (_, __) =>
+          separatorBuilder: (_, _) =>
               const SizedBox(height: AppSpacing.sm),
           itemBuilder: (context, index) {
             final VehicleDoc doc = data.docs[index];
@@ -153,7 +153,7 @@ class DriverDocumentsPage extends ConsumerWidget {
                 InteractiveViewer(
                   child: Image.file(
                     File(doc.photoPath!),
-                    errorBuilder: (_, __, ___) => const Icon(
+                    errorBuilder: (_, _, _) => const Icon(
                       Icons.broken_image_outlined,
                       size: AppSpacing.huge,
                     ),

@@ -63,7 +63,7 @@ class _RolePickerPageState extends ConsumerState<RolePickerPage> {
           Expanded(
             child: ListView.separated(
               itemCount: roles.length,
-              separatorBuilder: (_, __) =>
+              separatorBuilder: (_, _) =>
                   const SizedBox(height: AppSpacing.md),
               itemBuilder: (context, index) {
                 final AppRole role = roles[index];

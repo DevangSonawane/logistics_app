@@ -8,12 +8,20 @@ android {
     // Canonical id: mirrors AppConfig.packageId ('com.yourcompany.roadops').
     // Replace "yourcompany" here AND in AppConfig.packageId when rebranding.
     namespace = "com.yourcompany.roadops"
-    compileSdk = flutter.compileSdkVersion
+    // 37: permission_handler_android requires compiling against API 37+.
+    // (Flutter default lags; keep this pinned until the template catches up.)
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        // Required by flutter_local_notifications (Java 8+ APIs on minSdk 23).
+        isCoreLibraryDesugaringEnabled = true
+    }
+
+    dependencies {
+        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
     }
 
     defaultConfig {

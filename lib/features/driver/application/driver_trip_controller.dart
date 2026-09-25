@@ -166,7 +166,7 @@ class DriverTrip extends _$DriverTrip {
         'note': note,
       },
       createdAt: DateTime.now(),
-      attachments: [if (photoPath != null) photoPath],
+      attachments: photoPath == null ? const [] : [photoPath],
     );
     await ref.read(offlineQueueProvider.notifier).enqueue(action);
     if (!_online()) return (outcome: MutationOutcome.queued, message: null);

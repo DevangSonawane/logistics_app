@@ -47,7 +47,7 @@ final class LocaleControllerProvider
   }
 }
 
-String _$localeControllerHash() => r'9909ef9dc25bccef6a08f6a5c294f8e2839dd924';
+String _$localeControllerHash() => r'991701c0d423a61b40faeebe6f75bef02e06bd55';
 
 /// Current locale, persisted in Hive. Switching updates the UI instantly
 /// with no restart (MaterialApp rebuilds via watch).

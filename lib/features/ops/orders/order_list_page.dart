@@ -135,7 +135,7 @@ class _OrderListPageState extends ConsumerState<OrderListPage> {
                 }
                 return ListView.separated(
                   itemCount: visible.length,
-                  separatorBuilder: (_, __) => const SizedBox(
+                  separatorBuilder: (_, _) => const SizedBox(
                     height: AppSpacing.sm,
                   ),
                   itemBuilder: (context, index) {

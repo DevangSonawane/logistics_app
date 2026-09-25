@@ -216,7 +216,7 @@ class _PhotoRow extends StatelessWidget {
               width: AppSpacing.huge,
               height: AppSpacing.huge,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
+              errorBuilder: (_, _, _) => Container(
                 width: AppSpacing.huge,
                 height: AppSpacing.huge,
                 color: context.tokens.surfaceAlt,

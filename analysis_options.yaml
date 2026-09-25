@@ -18,6 +18,10 @@ analyzer:
     - windows/**
     - macos/**
     - linux/**
+    # integration_test needs the integration_test SDK package, which must
+    # stay OUT of pubspec (its Android plugin breaks release javac). Re-add
+    # the dep temporarily to run device tests. See README.
+    - integration_test/**
 
 linter:
   # The lint rules applied to this project can be customized in the

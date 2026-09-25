@@ -28,7 +28,7 @@ class AccountLedgersPage extends ConsumerWidget {
       title: l10n.acctTabLedgers,
       body: ListView.separated(
         itemCount: links.length,
-        separatorBuilder: (_, __) =>
+        separatorBuilder: (_, _) =>
             const SizedBox(height: AppSpacing.sm),
         itemBuilder: (context, index) => AppCard(
           onTap: () => context.push(links[index].$2),

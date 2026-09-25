@@ -46,7 +46,7 @@ class DaybookPage extends ConsumerWidget {
         ),
         data: (List<LedgerEntry> list) => ListView.separated(
           itemCount: list.length,
-          separatorBuilder: (_, __) =>
+          separatorBuilder: (_, _) =>
               const SizedBox(height: AppSpacing.sm),
           itemBuilder: (context, index) {
             final LedgerEntry e = list[index];

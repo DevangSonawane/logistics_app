@@ -83,7 +83,7 @@ class LeadDetailPage extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.xl),
                 AppButton(
                   label:
-                      '${l10n.moveToStage}: ${_stageLabel(l10n, next!)}',
+                      '${l10n.moveToStage}: ${_stageLabel(l10n, next)}',
                   onPressed: () async {
                     await ref
                         .read(leadRepositoryProvider)

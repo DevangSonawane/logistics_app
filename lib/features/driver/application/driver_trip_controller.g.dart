@@ -58,7 +58,7 @@ final class DriverTripProvider
   }
 }
 
-String _$driverTripHash() => r'98a8b7acfbc939276f7e6c827869934987fd1730';
+String _$driverTripHash() => r'5bb5a2a3d16ca6912c7f2035bcbe2f4dd7711950';
 
 /// Driver trip state machine. Every mutation applies optimistically,
 /// enqueues an OfflineAction, then uploads immediately when online.

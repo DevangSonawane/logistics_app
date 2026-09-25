@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/router/route_names.dart';
-import '../../../core/storage/hive_boxes.dart';
+import '../../../core/storage/boxes.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/debouncer.dart';
 import '../../../core/widgets/app_scaffold.dart';
@@ -14,7 +14,6 @@ import '../../../data/models/customer.dart';
 import '../../../data/models/trip.dart';
 import '../../../data/models/vehicle.dart';
 import '../../../data/repositories/repository_providers.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 /// Global search: Trips, LRs, Vehicles, Customers tabs with recents.
 /// Queries debounce 300 ms; recents persist in the Hive cache box.
@@ -32,16 +31,22 @@ class _GlobalSearchPageState extends ConsumerState<GlobalSearchPage>
   late final TabController _tabs = TabController(length: 4, vsync: this);
   String _term = '';
   List<String> _recents = [];
+  bool _recentsLoaded = false;
 
   @override
-  void initState() {
-    super.initState();
-    try {
-      _recents = List<String>.from(
-        Hive.box(HiveBoxes.cache).get('recent_searches', defaultValue: [])
-            as List,
-      );
-    } catch (_) {}
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_recentsLoaded) {
+      _recentsLoaded = true;
+      try {
+        _recents = List<String>.from(
+          ref.read(cacheBoxProvider).read(
+                'recent_searches',
+                defaultValue: [],
+              ) as List,
+        );
+      } catch (_) {}
+    }
   }
 
   @override
@@ -60,7 +65,7 @@ class _GlobalSearchPageState extends ConsumerState<GlobalSearchPage>
     ].take(8).toList();
     setState(() => _recents = next);
     try {
-      Hive.box(HiveBoxes.cache).put('recent_searches', next);
+      ref.read(cacheBoxProvider).write('recent_searches', next);
     } catch (_) {}
   }
 

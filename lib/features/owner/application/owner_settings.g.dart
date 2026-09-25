@@ -47,7 +47,7 @@ final class AlertSettingsProvider
   }
 }
 
-String _$alertSettingsHash() => r'cbbe404dff97cf5c6d4c334af2245319c5ccabf8';
+String _$alertSettingsHash() => r'61024116aca4a3eef47483f25dc6ab65ad22958c';
 
 /// Per-alert-type toggles (push / WhatsApp / in-app) for owner alerts:
 /// large payment, big delay, doc expiring, credit limit crossed.

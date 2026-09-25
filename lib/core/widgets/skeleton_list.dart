@@ -23,9 +23,9 @@ class SkeletonList extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
         itemCount: itemCount,
-        separatorBuilder: (_, __) =>
+        separatorBuilder: (_, _) =>
             const SizedBox(height: AppSpacing.md),
-        itemBuilder: (_, __) => Container(
+        itemBuilder: (_, _) => Container(
           height: itemHeight,
           decoration: BoxDecoration(
             color: tokens.surface,

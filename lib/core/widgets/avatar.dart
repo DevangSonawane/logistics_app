@@ -49,11 +49,11 @@ class Avatar extends StatelessWidget {
               radius: radius,
               backgroundImage: image,
             ),
-            placeholder: (_, __) => CircleAvatar(
+            placeholder: (_, _) => CircleAvatar(
               radius: radius,
               backgroundColor: tokens.surfaceAlt,
             ),
-            errorWidget: (_, __, ___) => CircleAvatar(
+            errorWidget: (_, _, _) => CircleAvatar(
               radius: radius,
               backgroundColor: tokens.surfaceAlt,
               child: Text(_initials),

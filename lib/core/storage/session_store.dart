@@ -1,22 +1,21 @@
 import 'dart:convert';
 
-import 'package:hive_flutter/hive_flutter.dart';
-
+import 'boxes.dart';
 import 'hive_boxes.dart';
 
-/// Persists the auth session (user JSON + flow flags) in Hive.
+/// Persists the auth session (user JSON + flow flags).
 /// Language choice and onboarding flag survive logout.
+/// Backed by an injected box: Hive in production, memory in widget tests.
 class SessionStore {
-  SessionStore({HiveInterface? hive}) : _hive = hive ?? Hive;
+  SessionStore({required this.box});
 
-  final HiveInterface _hive;
-
-  Box<dynamic> get _box => _hive.box(HiveBoxes.session);
+  final KeyValueBox box;
 
   Future<void> saveSessionJson(String json) =>
-      _box.put(HiveBoxes.keySessionJson, json);
+      box.write(HiveBoxes.keySessionJson, json);
 
-  String? readSessionJson() => _box.get(HiveBoxes.keySessionJson) as String?;
+  String? readSessionJson() =>
+      box.read(HiveBoxes.keySessionJson) as String?;
 
   Future<void> saveSessionMap(Map<String, dynamic> map) =>
       saveSessionJson(jsonEncode(map));
@@ -27,21 +26,23 @@ class SessionStore {
     return jsonDecode(raw) as Map<String, dynamic>;
   }
 
-  Future<void> clearSession() => _box.delete(HiveBoxes.keySessionJson);
+  Future<void> clearSession() =>
+      box.delete(HiveBoxes.keySessionJson);
 
   bool get onboardingDone =>
-      _box.get(HiveBoxes.keyOnboardingDone, defaultValue: false) as bool;
+      box.read(HiveBoxes.keyOnboardingDone, defaultValue: false) as bool;
 
   Future<void> setOnboardingDone(bool value) =>
-      _box.put(HiveBoxes.keyOnboardingDone, value);
+      box.write(HiveBoxes.keyOnboardingDone, value);
 
-  String? get localeCode => _box.get(HiveBoxes.keyLocale) as String?;
+  String? get localeCode => box.read(HiveBoxes.keyLocale) as String?;
 
   Future<void> setLocaleCode(String code) =>
-      _box.put(HiveBoxes.keyLocale, code);
+      box.write(HiveBoxes.keyLocale, code);
 
-  String? get themeModeName => _box.get(HiveBoxes.keyThemeMode) as String?;
+  String? get themeModeName =>
+      box.read(HiveBoxes.keyThemeMode) as String?;
 
   Future<void> setThemeModeName(String name) =>
-      _box.put(HiveBoxes.keyThemeMode, name);
+      box.write(HiveBoxes.keyThemeMode, name);
 }

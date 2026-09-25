@@ -47,7 +47,7 @@ final class DriverSettingsProvider
   }
 }
 
-String _$driverSettingsHash() => r'd5de684a6565990fcfad48fe313b86308d8a9f91';
+String _$driverSettingsHash() => r'97e061f4f8a3d22558d3fc07786bd32efbf76cfc';
 
 /// Driver preferences (Profile -> driver section): voice commands toggle
 /// and text size. Persisted in the Hive cache box.

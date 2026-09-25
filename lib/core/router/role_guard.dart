@@ -49,6 +49,9 @@ String? roleGuard(SessionState session, GoRouterState state) {
     RouteNames.rolePicker,
     RouteNames.permissions,
     RouteNames.biometricSetup,
+    // Unlocked sessions never linger on the lock page (locked ones are
+    // held above).
+    RouteNames.lock,
   };
   if (preHome.contains(path)) return home;
 

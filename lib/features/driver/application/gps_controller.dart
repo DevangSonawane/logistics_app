@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:battery_plus/battery_plus.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -12,7 +11,7 @@ import '../../../core/offline/sync_engine.dart';
 import '../../../core/network/connectivity_provider.dart';
 import '../../../core/services/background_gps_service.dart';
 import '../../../core/services/location_service.dart';
-import '../../../core/storage/hive_boxes.dart';
+import '../../../core/storage/boxes.dart';
 import '../../../data/models/trip.dart';
 
 part 'gps_controller.g.dart';
@@ -108,10 +107,14 @@ class GpsTracker extends _$GpsTracker {
   Future<void> stop() async {
     _tick?.cancel();
     _tick = null;
-    try {
-      await ref.read(backgroundGpsServiceProvider).stop();
-    } catch (_) {}
+    // Never touched the platform unless tracking: avoids arming timers
+    // (and platform calls) when idle, including in widget tests.
+    final bool wasTracking = state.tracking;
     state = const GpsTrackerState();
+    if (!wasTracking) return;
+    try {
+      await BackgroundGpsService().stop();
+    } catch (_) {}
   }
 
   void _schedule(Trip trip, Duration interval) {
@@ -192,11 +195,12 @@ class GpsTracker extends _$GpsTracker {
 
   Future<void> _appendHive(String tripId, GpsPoint point) async {
     try {
-      final box = Hive.box(HiveBoxes.gpsTrack);
-      final List<dynamic> raw =
-          List<dynamic>.from(box.get(tripId, defaultValue: []) as List);
+      final KeyValueBox box = ref.read(gpsTrackBoxProvider);
+      final List<dynamic> raw = List<dynamic>.from(
+        box.read(tripId, defaultValue: []) as List,
+      );
       raw.add(point.toJson());
-      await box.put(tripId, raw);
+      await box.write(tripId, raw);
     } catch (_) {}
   }
 }

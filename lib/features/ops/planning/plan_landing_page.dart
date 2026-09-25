@@ -50,7 +50,7 @@ class PlanLandingPage extends ConsumerWidget {
           }
           return ListView.separated(
             itemCount: items.length,
-            separatorBuilder: (_, __) =>
+            separatorBuilder: (_, _) =>
                 const SizedBox(height: AppSpacing.sm),
             itemBuilder: (context, index) {
               final Order order = items[index];

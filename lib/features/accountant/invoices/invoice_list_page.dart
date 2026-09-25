@@ -84,7 +84,7 @@ class _InvoiceListPageState extends ConsumerState<InvoiceListPage> {
                 }
                 return ListView.separated(
                   itemCount: visible.length,
-                  separatorBuilder: (_, __) => const SizedBox(
+                  separatorBuilder: (_, _) => const SizedBox(
                     height: AppSpacing.sm,
                   ),
                   itemBuilder: (context, index) {

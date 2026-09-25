@@ -171,7 +171,7 @@ class _EntryList extends StatelessWidget {
     }
     return ListView.separated(
       itemCount: entries.length,
-      separatorBuilder: (_, __) =>
+      separatorBuilder: (_, _) =>
           const SizedBox(height: AppSpacing.sm),
       itemBuilder: (context, index) {
         final LedgerEntry e = entries[index];

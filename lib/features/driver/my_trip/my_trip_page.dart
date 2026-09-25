@@ -383,14 +383,18 @@ class _ActiveTripCard extends ConsumerStatefulWidget {
 }
 
 class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
-  VoiceService get _voice => ref.read(voiceServiceProvider);
+  VoiceService? _voiceService;
   bool _listening = false;
   TripStepType? _voiceCandidate;
 
+  VoiceService get _voice {
+    _voiceService ??= ref.read(voiceServiceProvider);
+    return _voiceService!;
+  }
+
   @override
   void dispose() {
-    _voice.stopListening();
-    _voice.disposeRecorder();
+    _voiceService?.stopListening();
     super.dispose();
   }
 

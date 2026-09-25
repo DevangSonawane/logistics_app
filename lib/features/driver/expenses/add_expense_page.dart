@@ -46,7 +46,12 @@ class _AddExpensePageState extends ConsumerState<AddExpensePage> {
   bool _recording = false;
   bool _working = false;
   String? _error;
-  VoiceService get _voice => ref.read(voiceServiceProvider);
+  VoiceService? _voiceService;
+
+  VoiceService get _voice {
+    _voiceService ??= ref.read(voiceServiceProvider);
+    return _voiceService!;
+  }
 
   @override
   void dispose() {
@@ -54,7 +59,7 @@ class _AddExpensePageState extends ConsumerState<AddExpensePage> {
     _litres.dispose();
     _rate.dispose();
     _note.dispose();
-    _voice.disposeRecorder();
+    _voiceService?.disposeRecorder();
     super.dispose();
   }
 
@@ -164,6 +169,10 @@ class _AddExpensePageState extends ConsumerState<AddExpensePage> {
       voiceNotePath: _voiceNote,
       createdAt: DateTime.now(),
     );
+    final List<String> attachments = <String?>[
+      _billPhoto,
+      _voiceNote,
+    ].whereType<String>().toList();
     final OfflineAction action = OfflineAction(
       id: const Uuid().v4(),
       type: OfflineActionType.expenseAdd,
@@ -173,10 +182,7 @@ class _AddExpensePageState extends ConsumerState<AddExpensePage> {
         'distanceKm': widget.trip.distanceKm,
       },
       createdAt: DateTime.now(),
-      attachments: [
-        if (_billPhoto != null) _billPhoto!,
-        if (_voiceNote != null) _voiceNote!,
-      ],
+      attachments: attachments,
     );
     await ref.read(offlineQueueProvider.notifier).enqueue(action);
     if (ref.read(isOnlineProvider)) {
@@ -335,7 +341,7 @@ class _AddExpensePageState extends ConsumerState<AddExpensePage> {
                     width: AppSpacing.minTapTarget,
                     height: AppSpacing.minTapTarget,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
+                    errorBuilder: (_, _, _) => Container(
                       width: AppSpacing.minTapTarget,
                       height: AppSpacing.minTapTarget,
                       color: context.tokens.surfaceAlt,

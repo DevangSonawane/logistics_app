@@ -77,7 +77,7 @@ class _OfflineQueuePageState extends ConsumerState<OfflineQueuePage> {
                 Expanded(
                   child: ListView.separated(
                     itemCount: visible.length,
-                    separatorBuilder: (_, __) =>
+                    separatorBuilder: (_, _) =>
                         const SizedBox(height: AppSpacing.sm),
                     itemBuilder: (context, index) {
                       final OfflineAction action = visible[index];

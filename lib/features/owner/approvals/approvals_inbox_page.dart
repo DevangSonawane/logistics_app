@@ -16,7 +16,6 @@ import '../../../data/models/approval.dart';
 import '../../../data/repositories/repository_providers.dart';
 import '../application/owner_providers.dart';
 import '../../auth/application/session_provider.dart';
-import '../application/owner_providers.dart';
 import 'approval_detail_sheet.dart';
 
 /// O2. Approvals inbox: filter chips, risk flags, swipe to decide with
@@ -206,7 +205,7 @@ class _ApprovalsInboxPageState extends ConsumerState<ApprovalsInboxPage> {
                 }
                 return ListView.separated(
                   itemCount: visible.length,
-                  separatorBuilder: (_, __) => const SizedBox(
+                  separatorBuilder: (_, _) => const SizedBox(
                     height: AppSpacing.sm,
                   ),
                   itemBuilder: (context, index) =>

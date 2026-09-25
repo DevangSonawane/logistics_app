@@ -28,7 +28,12 @@ class _GpsTaskHandler extends TaskHandler {
 
 /// Driver GPS foreground service. Started only while a trip is Started,
 /// stopped on Unloaded/Delivered, with a persistent notification.
+///
+/// Every call is timeout-guarded: service binding must never block UI
+/// flows (and never hang tests without a platform implementation).
 class BackgroundGpsService {
+  static const Duration _timeout = Duration(seconds: 3);
+
   bool _initialized = false;
 
   Future<void> _ensureInitialized() async {
@@ -61,7 +66,8 @@ class BackgroundGpsService {
   Future<void> start(String tripNo) async {
     try {
       await _ensureInitialized();
-      if (await FlutterForegroundTask.isRunningService) {
+      if (await FlutterForegroundTask.isRunningService
+          .timeout(_timeout)) {
         await update(tripNo);
         return;
       }
@@ -69,23 +75,26 @@ class BackgroundGpsService {
         notificationTitle: 'RoadOps: Trip in progress',
         notificationText: tripNo,
         callback: gpsTaskHandler,
-      );
+      ).timeout(_timeout);
     } catch (_) {}
   }
 
   Future<void> update(String tripNo) async {
     try {
-      if (!await FlutterForegroundTask.isRunningService) return;
+      if (!await FlutterForegroundTask.isRunningService
+          .timeout(_timeout)) {
+        return;
+      }
       await FlutterForegroundTask.updateService(
         notificationTitle: 'RoadOps: Trip in progress',
         notificationText: tripNo,
-      );
+      ).timeout(_timeout);
     } catch (_) {}
   }
 
   Future<void> stop() async {
     try {
-      await FlutterForegroundTask.stopService();
+      await FlutterForegroundTask.stopService().timeout(_timeout);
     } catch (_) {}
   }
 }

@@ -53,7 +53,7 @@ final class GpsTrackerProvider
   }
 }
 
-String _$gpsTrackerHash() => r'6236dd2e07d791dbe668106595ad87d1fcd6529e';
+String _$gpsTrackerHash() => r'1fbf78c710db9d79e0bfef72dc69709060407d45';
 
 /// Foreground GPS tracking. Starts on trip Start, stops on
 /// Unloaded/Delivered. Battery-aware cadence; points append to Hive and

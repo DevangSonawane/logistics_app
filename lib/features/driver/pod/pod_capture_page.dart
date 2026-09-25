@@ -215,7 +215,7 @@ class _PodCapturePageState extends ConsumerState<PodCapturePage> {
                           height: 180,
                           width: double.infinity,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(
+                          errorBuilder: (_, _, _) => Container(
                             height: 180,
                             color: context.tokens.surfaceAlt,
                             child: const Icon(Icons.receipt_long_outlined),
@@ -328,7 +328,7 @@ class _PodCapturePageState extends ConsumerState<PodCapturePage> {
                             width: 72,
                             height: 72,
                             fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => Container(
+                            errorBuilder: (_, _, _) => Container(
                               width: 72,
                               height: 72,
                               color: context.tokens.surfaceAlt,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -5,8 +7,10 @@ import '../../../core/config/app_config.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/offline/offline_queue.dart';
 import '../../../core/offline/sync_engine.dart';
-import '../../../core/widgets/confirm_dialog.dart';import '../../../data/models/app_user.dart';
+import '../../../core/widgets/confirm_dialog.dart';
+import '../../../data/models/app_user.dart';
 import '../../../data/repositories/repository_providers.dart';
+import '../../driver/application/gps_controller.dart';
 import 'session_provider.dart';
 
 /// Shared logout flow (Section 6.3): confirm, driver blockers, sign out.
@@ -42,6 +46,13 @@ Future<void> runLogoutFlow(BuildContext context, WidgetRef ref) async {
       return;
     }
   }
+  await _finishLogout(ref);
+}
+
+/// Stops trip tracking (no-op when idle) then signs out. The GPS stop is
+/// fire-and-forget with its own timeout so logout never blocks on it.
+Future<void> _finishLogout(WidgetRef ref) async {
+  unawaited(ref.read(gpsTrackerProvider.notifier).stop());
   await ref.read(sessionProvider.notifier).signOut();
 }
 
@@ -115,7 +126,7 @@ Future<void> _showUnsyncedBlocker(
           TextButton(
             onPressed: () async {
               Navigator.of(dialogContext).pop();
-              await ref.read(sessionProvider.notifier).signOut();
+              await _finishLogout(ref);
             },
             child: Text(l10n.forceLogout),
           ),

@@ -72,7 +72,7 @@ class ExpenseListPage extends ConsumerWidget {
             children: [
               balance.when(
                 loading: () => const SizedBox.shrink(),
-                error: (_, __) => const SizedBox.shrink(),
+                error: (_, _) => const SizedBox.shrink(),
                 data: (int value) => Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(AppSpacing.md),
@@ -105,7 +105,7 @@ class ExpenseListPage extends ConsumerWidget {
                         )
                       : ListView.separated(
                           itemCount: items.length,
-                          separatorBuilder: (_, __) => const SizedBox(
+                          separatorBuilder: (_, _) => const SizedBox(
                             height: AppSpacing.sm,
                           ),
                           itemBuilder: (context, index) =>

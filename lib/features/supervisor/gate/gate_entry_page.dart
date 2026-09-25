@@ -102,7 +102,7 @@ class _GateEntryPageState extends ConsumerState<GateEntryPage> {
           return ListView(
             children: [
               DropdownButtonFormField<String>(
-                initialValue: task?.id,
+                initialValue: task.id,
                 decoration: InputDecoration(
                   labelText: l10n.selectVehicle,
                 ),
@@ -116,8 +116,7 @@ class _GateEntryPageState extends ConsumerState<GateEntryPage> {
                 onChanged: (v) => setState(() => _taskId = v),
               ),
               const SizedBox(height: AppSpacing.md),
-              if (task != null) ...[
-                if (task.gateInAt == null) ...[
+              if (task.gateInAt == null) ...[
                   AppTextField(
                     controller: _vehicle,
                     label: l10n.vehicleNoLabel,
@@ -165,7 +164,6 @@ class _GateEntryPageState extends ConsumerState<GateEntryPage> {
                       '${Formatters.dateTime(task.gateOutAt!)}',
                     ),
                 ],
-              ],
             ],
           );
         },

@@ -129,7 +129,7 @@ class _ScanPackagesPageState extends ConsumerState<ScanPackagesPage> {
           Expanded(
             child: ListView.separated(
               itemCount: _scanned.length,
-              separatorBuilder: (_, __) => const SizedBox(
+              separatorBuilder: (_, _) => const SizedBox(
                 height: AppSpacing.xs,
               ),
               itemBuilder: (context, index) {

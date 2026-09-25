@@ -45,7 +45,7 @@ final class ThemeModeControllerProvider
 }
 
 String _$themeModeControllerHash() =>
-    r'704985dafc200f7fc7ef9777fa937279d8080096';
+    r'82b37ebb1550fd566d8b3ca7c9ea94d5de406997';
 
 /// Theme mode (System / Light / Dark), persisted. Read from Profile settings.
 

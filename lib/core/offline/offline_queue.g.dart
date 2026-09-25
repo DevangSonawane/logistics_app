@@ -30,15 +30,15 @@ final class OfflineQueueProvider
   /// drains the queue when online. Photos stay in the app documents
   /// directory until uploaded.
   OfflineQueueProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'offlineQueueProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'offlineQueueProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$offlineQueueHash();
@@ -70,11 +70,14 @@ abstract class _$OfflineQueue extends $Notifier<List<OfflineAction>> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<List<OfflineAction>, List<OfflineAction>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<List<OfflineAction>, List<OfflineAction>>,
-        List<OfflineAction>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<OfflineAction>, List<OfflineAction>>,
+              List<OfflineAction>,
+              Object?,
+              Object?
+            >;
     return element.handleCreate(ref, build);
   }
 }
@@ -90,15 +93,15 @@ final class PendingSyncCountProvider extends $FunctionalProvider<int, int, int>
     with $Provider<int> {
   /// Pending (non-terminal) action count for the SyncPill.
   PendingSyncCountProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'pendingSyncCountProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'pendingSyncCountProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$pendingSyncCountHash();

@@ -35,10 +35,10 @@ Map<String, dynamic> _$DashboardKpisToJson(_DashboardKpis instance) =>
     };
 
 _TrendPoint _$TrendPointFromJson(Map<String, dynamic> json) => _TrendPoint(
-      day: json['day'] as String,
-      revenue: (json['revenue'] as num).toInt(),
-      collection: (json['collection'] as num).toInt(),
-    );
+  day: json['day'] as String,
+  revenue: (json['revenue'] as num).toInt(),
+  collection: (json['collection'] as num).toInt(),
+);
 
 Map<String, dynamic> _$TrendPointToJson(_TrendPoint instance) =>
     <String, dynamic>{
@@ -48,15 +48,12 @@ Map<String, dynamic> _$TrendPointToJson(_TrendPoint instance) =>
     };
 
 _LaneMargin _$LaneMarginFromJson(Map<String, dynamic> json) => _LaneMargin(
-      lane: json['lane'] as String,
-      marginPct: (json['marginPct'] as num).toInt(),
-    );
+  lane: json['lane'] as String,
+  marginPct: (json['marginPct'] as num).toInt(),
+);
 
 Map<String, dynamic> _$LaneMarginToJson(_LaneMargin instance) =>
-    <String, dynamic>{
-      'lane': instance.lane,
-      'marginPct': instance.marginPct,
-    };
+    <String, dynamic>{'lane': instance.lane, 'marginPct': instance.marginPct};
 
 _CustomerMargin _$CustomerMarginFromJson(Map<String, dynamic> json) =>
     _CustomerMargin(
@@ -87,15 +84,13 @@ Map<String, dynamic> _$AttentionItemToJson(_AttentionItem instance) =>
     };
 
 _DataAnswer _$DataAnswerFromJson(Map<String, dynamic> json) => _DataAnswer(
-      text: json['text'] as String,
-      series: (json['series'] as List<dynamic>?)
-              ?.map((e) => (e as num).toInt())
-              .toList() ??
-          const [],
-    );
+  text: json['text'] as String,
+  series:
+      (json['series'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList() ??
+      const [],
+);
 
 Map<String, dynamic> _$DataAnswerToJson(_DataAnswer instance) =>
-    <String, dynamic>{
-      'text': instance.text,
-      'series': instance.series,
-    };
+    <String, dynamic>{'text': instance.text, 'series': instance.series};

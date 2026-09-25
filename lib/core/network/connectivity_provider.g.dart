@@ -17,25 +17,28 @@ final connectivityProvider = ConnectivityProvider._();
 /// Raw connectivity stream. The app treats "no network interface" as
 /// offline; captive portals are handled by failed sync attempts.
 
-final class ConnectivityProvider extends $FunctionalProvider<
-        AsyncValue<List<ConnectivityResult>>,
-        List<ConnectivityResult>,
-        Stream<List<ConnectivityResult>>>
+final class ConnectivityProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ConnectivityResult>>,
+          List<ConnectivityResult>,
+          Stream<List<ConnectivityResult>>
+        >
     with
         $FutureModifier<List<ConnectivityResult>>,
         $StreamProvider<List<ConnectivityResult>> {
   /// Raw connectivity stream. The app treats "no network interface" as
   /// offline; captive portals are handled by failed sync attempts.
   ConnectivityProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'connectivityProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'connectivityProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$connectivityHash();
@@ -43,8 +46,8 @@ final class ConnectivityProvider extends $FunctionalProvider<
   @$internal
   @override
   $StreamProviderElement<List<ConnectivityResult>> $createElement(
-          $ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
   Stream<List<ConnectivityResult>> create(Ref ref) {
@@ -67,15 +70,15 @@ final class SimulatedOfflineProvider
   /// Demo-tools override ("Simulate offline" in Profile). Forces the whole
   /// app offline: driver actions queue instead of syncing.
   SimulatedOfflineProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'simulatedOfflineProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'simulatedOfflineProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$simulatedOfflineHash();
@@ -104,8 +107,14 @@ abstract class _$SimulatedOffline extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
     return element.handleCreate(ref, build);
   }
 }
@@ -124,15 +133,15 @@ final class IsOnlineProvider extends $FunctionalProvider<bool, bool, bool>
   /// True unless all interfaces report [ConnectivityResult.none].
   /// Defaults to online while the first event is pending.
   IsOnlineProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'isOnlineProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'isOnlineProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$isOnlineHash();

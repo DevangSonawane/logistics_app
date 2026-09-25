@@ -20,7 +20,6 @@ import '../../features/auth/application/session_provider.dart';
 import '../../features/auth/presentation/biometric_setup_page.dart';
 import '../../features/auth/presentation/lock_page.dart';
 import '../../features/auth/presentation/login_page.dart';
-import '../../features/auth/presentation/otp_page.dart';
 import '../../features/auth/presentation/permissions_page.dart';
 import '../../features/auth/presentation/role_picker_page.dart';
 import '../../features/common/notifications/notification_center_page.dart';
@@ -116,13 +115,6 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: RouteNames.login,
         builder: (context, state) => const LoginPage(),
-      ),
-      GoRoute(
-        path: RouteNames.otp,
-        builder: (context, state) {
-          final String phone = state.extra as String? ?? '';
-          return OtpPage(phone: phone);
-        },
       ),
       GoRoute(
         path: RouteNames.rolePicker,

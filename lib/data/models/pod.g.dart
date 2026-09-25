@@ -15,7 +15,8 @@ _PodSubmission _$PodSubmissionFromJson(Map<String, dynamic> json) =>
       hasDamageOrShortage: json['hasDamageOrShortage'] as bool? ?? false,
       damageRemark: json['damageRemark'] as String?,
       damageQty: (json['damageQty'] as num?)?.toInt(),
-      damagePhotos: (json['damagePhotos'] as List<dynamic>?)
+      damagePhotos:
+          (json['damagePhotos'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],

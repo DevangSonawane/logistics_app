@@ -24,15 +24,15 @@ final class SyncStatusProvider
   /// TODO(Phase 3): implement drain loop (connectivity regain, app resume,
   /// 60 s poll) and wire uploader callbacks per action type.
   SyncStatusProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'syncStatusProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'syncStatusProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$syncStatusHash();
@@ -62,11 +62,14 @@ abstract class _$SyncStatus extends $Notifier<SyncActivity> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<SyncActivity, SyncActivity>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<SyncActivity, SyncActivity>,
-        SyncActivity,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SyncActivity, SyncActivity>,
+              SyncActivity,
+              Object?,
+              Object?
+            >;
     return element.handleCreate(ref, build);
   }
 }
@@ -87,15 +90,15 @@ final class SyncControllerProvider
   /// and a 60 s poll while items are pending. FIFO with exponential backoff;
   /// server-wins conflicts mark actions rejected for the UI dialog path.
   SyncControllerProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'syncControllerProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'syncControllerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$syncControllerHash();
@@ -125,8 +128,14 @@ abstract class _$SyncController extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
     return element.handleCreate(ref, build);
   }
 }

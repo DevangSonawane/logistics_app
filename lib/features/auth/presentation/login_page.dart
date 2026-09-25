@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../core/config/app_config.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/router/role_labels.dart';
-import '../../../core/router/route_names.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
-import '../../../core/utils/validators.dart';
-import '../../../core/widgets/app_button.dart';
+import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_scaffold.dart';
-import '../../../core/widgets/app_text_field.dart';
+import '../../../core/widgets/avatar.dart';
 import '../../../data/mock/mock_users.dart';
-import '../application/auth_controller.dart';
+import '../../../data/repositories/auth_repository.dart';
+import '../../../data/repositories/repository_providers.dart';
+import '../application/session_provider.dart';
 
-/// Phone + OTP login. Users are admin-created; no sign-up.
-/// Demo builds show a collapsible panel of tappable demo accounts.
+/// Demo sign-in, no OTP: pick an account card and go straight in.
+/// Users are admin-created; this page lists the demo seed.
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
@@ -25,52 +23,47 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  final TextEditingController _phone = TextEditingController();
   String? _error;
-  bool _sending = false;
+  String? _signingInPhone;
 
-  @override
-  void dispose() {
-    _phone.dispose();
-    super.dispose();
-  }
-
-  Future<void> _getOtp() async {
+  Future<void> _signIn(String phone) async {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final String phone = _phone.text.trim();
-    if (!Validators.isPhoneValid(phone)) {
-      setState(() => _error = l10n.phoneError);
-      return;
-    }
     setState(() {
       _error = null;
-      _sending = true;
+      _signingInPhone = phone;
     });
-    final SendOtpResult result =
-        await ref.read(authFlowProvider.notifier).sendOtp(phone);
-    if (!mounted) return;
-    setState(() => _sending = false);
-    switch (result) {
-      case SendOtpResult.sent:
-        context.go(RouteNames.otp, extra: phone);
-      case SendOtpResult.invalidPhone:
-        setState(() => _error = l10n.invalidPhone);
-      case SendOtpResult.blocked:
-        setState(() => _error = l10n.blockedAccount);
-      case SendOtpResult.failed:
-        setState(() => _error = l10n.commonError);
+    try {
+      final AuthResult result =
+          await ref.read(authRepositoryProvider).demoSignIn(phone);
+      ref.read(sessionProvider.notifier).signIn(result.user);
+      // Router guard routes onward (role picker / permissions / home).
+    } on AuthException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _signingInPhone = null;
+        _error = switch (e.failure) {
+          AuthFailure.blocked => l10n.blockedAccount,
+          AuthFailure.invalidPhone => l10n.invalidPhone,
+          AuthFailure.network => l10n.commonError,
+        };
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _signingInPhone = null;
+        _error = l10n.commonError;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final AppColorTokens tokens = context.tokens;
     return AppScaffold(
       showOfflineBanner: false,
       body: ListView(
         children: [
-          const SizedBox(height: AppSpacing.xxl),
+          const SizedBox(height: AppSpacing.xl),
           Container(
             padding: const EdgeInsets.all(AppSpacing.lg),
             decoration: const BoxDecoration(
@@ -103,99 +96,79 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ],
             ),
           ),
-          const SizedBox(height: AppSpacing.xxl),
+          const SizedBox(height: AppSpacing.xl),
           Text(
             l10n.loginTitle,
             style: Theme.of(context).textTheme.headlineMedium,
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
-            l10n.loginSubtitle,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(color: tokens.inkMuted),
+            l10n.demoAccountsHint,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: context.tokens.inkMuted,
+                ),
           ),
-          const SizedBox(height: AppSpacing.xl),
-          AppTextField(
-            controller: _phone,
-            label: l10n.phoneLabel,
-            hint: l10n.phoneHint,
-            errorText: _error,
-            prefixIcon: Icons.phone_outlined,
-            phonePrefix: true,
-            keyboardType: TextInputType.phone,
-            onChanged: (_) {
-              if (_error != null) setState(() => _error = null);
-            },
-          ),
-          const SizedBox(height: AppSpacing.xl),
-          AppButton(
-            label: l10n.getOtp,
-            loading: _sending,
-            onPressed: _sending ? null : _getOtp,
-          ),
-          if (AppConfig.demo) ...[
-            const SizedBox(height: AppSpacing.xl),
-            _DemoAccountsPanel(
-              onPick: (phone) => setState(() {
-                _phone.text = phone;
-                _error = null;
-              }),
+          if (_error != null) ...[
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              _error!,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: AppColors.danger),
             ),
           ],
-        ],
-      ),
-    );
-  }
-}
-
-/// Collapsible demo panel: tappable chips autofill the phone field.
-class _DemoAccountsPanel extends StatelessWidget {
-  const _DemoAccountsPanel({required this.onPick});
-
-  final ValueChanged<String> onPick;
-
-  @override
-  Widget build(BuildContext context) {
-    final AppLocalizations l10n = AppLocalizations.of(context);
-    return Theme(
-      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        tilePadding: EdgeInsets.zero,
-        title: Text(
-          l10n.demoAccounts,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        subtitle: Text(
-          l10n.demoAccountsHint,
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-        children: [
-          Wrap(
-            spacing: AppSpacing.sm,
-            runSpacing: AppSpacing.sm,
-            children: [
-              for (final user in MockUsers.users)
-                ActionChip(
-                  label: Text(
-                    '${rolesSummary(l10n, user.roles)} · ${user.name}',
-                  ),
-                  onPressed: () => onPick(user.phone),
+          const SizedBox(height: AppSpacing.lg),
+          for (final user in MockUsers.users)
+            Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+              child: AppCard(
+                onTap: _signingInPhone != null
+                    ? null
+                    : () => _signIn(user.phone),
+                padding: const EdgeInsets.all(AppSpacing.md),
+                child: Row(
+                  children: [
+                    Avatar(name: user.name),
+                    const SizedBox(width: AppSpacing.md),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            user.name,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium,
+                          ),
+                          Text(
+                            '${rolesSummary(l10n, user.roles)} · +91 ${user.phone}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                  color:
+                                      context.tokens.inkMuted,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (_signingInPhone == user.phone)
+                      const SizedBox(
+                        width: AppSpacing.xl,
+                        height: AppSpacing.xl,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                        ),
+                      )
+                    else
+                      const Icon(Icons.chevron_right_outlined),
+                  ],
                 ),
-              ActionChip(
-                avatar: const Icon(Icons.block, size: 18),
-                label: Text(MockUsers.blockedPhone),
-                onPressed: () => onPick(MockUsers.blockedPhone),
               ),
-              ActionChip(
-                avatar: const Icon(Icons.error_outline, size: 18),
-                label: Text(MockUsers.invalidPhone),
-                onPressed: () => onPick(MockUsers.invalidPhone),
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.sm),
+            ),
         ],
       ),
     );

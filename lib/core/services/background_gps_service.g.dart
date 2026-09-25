@@ -12,20 +12,24 @@ part of 'background_gps_service.dart';
 @ProviderFor(backgroundGpsService)
 final backgroundGpsServiceProvider = BackgroundGpsServiceProvider._();
 
-final class BackgroundGpsServiceProvider extends $FunctionalProvider<
-    BackgroundGpsService,
-    BackgroundGpsService,
-    BackgroundGpsService> with $Provider<BackgroundGpsService> {
+final class BackgroundGpsServiceProvider
+    extends
+        $FunctionalProvider<
+          BackgroundGpsService,
+          BackgroundGpsService,
+          BackgroundGpsService
+        >
+    with $Provider<BackgroundGpsService> {
   BackgroundGpsServiceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'backgroundGpsServiceProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'backgroundGpsServiceProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$backgroundGpsServiceHash();
@@ -33,8 +37,8 @@ final class BackgroundGpsServiceProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<BackgroundGpsService> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   BackgroundGpsService create(Ref ref) {

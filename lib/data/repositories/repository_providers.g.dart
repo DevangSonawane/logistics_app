@@ -23,15 +23,15 @@ final class AuthRepositoryProvider
   /// Single place to swap mock <-> real implementations.
   /// Tests override these providers; UI code never instantiates repositories.
   AuthRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'authRepositoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$authRepositoryHash();
@@ -72,15 +72,15 @@ final class TripRepositoryProvider
   /// Driver-scope stores with in-memory demo state (Phase 3).
   /// Ops/owner/finance repositories land in Phases 4-7.
   TripRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'tripRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tripRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$tripRepositoryHash();
@@ -113,21 +113,25 @@ final expenseRepositoryProvider = ExpenseRepositoryProvider._();
 
 /// Mock stores hold demo state per container; keep alive for the session.
 
-final class ExpenseRepositoryProvider extends $FunctionalProvider<
-    ExpenseRepository,
-    ExpenseRepository,
-    ExpenseRepository> with $Provider<ExpenseRepository> {
+final class ExpenseRepositoryProvider
+    extends
+        $FunctionalProvider<
+          ExpenseRepository,
+          ExpenseRepository,
+          ExpenseRepository
+        >
+    with $Provider<ExpenseRepository> {
   /// Mock stores hold demo state per container; keep alive for the session.
   ExpenseRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'expenseRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'expenseRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$expenseRepositoryHash();
@@ -135,8 +139,8 @@ final class ExpenseRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<ExpenseRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   ExpenseRepository create(Ref ref) {
@@ -157,20 +161,24 @@ String _$expenseRepositoryHash() => r'a210aa8a9c81b5400c0260443b78fc3b7eb49878';
 @ProviderFor(advanceRepository)
 final advanceRepositoryProvider = AdvanceRepositoryProvider._();
 
-final class AdvanceRepositoryProvider extends $FunctionalProvider<
-    AdvanceRepository,
-    AdvanceRepository,
-    AdvanceRepository> with $Provider<AdvanceRepository> {
+final class AdvanceRepositoryProvider
+    extends
+        $FunctionalProvider<
+          AdvanceRepository,
+          AdvanceRepository,
+          AdvanceRepository
+        >
+    with $Provider<AdvanceRepository> {
   AdvanceRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'advanceRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'advanceRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$advanceRepositoryHash();
@@ -178,8 +186,8 @@ final class AdvanceRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<AdvanceRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   AdvanceRepository create(Ref ref) {
@@ -200,20 +208,24 @@ String _$advanceRepositoryHash() => r'f19b777f5591bd97f3b7297636d1f738911930e4';
 @ProviderFor(driverRepository)
 final driverRepositoryProvider = DriverRepositoryProvider._();
 
-final class DriverRepositoryProvider extends $FunctionalProvider<
-    DriverRepository,
-    DriverRepository,
-    DriverRepository> with $Provider<DriverRepository> {
+final class DriverRepositoryProvider
+    extends
+        $FunctionalProvider<
+          DriverRepository,
+          DriverRepository,
+          DriverRepository
+        >
+    with $Provider<DriverRepository> {
   DriverRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'driverRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'driverRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$driverRepositoryHash();
@@ -242,20 +254,24 @@ String _$driverRepositoryHash() => r'eb119be8cc67c75d3d954e1bfcf6f7b5634b7876';
 @ProviderFor(customerRepository)
 final customerRepositoryProvider = CustomerRepositoryProvider._();
 
-final class CustomerRepositoryProvider extends $FunctionalProvider<
-    CustomerRepository,
-    CustomerRepository,
-    CustomerRepository> with $Provider<CustomerRepository> {
+final class CustomerRepositoryProvider
+    extends
+        $FunctionalProvider<
+          CustomerRepository,
+          CustomerRepository,
+          CustomerRepository
+        >
+    with $Provider<CustomerRepository> {
   CustomerRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'customerRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'customerRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$customerRepositoryHash();
@@ -263,8 +279,8 @@ final class CustomerRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<CustomerRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   CustomerRepository create(Ref ref) {
@@ -286,18 +302,20 @@ String _$customerRepositoryHash() =>
 @ProviderFor(orderRepository)
 final orderRepositoryProvider = OrderRepositoryProvider._();
 
-final class OrderRepositoryProvider extends $FunctionalProvider<OrderRepository,
-    OrderRepository, OrderRepository> with $Provider<OrderRepository> {
+final class OrderRepositoryProvider
+    extends
+        $FunctionalProvider<OrderRepository, OrderRepository, OrderRepository>
+    with $Provider<OrderRepository> {
   OrderRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'orderRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'orderRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$orderRepositoryHash();
@@ -326,20 +344,24 @@ String _$orderRepositoryHash() => r'dee06663f1fff54035d6193c01ba818caa5c4917';
 @ProviderFor(vehicleRepository)
 final vehicleRepositoryProvider = VehicleRepositoryProvider._();
 
-final class VehicleRepositoryProvider extends $FunctionalProvider<
-    VehicleRepository,
-    VehicleRepository,
-    VehicleRepository> with $Provider<VehicleRepository> {
+final class VehicleRepositoryProvider
+    extends
+        $FunctionalProvider<
+          VehicleRepository,
+          VehicleRepository,
+          VehicleRepository
+        >
+    with $Provider<VehicleRepository> {
   VehicleRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'vehicleRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'vehicleRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$vehicleRepositoryHash();
@@ -347,8 +369,8 @@ final class VehicleRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<VehicleRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   VehicleRepository create(Ref ref) {
@@ -369,20 +391,24 @@ String _$vehicleRepositoryHash() => r'ad1bc4cb4f05722413c8e5e54ee1510e6fc25e43';
 @ProviderFor(dashboardRepository)
 final dashboardRepositoryProvider = DashboardRepositoryProvider._();
 
-final class DashboardRepositoryProvider extends $FunctionalProvider<
-    DashboardRepository,
-    DashboardRepository,
-    DashboardRepository> with $Provider<DashboardRepository> {
+final class DashboardRepositoryProvider
+    extends
+        $FunctionalProvider<
+          DashboardRepository,
+          DashboardRepository,
+          DashboardRepository
+        >
+    with $Provider<DashboardRepository> {
   DashboardRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'dashboardRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'dashboardRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$dashboardRepositoryHash();
@@ -390,8 +416,8 @@ final class DashboardRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<DashboardRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   DashboardRepository create(Ref ref) {
@@ -413,20 +439,24 @@ String _$dashboardRepositoryHash() =>
 @ProviderFor(approvalRepository)
 final approvalRepositoryProvider = ApprovalRepositoryProvider._();
 
-final class ApprovalRepositoryProvider extends $FunctionalProvider<
-    ApprovalRepository,
-    ApprovalRepository,
-    ApprovalRepository> with $Provider<ApprovalRepository> {
+final class ApprovalRepositoryProvider
+    extends
+        $FunctionalProvider<
+          ApprovalRepository,
+          ApprovalRepository,
+          ApprovalRepository
+        >
+    with $Provider<ApprovalRepository> {
   ApprovalRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'approvalRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'approvalRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$approvalRepositoryHash();
@@ -434,8 +464,8 @@ final class ApprovalRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<ApprovalRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   ApprovalRepository create(Ref ref) {
@@ -457,20 +487,24 @@ String _$approvalRepositoryHash() =>
 @ProviderFor(financeRepository)
 final financeRepositoryProvider = FinanceRepositoryProvider._();
 
-final class FinanceRepositoryProvider extends $FunctionalProvider<
-    FinanceRepository,
-    FinanceRepository,
-    FinanceRepository> with $Provider<FinanceRepository> {
+final class FinanceRepositoryProvider
+    extends
+        $FunctionalProvider<
+          FinanceRepository,
+          FinanceRepository,
+          FinanceRepository
+        >
+    with $Provider<FinanceRepository> {
   FinanceRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'financeRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'financeRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$financeRepositoryHash();
@@ -478,8 +512,8 @@ final class FinanceRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<FinanceRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   FinanceRepository create(Ref ref) {
@@ -500,20 +534,24 @@ String _$financeRepositoryHash() => r'7244f82d7afe649c736f69e78504d6e370a6a57f';
 @ProviderFor(exceptionRepository)
 final exceptionRepositoryProvider = ExceptionRepositoryProvider._();
 
-final class ExceptionRepositoryProvider extends $FunctionalProvider<
-    ExceptionRepository,
-    ExceptionRepository,
-    ExceptionRepository> with $Provider<ExceptionRepository> {
+final class ExceptionRepositoryProvider
+    extends
+        $FunctionalProvider<
+          ExceptionRepository,
+          ExceptionRepository,
+          ExceptionRepository
+        >
+    with $Provider<ExceptionRepository> {
   ExceptionRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'exceptionRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'exceptionRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$exceptionRepositoryHash();
@@ -521,8 +559,8 @@ final class ExceptionRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<ExceptionRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   ExceptionRepository create(Ref ref) {
@@ -544,20 +582,24 @@ String _$exceptionRepositoryHash() =>
 @ProviderFor(notificationRepository)
 final notificationRepositoryProvider = NotificationRepositoryProvider._();
 
-final class NotificationRepositoryProvider extends $FunctionalProvider<
-    NotificationRepository,
-    NotificationRepository,
-    NotificationRepository> with $Provider<NotificationRepository> {
+final class NotificationRepositoryProvider
+    extends
+        $FunctionalProvider<
+          NotificationRepository,
+          NotificationRepository,
+          NotificationRepository
+        >
+    with $Provider<NotificationRepository> {
   NotificationRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'notificationRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'notificationRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$notificationRepositoryHash();
@@ -565,8 +607,8 @@ final class NotificationRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<NotificationRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   NotificationRepository create(Ref ref) {
@@ -600,15 +642,15 @@ final class HireRepositoryProvider
   /// Hire repo shares the approval store so above-limit advances raise
   /// inbox items (wired here to keep UI code free of repository plumbing).
   HireRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'hireRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'hireRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$hireRepositoryHash();
@@ -641,15 +683,15 @@ final class LeadRepositoryProvider
     extends $FunctionalProvider<LeadRepository, LeadRepository, LeadRepository>
     with $Provider<LeadRepository> {
   LeadRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'leadRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'leadRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$leadRepositoryHash();
@@ -682,15 +724,15 @@ final class HubRepositoryProvider
     extends $FunctionalProvider<HubRepository, HubRepository, HubRepository>
     with $Provider<HubRepository> {
   HubRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'hubRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'hubRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$hubRepositoryHash();
@@ -719,20 +761,24 @@ String _$hubRepositoryHash() => r'a683595ff88a61557da679d60b806f66ac265cee';
 @ProviderFor(invoiceRepository)
 final invoiceRepositoryProvider = InvoiceRepositoryProvider._();
 
-final class InvoiceRepositoryProvider extends $FunctionalProvider<
-    InvoiceRepository,
-    InvoiceRepository,
-    InvoiceRepository> with $Provider<InvoiceRepository> {
+final class InvoiceRepositoryProvider
+    extends
+        $FunctionalProvider<
+          InvoiceRepository,
+          InvoiceRepository,
+          InvoiceRepository
+        >
+    with $Provider<InvoiceRepository> {
   InvoiceRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'invoiceRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'invoiceRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$invoiceRepositoryHash();
@@ -740,8 +786,8 @@ final class InvoiceRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<InvoiceRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   InvoiceRepository create(Ref ref) {

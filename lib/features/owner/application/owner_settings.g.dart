@@ -21,15 +21,15 @@ final class AlertSettingsProvider
   /// Per-alert-type toggles (push / WhatsApp / in-app) for owner alerts:
   /// large payment, big delay, doc expiring, credit limit crossed.
   AlertSettingsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'alertSettingsProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'alertSettingsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$alertSettingsHash();
@@ -58,11 +58,14 @@ abstract class _$AlertSettings extends $Notifier<Map<String, bool>> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<Map<String, bool>, Map<String, bool>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<Map<String, bool>, Map<String, bool>>,
-        Map<String, bool>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<Map<String, bool>, Map<String, bool>>,
+              Map<String, bool>,
+              Object?,
+              Object?
+            >;
     return element.handleCreate(ref, build);
   }
 }

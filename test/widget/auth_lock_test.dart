@@ -10,8 +10,7 @@ void main() {
 
   group('lock', () {
     testWidgets('locked staff unlocks with the demo PIN', (tester) async {
-      await reachOtp(tester, '9000000011');
-      await submitOtp(tester, '123456');
+      await signInAs(tester, 'Anil Mehta');
       await allowAllPermissions(tester);
       await tester.tap(find.text('Enable'));
       await tester.pumpAndSettle();
@@ -27,8 +26,7 @@ void main() {
     });
 
     testWidgets('wrong PIN is rejected on the lock page', (tester) async {
-      await reachOtp(tester, '9000000011');
-      await submitOtp(tester, '123456');
+      await signInAs(tester, 'Anil Mehta');
       await allowAllPermissions(tester);
       await tester.tap(find.text('Enable'));
       await tester.pumpAndSettle();

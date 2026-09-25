@@ -12,7 +12,8 @@ _OfflineAction _$OfflineActionFromJson(Map<String, dynamic> json) =>
       type: json['type'] as String,
       tripId: json['tripId'] as String?,
       payload: json['payload'] as Map<String, dynamic>,
-      attachments: (json['attachments'] as List<dynamic>?)
+      attachments:
+          (json['attachments'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
@@ -20,7 +21,7 @@ _OfflineAction _$OfflineActionFromJson(Map<String, dynamic> json) =>
       retryCount: (json['retryCount'] as num?)?.toInt() ?? 0,
       status:
           $enumDecodeNullable(_$OfflineActionStatusEnumMap, json['status']) ??
-              OfflineActionStatus.pending,
+          OfflineActionStatus.pending,
       failureReason: json['failureReason'] as String?,
     );
 

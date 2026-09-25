@@ -16,15 +16,15 @@ final class SyncPillStateProvider
     extends $FunctionalProvider<SyncPillState, SyncPillState, SyncPillState>
     with $Provider<SyncPillState> {
   SyncPillStateProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'syncPillStateProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'syncPillStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$syncPillStateHash();
@@ -60,15 +60,15 @@ final class SyncGenerationProvider
     extends $NotifierProvider<SyncGeneration, int> {
   /// Bumped after every drain so trip views reconcile with server truth.
   SyncGenerationProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'syncGenerationProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'syncGenerationProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$syncGenerationHash();
@@ -96,8 +96,14 @@ abstract class _$SyncGeneration extends $Notifier<int> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element = ref.element
-        as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int, int>,
+              int,
+              Object?,
+              Object?
+            >;
     return element.handleCreate(ref, build);
   }
 }

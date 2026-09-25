@@ -16,7 +16,7 @@ _ExceptionItem _$ExceptionItemFromJson(Map<String, dynamic> json) =>
       driverPhone: json['driverPhone'] as String,
       severity:
           $enumDecodeNullable(_$ExceptionSeverityEnumMap, json['severity']) ??
-              ExceptionSeverity.medium,
+          ExceptionSeverity.medium,
       message: json['message'] as String,
       at: DateTime.parse(json['at'] as String),
       resolved: json['resolved'] as bool? ?? false,

@@ -41,15 +41,15 @@ final class AppRouterProvider
   /// TODO(Phase 6): notification centre, global search, settings pages.
   /// TODO(Phase 7): sales, supervisor and accountant shells.
   AppRouterProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'appRouterProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'appRouterProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$appRouterHash();
@@ -73,4 +73,4 @@ final class AppRouterProvider
   }
 }
 
-String _$appRouterHash() => r'dc62b37ac57f5220ff18ed96682ffe70728834d6';
+String _$appRouterHash() => r'e9551b080f43688f816514bdff063ca0cbac00ed';

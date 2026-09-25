@@ -23,15 +23,16 @@ final class DriverTripProvider
   /// Driver trip state machine. Every mutation applies optimistically,
   /// enqueues an OfflineAction, then uploads immediately when online.
   /// Server-wins conflicts roll back with a rejected action.
-  DriverTripProvider._(
-      {required DriverTripFamily super.from, required String super.argument})
-      : super(
-          retry: null,
-          name: r'driverTripProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  DriverTripProvider._({
+    required DriverTripFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'driverTripProvider',
+         isAutoDispose: false,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$driverTripHash();
@@ -58,7 +59,7 @@ final class DriverTripProvider
   }
 }
 
-String _$driverTripHash() => r'5bb5a2a3d16ca6912c7f2035bcbe2f4dd7711950';
+String _$driverTripHash() => r'86a0081dc268617410ca08768f152dcadfa4dc62';
 
 /// Driver trip state machine. Every mutation applies optimistically,
 /// enqueues an OfflineAction, then uploads immediately when online.
@@ -66,24 +67,27 @@ String _$driverTripHash() => r'5bb5a2a3d16ca6912c7f2035bcbe2f4dd7711950';
 
 final class DriverTripFamily extends $Family
     with
-        $ClassFamilyOverride<DriverTrip, AsyncValue<DriverTripState>,
-            DriverTripState, FutureOr<DriverTripState>, String> {
+        $ClassFamilyOverride<
+          DriverTrip,
+          AsyncValue<DriverTripState>,
+          DriverTripState,
+          FutureOr<DriverTripState>,
+          String
+        > {
   DriverTripFamily._()
-      : super(
-          retry: null,
-          name: r'driverTripProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: false,
-        );
+    : super(
+        retry: null,
+        name: r'driverTripProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: false,
+      );
 
   /// Driver trip state machine. Every mutation applies optimistically,
   /// enqueues an OfflineAction, then uploads immediately when online.
   /// Server-wins conflicts roll back with a rejected action.
 
-  DriverTripProvider call(
-    String driverId,
-  ) =>
+  DriverTripProvider call(String driverId) =>
       DriverTripProvider._(argument: driverId, from: this);
 
   @override
@@ -98,22 +102,19 @@ abstract class _$DriverTrip extends $AsyncNotifier<DriverTripState> {
   late final _$args = ref.$arg as String;
   String get driverId => _$args;
 
-  FutureOr<DriverTripState> build(
-    String driverId,
-  );
+  FutureOr<DriverTripState> build(String driverId);
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<AsyncValue<DriverTripState>, DriverTripState>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<DriverTripState>, DriverTripState>,
-        AsyncValue<DriverTripState>,
-        Object?,
-        Object?>;
-    return element.handleCreate(
-        ref,
-        () => build(
-              _$args,
-            ));
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<DriverTripState>, DriverTripState>,
+              AsyncValue<DriverTripState>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args));
   }
 }

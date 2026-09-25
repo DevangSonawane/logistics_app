@@ -21,15 +21,15 @@ final class DriverSettingsProvider
   /// Driver preferences (Profile -> driver section): voice commands toggle
   /// and text size. Persisted in the Hive cache box.
   DriverSettingsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'driverSettingsProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'driverSettingsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$driverSettingsHash();
@@ -58,11 +58,14 @@ abstract class _$DriverSettings extends $Notifier<DriverSettingsState> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<DriverSettingsState, DriverSettingsState>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<DriverSettingsState, DriverSettingsState>,
-        DriverSettingsState,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DriverSettingsState, DriverSettingsState>,
+              DriverSettingsState,
+              Object?,
+              Object?
+            >;
     return element.handleCreate(ref, build);
   }
 }

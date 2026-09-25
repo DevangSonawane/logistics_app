@@ -7,31 +7,30 @@ part of 'driver.dart';
 // **************************************************************************
 
 _Driver _$DriverFromJson(Map<String, dynamic> json) => _Driver(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      phone: json['phone'] as String,
-      licenseNo: json['licenseNo'] as String,
-      licenseExpiry: DateTime.parse(json['licenseExpiry'] as String),
-      rating: (json['rating'] as num?)?.toDouble() ?? 0,
-      onTimePct: (json['onTimePct'] as num?)?.toInt() ?? 0,
-      languages: (json['languages'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
-      vehicleReg: json['vehicleReg'] as String?,
-    );
+  id: json['id'] as String,
+  name: json['name'] as String,
+  phone: json['phone'] as String,
+  licenseNo: json['licenseNo'] as String,
+  licenseExpiry: DateTime.parse(json['licenseExpiry'] as String),
+  rating: (json['rating'] as num?)?.toDouble() ?? 0,
+  onTimePct: (json['onTimePct'] as num?)?.toInt() ?? 0,
+  languages:
+      (json['languages'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
+  vehicleReg: json['vehicleReg'] as String?,
+);
 
 Map<String, dynamic> _$DriverToJson(_Driver instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'phone': instance.phone,
-      'licenseNo': instance.licenseNo,
-      'licenseExpiry': instance.licenseExpiry.toIso8601String(),
-      'rating': instance.rating,
-      'onTimePct': instance.onTimePct,
-      'languages': instance.languages,
-      'vehicleReg': instance.vehicleReg,
-    };
+  'id': instance.id,
+  'name': instance.name,
+  'phone': instance.phone,
+  'licenseNo': instance.licenseNo,
+  'licenseExpiry': instance.licenseExpiry.toIso8601String(),
+  'rating': instance.rating,
+  'onTimePct': instance.onTimePct,
+  'languages': instance.languages,
+  'vehicleReg': instance.vehicleReg,
+};
 
 _AllowanceEntry _$AllowanceEntryFromJson(Map<String, dynamic> json) =>
     _AllowanceEntry(
@@ -50,10 +49,10 @@ Map<String, dynamic> _$AllowanceEntryToJson(_AllowanceEntry instance) =>
     };
 
 _SalarySlip _$SalarySlipFromJson(Map<String, dynamic> json) => _SalarySlip(
-      id: json['id'] as String,
-      month: json['month'] as String,
-      amount: (json['amount'] as num).toInt(),
-    );
+  id: json['id'] as String,
+  month: json['month'] as String,
+  amount: (json['amount'] as num).toInt(),
+);
 
 Map<String, dynamic> _$SalarySlipToJson(_SalarySlip instance) =>
     <String, dynamic>{
@@ -65,7 +64,8 @@ Map<String, dynamic> _$SalarySlipToJson(_SalarySlip instance) =>
 _EarningsSummary _$EarningsSummaryFromJson(Map<String, dynamic> json) =>
     _EarningsSummary(
       monthTotal: (json['monthTotal'] as num).toInt(),
-      allowances: (json['allowances'] as List<dynamic>?)
+      allowances:
+          (json['allowances'] as List<dynamic>?)
               ?.map((e) => AllowanceEntry.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
@@ -75,7 +75,8 @@ _EarningsSummary _$EarningsSummaryFromJson(Map<String, dynamic> json) =>
       settlementBalance: (json['settlementBalance'] as num?)?.toInt() ?? 0,
       tripsDone: (json['tripsDone'] as num?)?.toInt() ?? 0,
       onTimePct: (json['onTimePct'] as num?)?.toInt() ?? 0,
-      slips: (json['slips'] as List<dynamic>?)
+      slips:
+          (json['slips'] as List<dynamic>?)
               ?.map((e) => SalarySlip.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],

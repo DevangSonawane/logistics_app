@@ -28,21 +28,14 @@ Future<void> pumpFreshApp(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
-/// Language -> phone entry -> Get OTP -> OTP page.
-Future<void> reachOtp(WidgetTester tester, String phone) async {
+/// Language -> tap a demo account card -> permissions (no OTP).
+Future<void> signInAs(WidgetTester tester, String name) async {
   await pumpFreshApp(tester);
   expect(find.text('Choose your language'), findsOneWidget);
   await tester.tap(find.text('Continue'));
   await tester.pumpAndSettle();
-  expect(find.text('Log in with your phone number'), findsOneWidget);
-  await tester.enterText(find.byType(TextField), phone);
-  await tester.tap(find.text('Get OTP'));
-  await tester.pump(const Duration(seconds: 2));
-}
-
-/// Types the code and lets the mock round-trip finish.
-Future<void> submitOtp(WidgetTester tester, String code) async {
-  await tester.enterText(find.byType(EditableText).first, code);
+  await tester.scrollUntilVisible(find.text(name), 200);
+  await tester.tap(find.text(name));
   await tester.pump(const Duration(seconds: 2));
 }
 

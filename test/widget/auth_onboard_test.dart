@@ -8,8 +8,7 @@ void main() {
 
   group('role picker', () {
     testWidgets('multi-role user picks a role and continues', (tester) async {
-      await reachOtp(tester, '9000000099');
-      await submitOtp(tester, '123456');
+      await signInAs(tester, 'Rajesh Iyer');
       expect(find.text('Choose your role'), findsOneWidget);
       await tester.tap(find.text('Ops'));
       await tester.pump();
@@ -23,8 +22,7 @@ void main() {
     testWidgets('driver finishes 6 cards incl. disclosure, lands home', (
       tester,
     ) async {
-      await reachOtp(tester, '9000000002');
-      await submitOtp(tester, '123456');
+      await signInAs(tester, 'Suresh Patil');
       await allowAllPermissions(tester);
       // Suresh has a trip offer waiting.
       expect(find.text('New trip offer'), findsOneWidget);
@@ -32,8 +30,7 @@ void main() {
     });
 
     testWidgets('staff goes through biometric setup to home', (tester) async {
-      await reachOtp(tester, '9000000011');
-      await submitOtp(tester, '123456');
+      await signInAs(tester, 'Anil Mehta');
       await allowAllPermissions(tester);
       expect(find.text('Lock your app'), findsOneWidget);
       await tester.tap(find.text('Enable'));
@@ -42,8 +39,7 @@ void main() {
     });
 
     testWidgets('staff can set a 4-digit PIN instead', (tester) async {
-      await reachOtp(tester, '9000000051');
-      await submitOtp(tester, '123456');
+      await signInAs(tester, 'Neha Kulkarni');
       await allowAllPermissions(tester);
       await tester.tap(find.text('Use PIN instead'));
       await tester.pumpAndSettle();

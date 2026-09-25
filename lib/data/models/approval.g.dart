@@ -14,11 +14,13 @@ _ApprovalItem _$ApprovalItemFromJson(Map<String, dynamic> json) =>
       amount: (json['amount'] as num).toInt(),
       reason: json['reason'] as String,
       riskFlag: json['riskFlag'] as String?,
-      attachments: (json['attachments'] as List<dynamic>?)
+      attachments:
+          (json['attachments'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
-      status: $enumDecodeNullable(_$ApprovalStatusEnumMap, json['status']) ??
+      status:
+          $enumDecodeNullable(_$ApprovalStatusEnumMap, json['status']) ??
           ApprovalStatus.pending,
       comment: json['comment'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),

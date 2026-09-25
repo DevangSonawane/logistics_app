@@ -11,8 +11,11 @@ void main() {
 
   group('logout blockers', () {
     Future<Element> driverHome(WidgetTester tester, String phone) async {
-      await reachOtp(tester, phone);
-      await submitOtp(tester, '123456');
+      const Map<String, String> names = {
+        '9000000001': 'Ramesh Yadav',
+        '9000000002': 'Suresh Patil',
+      };
+      await signInAs(tester, names[phone] ?? phone);
       await allowAllPermissions(tester);
       await tester.pumpAndSettle();
       return tester.element(find.text('My Trip'));
@@ -59,8 +62,7 @@ void main() {
     });
 
     testWidgets('staff logout needs only confirmation', (tester) async {
-      await reachOtp(tester, '9000000021');
-      await submitOtp(tester, '123456');
+      await signInAs(tester, 'Priya Nair');
       await allowAllPermissions(tester);
       await tester.tap(find.text('Enable'));
       await tester.pumpAndSettle();

@@ -1,26 +1,6 @@
 import '../models/app_user.dart';
 
-/// Auth failure reasons mapped to localized messages by the UI.
-enum AuthFailure {
-  invalidPhone,
-  blocked,
-  wrongOtp,
-  expiredOtp,
-  tooManyAttempts,
-  network,
-}
-
-class AuthException implements Exception {
-  const AuthException(this.failure, [this.message]);
-
-  final AuthFailure failure;
-  final String? message;
-
-  @override
-  String toString() => 'AuthException($failure, $message)';
-}
-
-/// Successful OTP verification: user + tokens (tokens go to SecureStore).
+/// Successful demo sign-in: user + tokens (tokens go to SecureStore).
 class AuthResult {
   const AuthResult({
     required this.user,
@@ -34,11 +14,26 @@ class AuthResult {
 }
 
 abstract class AuthRepository {
-  /// Validates the phone and (mock-)sends the OTP.
-  Future<void> sendOtp(String phone);
-
-  /// Verifies the OTP and returns the user + tokens.
-  Future<AuthResult> verifyOtp({required String phone, required String otp});
+  /// Demo sign-in without OTP: validates the phone is a known demo
+  /// account (or throws [AuthException]) and returns user + tokens.
+  Future<AuthResult> demoSignIn(String phone);
 
   Future<void> logout();
+}
+
+/// Demo sign-in failure reasons mapped to localized messages by the UI.
+enum AuthFailure {
+  invalidPhone,
+  blocked,
+  network,
+}
+
+class AuthException implements Exception {
+  const AuthException(this.failure, [this.message]);
+
+  final AuthFailure failure;
+  final String? message;
+
+  @override
+  String toString() => 'AuthException($failure, $message)';
 }

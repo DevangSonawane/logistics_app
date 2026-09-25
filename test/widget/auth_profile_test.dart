@@ -9,8 +9,7 @@ void main() {
 
   group('profile', () {
     testWidgets('switch role re-opens the role picker', (tester) async {
-      await reachOtp(tester, '9000000099');
-      await submitOtp(tester, '123456');
+      await signInAs(tester, 'Rajesh Iyer');
       await tester.tap(find.text('Driver'));
       await tester.pump();
       await tester.tap(find.text('Continue'));

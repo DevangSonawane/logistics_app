@@ -16,15 +16,15 @@ final class VoiceServiceProvider
     extends $FunctionalProvider<VoiceService, VoiceService, VoiceService>
     with $Provider<VoiceService> {
   VoiceServiceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'voiceServiceProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'voiceServiceProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$voiceServiceHash();

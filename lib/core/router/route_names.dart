@@ -6,7 +6,6 @@ abstract final class RouteNames {
   static const String splash = '/';
   static const String language = '/language';
   static const String login = '/login';
-  static const String otp = '/otp';
   static const String rolePicker = '/role-picker';
   static const String permissions = '/permissions';
   static const String biometricSetup = '/biometric-setup';

@@ -21,15 +21,15 @@ final class LocaleControllerProvider
   /// Current locale, persisted in Hive. Switching updates the UI instantly
   /// with no restart (MaterialApp rebuilds via watch).
   LocaleControllerProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'localeControllerProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'localeControllerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$localeControllerHash();
@@ -58,8 +58,14 @@ abstract class _$LocaleController extends $Notifier<Locale> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<Locale, Locale>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<Locale, Locale>, Locale, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<Locale, Locale>,
+              Locale,
+              Object?,
+              Object?
+            >;
     return element.handleCreate(ref, build);
   }
 }

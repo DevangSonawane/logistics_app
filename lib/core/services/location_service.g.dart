@@ -12,18 +12,20 @@ part of 'location_service.dart';
 @ProviderFor(locationService)
 final locationServiceProvider = LocationServiceProvider._();
 
-final class LocationServiceProvider extends $FunctionalProvider<LocationService,
-    LocationService, LocationService> with $Provider<LocationService> {
+final class LocationServiceProvider
+    extends
+        $FunctionalProvider<LocationService, LocationService, LocationService>
+    with $Provider<LocationService> {
   LocationServiceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'locationServiceProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'locationServiceProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$locationServiceHash();

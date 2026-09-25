@@ -27,15 +27,15 @@ final class GpsTrackerProvider
   /// upload in batches of 5. Demo builds interpolate along the route when
   /// no real fix is available so the owner/ops map shows a moving truck.
   GpsTrackerProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'gpsTrackerProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'gpsTrackerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$gpsTrackerHash();
@@ -53,7 +53,7 @@ final class GpsTrackerProvider
   }
 }
 
-String _$gpsTrackerHash() => r'1fbf78c710db9d79e0bfef72dc69709060407d45';
+String _$gpsTrackerHash() => r'66cc6368b94645ba45f6cd88741fb9450b980001';
 
 /// Foreground GPS tracking. Starts on trip Start, stops on
 /// Unloaded/Delivered. Battery-aware cadence; points append to Hive and
@@ -66,11 +66,14 @@ abstract class _$GpsTracker extends $Notifier<GpsTrackerState> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<GpsTrackerState, GpsTrackerState>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<GpsTrackerState, GpsTrackerState>,
-        GpsTrackerState,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<GpsTrackerState, GpsTrackerState>,
+              GpsTrackerState,
+              Object?,
+              Object?
+            >;
     return element.handleCreate(ref, build);
   }
 }

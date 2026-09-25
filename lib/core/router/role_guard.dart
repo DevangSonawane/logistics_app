@@ -18,7 +18,7 @@ String? roleGuard(SessionState session, GoRouterState state) {
   }
 
   if (!session.loggedIn) {
-    if (path == RouteNames.login || path == RouteNames.otp) return null;
+    if (path == RouteNames.login) return null;
     return RouteNames.login;
   }
 
@@ -45,7 +45,6 @@ String? roleGuard(SessionState session, GoRouterState state) {
     RouteNames.splash,
     RouteNames.language,
     RouteNames.login,
-    RouteNames.otp,
     RouteNames.rolePicker,
     RouteNames.permissions,
     RouteNames.biometricSetup,

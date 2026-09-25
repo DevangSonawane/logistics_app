@@ -16,15 +16,15 @@ final class SessionBoxProvider
     extends $FunctionalProvider<KeyValueBox, KeyValueBox, KeyValueBox>
     with $Provider<KeyValueBox> {
   SessionBoxProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'sessionBoxProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'sessionBoxProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$sessionBoxHash();
@@ -57,15 +57,15 @@ final class CacheBoxProvider
     extends $FunctionalProvider<KeyValueBox, KeyValueBox, KeyValueBox>
     with $Provider<KeyValueBox> {
   CacheBoxProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'cacheBoxProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'cacheBoxProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$cacheBoxHash();
@@ -98,15 +98,15 @@ final class QueueBoxProvider
     extends $FunctionalProvider<KeyValueBox, KeyValueBox, KeyValueBox>
     with $Provider<KeyValueBox> {
   QueueBoxProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'queueBoxProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'queueBoxProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$queueBoxHash();
@@ -139,15 +139,15 @@ final class GpsTrackBoxProvider
     extends $FunctionalProvider<KeyValueBox, KeyValueBox, KeyValueBox>
     with $Provider<KeyValueBox> {
   GpsTrackBoxProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'gpsTrackBoxProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'gpsTrackBoxProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$gpsTrackBoxHash();

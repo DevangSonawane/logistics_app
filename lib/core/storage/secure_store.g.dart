@@ -20,15 +20,15 @@ final class SecureStoreProvider
     with $Provider<SecureStore> {
   /// Overridable handle to the secure store. Tests inject a memory fake.
   SecureStoreProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'secureStoreProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'secureStoreProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$secureStoreHash();

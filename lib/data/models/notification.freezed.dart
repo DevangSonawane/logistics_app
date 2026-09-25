@@ -15,73 +15,52 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$AppNotification {
-  String get id;
-  String get title;
-  String get body;
-  String get type;
-  String? get deeplink;
-  bool get read;
-  DateTime get at;
 
-  /// Create a copy of AppNotification
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $AppNotificationCopyWith<AppNotification> get copyWith =>
-      _$AppNotificationCopyWithImpl<AppNotification>(
-          this as AppNotification, _$identity);
+ String get id; String get title; String get body; String get type; String? get deeplink; bool get read; DateTime get at;
+/// Create a copy of AppNotification
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AppNotificationCopyWith<AppNotification> get copyWith => _$AppNotificationCopyWithImpl<AppNotification>(this as AppNotification, _$identity);
 
   /// Serializes this AppNotification to a JSON map.
   Map<String, dynamic> toJson();
 
-  @override
-  bool operator ==(Object other) {
-    final _this = this as AppNotification;
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is AppNotification &&
-            (identical(other.id, _this.id) || other.id == _this.id) &&
-            (identical(other.title, _this.title) ||
-                other.title == _this.title) &&
-            (identical(other.body, _this.body) || other.body == _this.body) &&
-            (identical(other.type, _this.type) || other.type == _this.type) &&
-            (identical(other.deeplink, _this.deeplink) ||
-                other.deeplink == _this.deeplink) &&
-            (identical(other.read, _this.read) || other.read == _this.read) &&
-            (identical(other.at, _this.at) || other.at == _this.at));
-  }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode {
-    final _this = this as AppNotification;
-    return Object.hash(runtimeType, _this.id, _this.title, _this.body,
-        _this.type, _this.deeplink, _this.read, _this.at);
-  }
+@override
+bool operator ==(Object other) {
+  final _this = this as AppNotification;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppNotification&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.body, _this.body) || other.body == _this.body)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.deeplink, _this.deeplink) || other.deeplink == _this.deeplink)&&(identical(other.read, _this.read) || other.read == _this.read)&&(identical(other.at, _this.at) || other.at == _this.at));
+}
 
-  @override
-  String toString() {
-    final _this = this as AppNotification;
-    return 'AppNotification(id: ${_this.id}, title: ${_this.title}, body: ${_this.body}, type: ${_this.type}, deeplink: ${_this.deeplink}, read: ${_this.read}, at: ${_this.at})';
-  }
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as AppNotification;
+  return Object.hash(runtimeType,_this.id,_this.title,_this.body,_this.type,_this.deeplink,_this.read,_this.at);
+}
+
+@override
+String toString() {
+  final _this = this as AppNotification;
+  return 'AppNotification(id: ${_this.id}, title: ${_this.title}, body: ${_this.body}, type: ${_this.type}, deeplink: ${_this.deeplink}, read: ${_this.read}, at: ${_this.at})';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class $AppNotificationCopyWith<$Res> {
-  factory $AppNotificationCopyWith(
-          AppNotification value, $Res Function(AppNotification) _then) =
-      _$AppNotificationCopyWithImpl;
-  @useResult
-  $Res call(
-      {String id,
-      String title,
-      String body,
-      String type,
-      String? deeplink,
-      bool read,
-      DateTime at});
-}
+abstract mixin class $AppNotificationCopyWith<$Res>  {
+  factory $AppNotificationCopyWith(AppNotification value, $Res Function(AppNotification) _then) = _$AppNotificationCopyWithImpl;
+@useResult
+$Res call({
+ String id, String title, String body, String type, String? deeplink, bool read, DateTime at
+});
 
+
+
+
+}
 /// @nodoc
 class _$AppNotificationCopyWithImpl<$Res>
     implements $AppNotificationCopyWith<$Res> {
@@ -90,308 +69,211 @@ class _$AppNotificationCopyWithImpl<$Res>
   final AppNotification _self;
   final $Res Function(AppNotification) _then;
 
-  /// Create a copy of AppNotification
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? body = null,
-    Object? type = null,
-    Object? deeplink = freezed,
-    Object? read = null,
-    Object? at = null,
-  }) {
-    return _then(AppNotification(
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _self.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      body: null == body
-          ? _self.body
-          : body // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _self.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      deeplink: freezed == deeplink
-          ? _self.deeplink
-          : deeplink // ignore: cast_nullable_to_non_nullable
-              as String?,
-      read: null == read
-          ? _self.read
-          : read // ignore: cast_nullable_to_non_nullable
-              as bool,
-      at: null == at
-          ? _self.at
-          : at // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
-  }
+/// Create a copy of AppNotification
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? body = null,Object? type = null,Object? deeplink = freezed,Object? read = null,Object? at = null,}) {
+  return _then(AppNotification(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,body: null == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,deeplink: freezed == deeplink ? _self.deeplink : deeplink // ignore: cast_nullable_to_non_nullable
+as String?,read: null == read ? _self.read : read // ignore: cast_nullable_to_non_nullable
+as bool,at: null == at ? _self.at : at // ignore: cast_nullable_to_non_nullable
+as DateTime,
+  ));
 }
+
+}
+
 
 /// Adds pattern-matching-related methods to [AppNotification].
 extension AppNotificationPatterns on AppNotification {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_AppNotification value)? $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _AppNotification() when $default != null:
-        return $default(_that);
-      case _:
-        return orElse();
-    }
-  }
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AppNotification value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AppNotification() when $default != null:
+return $default(_that);case _:
+  return orElse();
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_AppNotification value) $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _AppNotification():
-        return $default(_that);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AppNotification value)  $default,){
+final _that = this;
+switch (_that) {
+case _AppNotification():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
 
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_AppNotification value)? $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _AppNotification() when $default != null:
-        return $default(_that);
-      case _:
-        return null;
-    }
-  }
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AppNotification value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AppNotification() when $default != null:
+return $default(_that);case _:
+  return null;
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String id, String title, String body, String type,
-            String? deeplink, bool read, DateTime at)?
-        $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _AppNotification() when $default != null:
-        return $default(_that.id, _that.title, _that.body, _that.type,
-            _that.deeplink, _that.read, _that.at);
-      case _:
-        return orElse();
-    }
-  }
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String body,  String type,  String? deeplink,  bool read,  DateTime at)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AppNotification() when $default != null:
+return $default(_that.id,_that.title,_that.body,_that.type,_that.deeplink,_that.read,_that.at);case _:
+  return orElse();
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(String id, String title, String body, String type,
-            String? deeplink, bool read, DateTime at)
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _AppNotification():
-        return $default(_that.id, _that.title, _that.body, _that.type,
-            _that.deeplink, _that.read, _that.at);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String body,  String type,  String? deeplink,  bool read,  DateTime at)  $default,) {final _that = this;
+switch (_that) {
+case _AppNotification():
+return $default(_that.id,_that.title,_that.body,_that.type,_that.deeplink,_that.read,_that.at);case _:
+  throw StateError('Unexpected subclass');
 
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String id, String title, String body, String type,
-            String? deeplink, bool read, DateTime at)?
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _AppNotification() when $default != null:
-        return $default(_that.id, _that.title, _that.body, _that.type,
-            _that.deeplink, _that.read, _that.at);
-      case _:
-        return null;
-    }
-  }
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String body,  String type,  String? deeplink,  bool read,  DateTime at)?  $default,) {final _that = this;
+switch (_that) {
+case _AppNotification() when $default != null:
+return $default(_that.id,_that.title,_that.body,_that.type,_that.deeplink,_that.read,_that.at);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
+
 class _AppNotification implements AppNotification {
-  const _AppNotification(
-      {required this.id,
-      required this.title,
-      required this.body,
-      required this.type,
-      this.deeplink,
-      this.read = false,
-      required this.at});
-  factory _AppNotification.fromJson(Map<String, dynamic> json) =>
-      _$AppNotificationFromJson(json);
+  const _AppNotification({required this.id, required this.title, required this.body, required this.type, this.deeplink, this.read = false, required this.at});
+  factory _AppNotification.fromJson(Map<String, dynamic> json) => _$AppNotificationFromJson(json);
 
-  @override
-  final String id;
-  @override
-  final String title;
-  @override
-  final String body;
-  @override
-  final String type;
-  @override
-  final String? deeplink;
-  @override
-  @JsonKey()
-  final bool read;
-  @override
-  final DateTime at;
+@override final  String id;
+@override final  String title;
+@override final  String body;
+@override final  String type;
+@override final  String? deeplink;
+@override@JsonKey() final  bool read;
+@override final  DateTime at;
 
-  /// Create a copy of AppNotification
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$AppNotificationCopyWith<_AppNotification> get copyWith =>
-      __$AppNotificationCopyWithImpl<_AppNotification>(this, _$identity);
+/// Create a copy of AppNotification
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AppNotificationCopyWith<_AppNotification> get copyWith => __$AppNotificationCopyWithImpl<_AppNotification>(this, _$identity);
 
-  @override
-  Map<String, dynamic> toJson() {
-    return _$AppNotificationToJson(
-      this,
-    );
-  }
+@override
+Map<String, dynamic> toJson() {
+  return _$AppNotificationToJson(this, );
+}
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _AppNotification &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.body, body) || other.body == body) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.deeplink, deeplink) ||
-                other.deeplink == deeplink) &&
-            (identical(other.read, read) || other.read == read) &&
-            (identical(other.at, at) || other.at == at));
-  }
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppNotification&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.body, body) || other.body == body)&&(identical(other.type, type) || other.type == type)&&(identical(other.deeplink, deeplink) || other.deeplink == deeplink)&&(identical(other.read, read) || other.read == read)&&(identical(other.at, at) || other.at == at));
+}
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode {
-    return Object.hash(runtimeType, id, title, body, type, deeplink, read, at);
-  }
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,title,body,type,deeplink,read,at);
+}
 
-  @override
-  String toString() {
+@override
+String toString() {
     return 'AppNotification(id: $id, title: $title, body: $body, type: $type, deeplink: $deeplink, read: $read, at: $at)';
-  }
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class _$AppNotificationCopyWith<$Res>
-    implements $AppNotificationCopyWith<$Res> {
-  factory _$AppNotificationCopyWith(
-          _AppNotification value, $Res Function(_AppNotification) _then) =
-      __$AppNotificationCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {String id,
-      String title,
-      String body,
-      String type,
-      String? deeplink,
-      bool read,
-      DateTime at});
-}
+abstract mixin class _$AppNotificationCopyWith<$Res> implements $AppNotificationCopyWith<$Res> {
+  factory _$AppNotificationCopyWith(_AppNotification value, $Res Function(_AppNotification) _then) = __$AppNotificationCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, String title, String body, String type, String? deeplink, bool read, DateTime at
+});
 
+
+
+
+}
 /// @nodoc
 class __$AppNotificationCopyWithImpl<$Res>
     implements _$AppNotificationCopyWith<$Res> {
@@ -400,50 +282,22 @@ class __$AppNotificationCopyWithImpl<$Res>
   final _AppNotification _self;
   final $Res Function(_AppNotification) _then;
 
-  /// Create a copy of AppNotification
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? body = null,
-    Object? type = null,
-    Object? deeplink = freezed,
-    Object? read = null,
-    Object? at = null,
-  }) {
-    return _then(_AppNotification(
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _self.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      body: null == body
-          ? _self.body
-          : body // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _self.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      deeplink: freezed == deeplink
-          ? _self.deeplink
-          : deeplink // ignore: cast_nullable_to_non_nullable
-              as String?,
-      read: null == read
-          ? _self.read
-          : read // ignore: cast_nullable_to_non_nullable
-              as bool,
-      at: null == at
-          ? _self.at
-          : at // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
-  }
+/// Create a copy of AppNotification
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? body = null,Object? type = null,Object? deeplink = freezed,Object? read = null,Object? at = null,}) {
+  return _then(_AppNotification(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,body: null == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,deeplink: freezed == deeplink ? _self.deeplink : deeplink // ignore: cast_nullable_to_non_nullable
+as String?,read: null == read ? _self.read : read // ignore: cast_nullable_to_non_nullable
+as bool,at: null == at ? _self.at : at // ignore: cast_nullable_to_non_nullable
+as DateTime,
+  ));
+}
+
+
 }
 
 // dart format on

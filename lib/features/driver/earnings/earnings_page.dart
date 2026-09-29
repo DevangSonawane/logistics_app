@@ -9,9 +9,9 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/app_card.dart';
+import '../../../core/widgets/app_header.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/error_state.dart';
-import '../../../core/widgets/kpi_card.dart';
 import '../../../core/widgets/section_header.dart';
 import '../../../core/widgets/skeleton_list.dart';
 import '../../../data/models/driver.dart';
@@ -32,133 +32,153 @@ class EarningsPage extends ConsumerWidget {
     if (driverId == null) {
       return AppScaffold(body: ErrorState(message: l10n.commonError));
     }
-    final AsyncValue<EarningsSummary> earnings =
-        ref.watch(driverEarningsProvider(driverId));
-    return AppScaffold(
-      title: l10n.earningsTitle,
-      body: earnings.when(
-        loading: () => const SkeletonList(),
-        error: (e, _) => ErrorState(
+    final AsyncValue<EarningsSummary> earnings = ref.watch(
+      driverEarningsProvider(driverId),
+    );
+    return earnings.when(
+      loading: () =>
+          AppScaffold(title: l10n.earningsTitle, body: const SkeletonList()),
+      error: (e, _) => AppScaffold(
+        title: l10n.earningsTitle,
+        body: ErrorState(
           message: l10n.commonError,
           onRetry: () => ref.invalidate(driverEarningsProvider(driverId)),
         ),
-        data: (EarningsSummary summary) => ListView(
+      ),
+      data: (EarningsSummary summary) => Scaffold(
+        body: ListView(
+          padding: EdgeInsets.zero,
           children: [
-            KpiCard(
-              label: l10n.monthTotal,
-              value: Formatters.inrShort(summary.monthTotal),
-              icon: Icons.account_balance_wallet_outlined,
+            OverlapHeader(
+              title: l10n.earningsTitle,
+              gradient: AppColors.darkHeroGradient,
+              heroValue: Formatters.inrShort(summary.monthTotal),
+              heroLabel: l10n.monthTotal,
+              overlap: _SettlementOverlap(summary: summary),
             ),
-            const SizedBox(height: AppSpacing.md),
-            Row(
-              children: [
-                Expanded(
-                  child: _StatTile(
-                    label: l10n.tripsDoneLabel,
-                    value: '${summary.tripsDone}',
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: _StatTile(
-                    label: l10n.onTimeLabel,
-                    value: '${summary.onTimePct}%',
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSpacing.xl),
-            SectionHeader(title: l10n.settlementTitle),
-            const SizedBox(height: AppSpacing.sm),
-            AppCard(
+            const SizedBox(height: AppSpacing.xxxl + AppSpacing.md),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _MoneyRow(
-                    label: l10n.incentivesLabel,
-                    amount: summary.incentives,
-                  ),
-                  _MoneyRow(
-                    label: l10n.advanceBalance,
-                    amount: -summary.advanceTaken,
-                  ),
-                  const Divider(),
-                  _MoneyRow(
-                    label: summary.settlementBalance >= 0
-                        ? l10n.payableLabel
-                        : l10n.recoverableLabel,
-                    amount: summary.settlementBalance,
-                    bold: true,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: AppSpacing.xl),
-            SectionHeader(title: l10n.allowancesTitle),
-            const SizedBox(height: AppSpacing.sm),
-            for (final AllowanceEntry entry in summary.allowances)
-              Padding(
-                padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                child: AppCard(
-                  padding: const EdgeInsets.all(AppSpacing.md),
-                  child: Row(
+                  Row(
                     children: [
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: _StatTile(
+                          label: l10n.tripsDoneLabel,
+                          value: '${summary.tripsDone}',
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: _StatTile(
+                          label: l10n.onTimeLabel,
+                          value: '${summary.onTimePct}%',
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  SectionHeader(title: l10n.allowancesTitle),
+                  const SizedBox(height: AppSpacing.sm),
+                  for (final AllowanceEntry entry in summary.allowances)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                      child: AppCard(
+                        padding: const EdgeInsets.all(AppSpacing.md),
+                        child: Row(
                           children: [
-                            Text(
-                              entry.tripNo,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    entry.tripNo,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
+                                  ),
+                                  Text(
+                                    '${entry.lane} · ${Formatters.date(entry.date)}',
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(
+                                          color: context.tokens.inkMuted,
+                                        ),
+                                  ),
+                                ],
+                              ),
                             ),
                             Text(
-                              '${entry.lane} · ${Formatters.date(entry.date)}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                    color: context.tokens.inkMuted,
-                                  ),
+                              Formatters.inr(entry.amount),
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],
                         ),
                       ),
-                      Text(
-                        Formatters.inr(entry.amount),
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            const SizedBox(height: AppSpacing.lg),
-            SectionHeader(title: l10n.slipsTitle),
-            const SizedBox(height: AppSpacing.sm),
-            for (final SalarySlip slip in summary.slips)
-              Padding(
-                padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                child: AppCard(
-                  onTap: () => context.push(
-                    RouteNames.driverPayslip,
-                    extra: {'slip': slip},
-                  ),
-                  padding: const EdgeInsets.all(AppSpacing.md),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.picture_as_pdf_outlined),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: Text(
-                          slip.month,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  const SizedBox(height: AppSpacing.lg),
+                  SectionHeader(title: l10n.slipsTitle),
+                  const SizedBox(height: AppSpacing.sm),
+                  for (final SalarySlip slip in summary.slips)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                      child: AppCard(
+                        onTap: () => context.push(
+                          RouteNames.driverPayslip,
+                          extra: {'slip': slip},
+                        ),
+                        padding: const EdgeInsets.all(AppSpacing.md),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.picture_as_pdf_outlined),
+                            const SizedBox(width: AppSpacing.md),
+                            Expanded(
+                              child: Text(
+                                slip.month,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                            Text(Formatters.inr(slip.amount)),
+                          ],
                         ),
                       ),
-                      Text(Formatters.inr(slip.amount)),
-                    ],
-                  ),
-                ),
+                    ),
+                  const SizedBox(height: AppSpacing.xxl),
+                ],
               ),
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Settlement balance card overlapping the earnings header.
+class _SettlementOverlap extends StatelessWidget {
+  const _SettlementOverlap({required this.summary});
+
+  final EarningsSummary summary;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    return AppCard(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      child: Column(
+        children: [
+          _MoneyRow(label: l10n.incentivesLabel, amount: summary.incentives),
+          _MoneyRow(label: l10n.advanceBalance, amount: -summary.advanceTaken),
+          const Divider(),
+          _MoneyRow(
+            label: summary.settlementBalance >= 0
+                ? l10n.payableLabel
+                : l10n.recoverableLabel,
+            amount: summary.settlementBalance,
+            bold: true,
+          ),
+        ],
       ),
     );
   }
@@ -178,9 +198,9 @@ class _StatTile extends StatelessWidget {
           Text(value, style: AppTypography.kpiNumber(context.tokens.ink)),
           Text(
             label,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: context.tokens.inkMuted,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: context.tokens.inkMuted),
           ),
         ],
       ),
@@ -210,10 +230,7 @@ class _MoneyRow extends StatelessWidget {
       child: Row(
         children: [
           Expanded(child: Text(label, style: style)),
-          Text(
-            Formatters.inr(amount),
-            style: style?.copyWith(color: color),
-          ),
+          Text(Formatters.inr(amount), style: style?.copyWith(color: color)),
         ],
       ),
     );

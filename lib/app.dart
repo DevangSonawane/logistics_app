@@ -50,10 +50,9 @@ class _RoadOpsAppState extends ConsumerState<RoadOpsApp>
       _pausedAt = null;
       // Accountant finance screens time out after 5 idle minutes,
       // other staff lock after 2 minutes in background.
-      final int lockMins =
-          session.activeRole == AppRole.accountant
-              ? AppConstants.accountantIdleTimeoutMinutes
-              : AppConstants.staffLockAfterMinutes;
+      final int lockMins = session.activeRole == AppRole.accountant
+          ? AppConstants.accountantIdleTimeoutMinutes
+          : AppConstants.staffLockAfterMinutes;
       if (session.isStaff && away.inMinutes >= lockMins) {
         ref.read(sessionProvider.notifier).setLocked(true);
       }

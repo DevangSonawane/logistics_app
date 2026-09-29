@@ -41,9 +41,9 @@ class LanguageSelectPage extends ConsumerWidget {
           const SizedBox(height: AppSpacing.xs),
           Text(
             l10n.languageSubtitle,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: context.tokens.inkMuted,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: context.tokens.inkMuted),
           ),
           const SizedBox(height: AppSpacing.xxl),
           Expanded(
@@ -55,62 +55,64 @@ class LanguageSelectPage extends ConsumerWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: AppSpacing.md,
-                      crossAxisSpacing: AppSpacing.md,
-                      // Taller cells: labels wrap to 2 lines at 1.3x scale
-                      // without overflowing (scaling regression test).
-                      childAspectRatio: 1.3,
-                    ),
+                          crossAxisCount: 2,
+                          mainAxisSpacing: AppSpacing.md,
+                          crossAxisSpacing: AppSpacing.md,
+                          // Taller cells: labels wrap to 2 lines at 1.3x scale
+                          // without overflowing (scaling regression test).
+                          childAspectRatio: 1.3,
+                        ),
                     itemCount: options.length,
                     itemBuilder: (context, index) {
-                final option = options[index];
-                final bool selected =
-                    option.locale.languageCode == current.languageCode;
-                return AppCard(
-                  onTap: () => ref
-                      .read(localeControllerProvider.notifier)
-                      .setLocale(option.locale),
-                  padding: const EdgeInsets.all(AppSpacing.md),
-                  child: Container(
-                    decoration: selected
-                        ? BoxDecoration(
-                            border: Border.all(
-                              color: context.tokens.primary,
-                              width: 2,
-                            ),
-                            borderRadius: AppSpacing.cardRadius,
-                          )
-                        : null,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          option.label,
-                          style: Theme.of(context).textTheme.headlineSmall,
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                      final option = options[index];
+                      final bool selected =
+                          option.locale.languageCode == current.languageCode;
+                      return AppCard(
+                        onTap: () => ref
+                            .read(localeControllerProvider.notifier)
+                            .setLocale(option.locale),
+                        padding: const EdgeInsets.all(AppSpacing.md),
+                        child: Container(
+                          decoration: selected
+                              ? BoxDecoration(
+                                  border: Border.all(
+                                    color: context.tokens.primary,
+                                    width: 2,
+                                  ),
+                                  borderRadius: AppSpacing.cardRadius,
+                                )
+                              : null,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                option.label,
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.headlineSmall,
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: AppSpacing.xs),
+                              Icon(
+                                selected
+                                    ? Icons.check_circle
+                                    : Icons.circle_outlined,
+                                size: AppSpacing.xl,
+                                color: selected
+                                    ? context.tokens.primary
+                                    : context.tokens.inkFaint,
+                              ),
+                            ],
+                          ),
                         ),
-                        const SizedBox(height: AppSpacing.xs),
-                        Icon(
-                          selected
-                              ? Icons.check_circle
-                              : Icons.circle_outlined,
-                          size: AppSpacing.xl,
-                          color: selected
-                              ? context.tokens.primary
-                              : context.tokens.inkFaint,
-                        ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-                  ],
-                ),
+                ],
               ),
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
           AppButton(

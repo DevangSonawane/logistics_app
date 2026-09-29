@@ -6,7 +6,9 @@ import '../../../core/l10n/app_localizations.dart';
 import '../../../core/l10n/trip_labels.dart';
 import '../../../core/router/route_names.dart';
 import '../../../core/services/image_service.dart';
-import '../../../core/services/voice_service.dart';import '../../../core/theme/app_colors.dart';
+import '../../../core/services/voice_service.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_typography.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/launch_helpers.dart';
@@ -40,8 +42,9 @@ class MyTripPage extends ConsumerWidget {
     if (driverId == null) {
       return AppScaffold(body: ErrorState(message: l10n.commonError));
     }
-    final AsyncValue<DriverTripState> tripState =
-        ref.watch(driverTripProvider(driverId));
+    final AsyncValue<DriverTripState> tripState = ref.watch(
+      driverTripProvider(driverId),
+    );
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: FloatingActionButton(
@@ -62,10 +65,8 @@ class MyTripPage extends ConsumerWidget {
             onRetry: () =>
                 ref.read(driverTripProvider(driverId).notifier).refresh(),
           ),
-          data: (DriverTripState data) => _TripBody(
-            driverId: driverId,
-            data: data,
-          ),
+          data: (DriverTripState data) =>
+              _TripBody(driverId: driverId, data: data),
         ),
       ),
     );
@@ -81,22 +82,28 @@ class _TripBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: EdgeInsets.zero,
       children: [
         const _DriverHeader(),
-        const SizedBox(height: AppSpacing.lg),
-        if (data.offer != null)
-          _OfferCard(trip: data.offer!, driverId: driverId)
-        else if (data.activeTrip != null)
-          _ActiveTripCard(trip: data.activeTrip!, driverId: driverId)
-        else
-          _EmptyTrip(driverId: driverId),
+        // First card bleeds over the header gradient (Rule 3).
+        Transform.translate(
+          offset: const Offset(0, -28),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            child: data.offer != null
+                ? _OfferCard(trip: data.offer!, driverId: driverId)
+                : data.activeTrip != null
+                ? _ActiveTripCard(trip: data.activeTrip!, driverId: driverId)
+                : _EmptyTrip(driverId: driverId),
+          ),
+        ),
       ],
     );
   }
 }
 
-/// Greeting + vehicle chip + connectivity + SyncPill.
+/// Greeting header on the dark gradient: display-size greeting (Rule 4),
+/// vehicle + GPS chips left, sync pill right (Rule 5 asymmetry).
 class _DriverHeader extends ConsumerWidget {
   const _DriverHeader();
 
@@ -108,34 +115,47 @@ class _DriverHeader extends ConsumerWidget {
     final bool tracking = ref.watch(
       gpsTrackerProvider.select((s) => s.tracking),
     );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                l10n.greeting(name),
-                style: Theme.of(context).textTheme.headlineMedium,
+    return Container(
+      decoration: const BoxDecoration(gradient: AppColors.darkHeroGradient),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.lg,
+            AppSpacing.md,
+            AppSpacing.lg,
+            AppSpacing.xxxl + 12,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      l10n.greeting(name),
+                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                        color: Colors.white,
+                        fontSize: 28,
+                      ),
+                    ),
+                  ),
+                  SyncPill(onTap: () => context.push(RouteNames.driverQueue)),
+                ],
               ),
-            ),
-            SyncPill(
-              onTap: () => context.push(RouteNames.driverQueue),
-            ),
-          ],
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        Wrap(
-          spacing: AppSpacing.sm,
-          children: [
-            if (tracking)
-              const StatusChip(
-                label: 'GPS',
-                color: AppColors.success,
+              const SizedBox(height: AppSpacing.sm),
+              Wrap(
+                spacing: AppSpacing.sm,
+                children: [
+                  if (tracking)
+                    const StatusChip(label: 'GPS', color: AppColors.success),
+                ],
               ),
-          ],
+            ],
+          ),
         ),
-      ],
+      ),
     );
   }
 }
@@ -154,8 +174,7 @@ class _EmptyTrip extends ConsumerWidget {
       message: '',
       icon: Icons.local_shipping_outlined,
       actionLabel: l10n.retryAction,
-      onAction: () =>
-          ref.read(driverTripProvider(driverId).notifier).refresh(),
+      onAction: () => ref.read(driverTripProvider(driverId).notifier).refresh(),
     );
   }
 }
@@ -203,19 +222,19 @@ class _OfferCardState extends ConsumerState<_OfferCard> {
     final AppLocalizations l10n = AppLocalizations.of(context);
     switch (result.outcome) {
       case MutationOutcome.done:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.stepDone)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.stepDone)));
       case MutationOutcome.queued:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.stepQueued)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.stepQueued)));
       case MutationOutcome.conflict:
         _showConflict(result.message);
       case MutationOutcome.error:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.commonError)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.commonError)));
     }
   }
 
@@ -244,35 +263,45 @@ class _OfferCardState extends ConsumerState<_OfferCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          StatusChip(label: l10n.offerTitle, color: AppColors.warning),
-          const SizedBox(height: AppSpacing.md),
-          Text(
-            trip.customer,
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          _RouteLines(trip: trip),
-          const SizedBox(height: AppSpacing.md),
           Row(
             children: [
-              Expanded(
-                child: _Fact(
-                  label: l10n.freightLabel,
-                  value: Formatters.inr(trip.freightAllowance),
-                ),
-              ),
-              Expanded(
-                child: _Fact(
-                  label: l10n.pickupByLabel,
-                  value: Formatters.dateTime(trip.pickupBy),
-                ),
+              StatusChip(label: l10n.offerTitle, color: AppColors.warning),
+              const Spacer(),
+              Text(
+                Formatters.distanceKm(trip.distanceKm),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: context.tokens.inkMuted),
               ),
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            '${Formatters.distanceKm(trip.distanceKm)} · ${trip.vehicleReg}',
-            style: Theme.of(context).textTheme.bodyMedium,
+            trip.customer,
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          // Freight dominates the card (Rule 2 + 4).
+          Text(
+            Formatters.inr(trip.freightAllowance),
+            style: AppTypography.kpiNumber(
+              AppColors.secondary,
+            ).copyWith(fontSize: 36),
+          ),
+          Text(
+            '${l10n.freightLabel} · ${trip.vehicleReg}',
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: context.tokens.inkMuted),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          _RouteLines(trip: trip),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            '${l10n.pickupByLabel}: ${Formatters.dateTime(trip.pickupBy)}',
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: context.tokens.inkMuted),
           ),
           const SizedBox(height: AppSpacing.lg),
           AppButton(
@@ -285,8 +314,7 @@ class _OfferCardState extends ConsumerState<_OfferCard> {
           const SizedBox(height: AppSpacing.sm),
           AppButton(
             label: l10n.rejectAction,
-            variant: AppButtonVariant.secondary,
-            large: true,
+            variant: AppButtonVariant.text,
             onPressed: _working ? null : _reject,
           ),
         ],
@@ -342,10 +370,7 @@ class _RejectSheetState extends State<_RejectSheet> {
               child: Column(
                 children: [
                   for (final String reason in reasons)
-                    RadioListTile<String>(
-                      title: Text(reason),
-                      value: reason,
-                    ),
+                    RadioListTile<String>(title: Text(reason), value: reason),
                 ],
               ),
             ),
@@ -359,10 +384,8 @@ class _RejectSheetState extends State<_RejectSheet> {
               onPressed: _reason == null
                   ? null
                   : () => Navigator.of(context).pop(
-                        _note.text.isEmpty
-                            ? _reason
-                            : '$_reason - ${_note.text}',
-                      ),
+                      _note.text.isEmpty ? _reason : '$_reason - ${_note.text}',
+                    ),
             ),
           ],
         ),
@@ -411,9 +434,9 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
         .capture(source: source, tag: widget.trip.id);
     if (!mounted) return;
     if (path == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.photoRequired)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.photoRequired)));
       return;
     }
     final MutationResult result = await ref
@@ -422,13 +445,13 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
     if (!mounted) return;
     switch (result.outcome) {
       case MutationOutcome.done:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.stepDone)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.stepDone)));
       case MutationOutcome.queued:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.stepQueued)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.stepQueued)));
       case MutationOutcome.conflict:
         await showDialog<void>(
           context: context,
@@ -444,9 +467,9 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
           ),
         );
       case MutationOutcome.error:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.commonError)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.commonError)));
     }
   }
 
@@ -469,9 +492,9 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
     );
     if (!mounted) return;
     if (!started) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.voiceNotAvailable)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.voiceNotAvailable)));
       return;
     }
     setState(() => _listening = true);
@@ -555,22 +578,46 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
                 label: l10n.dropLabel,
               ),
               const SizedBox(height: AppSpacing.md),
-              Wrap(
-                spacing: AppSpacing.sm,
-                runSpacing: AppSpacing.sm,
+              // Asymmetric primary actions: Navigate dominates (3:2).
+              Row(
                 children: [
-                  OutlinedButton.icon(
-                    icon: const Icon(Icons.navigation_outlined),
-                    label: Text(l10n.navigateAction),
-                    onPressed: () => LaunchHelpers.navigate(
-                      trip.dropLat,
-                      trip.dropLng,
+                  Expanded(
+                    flex: 3,
+                    child: SizedBox(
+                      height: AppSpacing.driverButtonHeight,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: AppSpacing.buttonRadius,
+                          ),
+                        ),
+                        icon: const Icon(Icons.navigation_outlined),
+                        label: Text(l10n.navigateAction),
+                        onPressed: () =>
+                            LaunchHelpers.navigate(trip.dropLat, trip.dropLng),
+                      ),
                     ),
                   ),
-                  OutlinedButton.icon(
-                    icon: const Icon(Icons.description_outlined),
-                    label: Text(l10n.lrEwayLabel),
-                    onPressed: () => _openDocs(trip),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    flex: 2,
+                    child: SizedBox(
+                      height: AppSpacing.driverButtonHeight,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: AppSpacing.buttonRadius,
+                          ),
+                        ),
+                        onPressed: () => _openDocs(trip),
+                        child: Text(
+                          l10n.lrEwayLabel,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -603,100 +650,119 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
             ],
           ),
         ),
-        if (trip.status == TripStatus.unloaded) ...[
-          const SizedBox(height: AppSpacing.lg),
-          AppCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  l10n.podPromptTitle,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                AppButton(
-                  label: l10n.podPromptAction,
-                  variant: AppButtonVariant.accent,
-                  large: true,
-                  onPressed: () => context.push(
-                    RouteNames.driverPod,
-                    extra: trip,
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.lg,
+            AppSpacing.lg,
+            AppSpacing.lg,
+            AppSpacing.xxl,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (trip.status == TripStatus.unloaded) ...[
+                _PodPromptCard(trip: trip),
+              ],
+              if (trip.status == TripStatus.delivered) ...[
+                AppCard(
+                  child: Text(
+                    l10n.podDone,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ],
-            ),
-          ),
-        ],
-        if (trip.status == TripStatus.delivered) ...[
-          const SizedBox(height: AppSpacing.lg),
-          AppCard(
-            child: Text(
-              l10n.podDone,
-              style: Theme.of(context).textTheme.headlineSmall,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-        if (next != null) ...[
-          const SizedBox(height: AppSpacing.lg),
-          Row(
-            children: [
-              Expanded(
-                child: SlideConfirm(
-                  label: _stepLabel(l10n, next),
-                  onConfirm: () => _confirmStep(next),
+              if (next != null) ...[
+                Row(
+                  children: [
+                    Expanded(
+                      child: SlideConfirm(
+                        label: _stepLabel(l10n, next),
+                        onConfirm: () => _confirmStep(next),
+                      ),
+                    ),
+                    if (voiceEnabled) ...[
+                      const SizedBox(width: AppSpacing.sm),
+                      _DriverIconButton(
+                        icon: _listening ? Icons.mic : Icons.mic_none_outlined,
+                        onPressed: () => _toggleVoice(next),
+                      ),
+                    ],
+                  ],
                 ),
-              ),
-              if (voiceEnabled) ...[
-                const SizedBox(width: AppSpacing.sm),
-                _DriverIconButton(
-                  icon: _listening ? Icons.mic : Icons.mic_none_outlined,
-                  onPressed: () => _toggleVoice(next),
+                if (_listening)
+                  Padding(
+                    padding: const EdgeInsets.only(top: AppSpacing.sm),
+                    child: Text(
+                      l10n.listeningLabel,
+                      style: Theme.of(context).textTheme.bodySmall,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                if (_voiceCandidate != null)
+                  _VoiceConfirmChip(
+                    stepLabel: _stepLabel(l10n, _voiceCandidate!),
+                    onYes: () {
+                      final TripStepType step = _voiceCandidate!;
+                      setState(() => _voiceCandidate = null);
+                      _voice.stopListening();
+                      setState(() => _listening = false);
+                      _confirmStep(step);
+                    },
+                    onNo: () => setState(() => _voiceCandidate = null),
+                  ),
+              ],
+              if (trip.steps.isNotEmpty) ...[
+                const SizedBox(height: AppSpacing.xl),
+                Text(
+                  l10n.timelineTitle,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
+                const SizedBox(height: AppSpacing.sm),
+                for (int i = 0; i < trip.steps.length; i++)
+                  TimelineTile(
+                    title: _stepLabel(l10n, trip.steps[i].type),
+                    time: Formatters.dateTime(trip.steps[i].at),
+                    color: AppColors.success,
+                    icon: Icons.check,
+                    isFirst: i == 0,
+                    isLast: i == trip.steps.length - 1,
+                  ),
               ],
             ],
           ),
-          if (_listening)
-            Padding(
-              padding: const EdgeInsets.only(top: AppSpacing.sm),
-              child: Text(
-                l10n.listeningLabel,
-                style: Theme.of(context).textTheme.bodySmall,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          if (_voiceCandidate != null)
-            _VoiceConfirmChip(
-              stepLabel: _stepLabel(l10n, _voiceCandidate!),
-              onYes: () {
-                final TripStepType step = _voiceCandidate!;
-                setState(() => _voiceCandidate = null);
-                _voice.stopListening();
-                setState(() => _listening = false);
-                _confirmStep(step);
-              },
-              onNo: () => setState(() => _voiceCandidate = null),
-            ),
-        ],
-        if (trip.steps.isNotEmpty) ...[
-          const SizedBox(height: AppSpacing.lg),
-          Text(
-            l10n.timelineTitle,
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          for (int i = 0; i < trip.steps.length; i++)
-            TimelineTile(
-              title: _stepLabel(l10n, trip.steps[i].type),
-              time: Formatters.dateTime(trip.steps[i].at),
-              color: AppColors.success,
-              icon: Icons.check,
-              isFirst: i == 0,
-              isLast: i == trip.steps.length - 1,
-            ),
-        ],
+        ),
       ],
+    );
+  }
+}
+
+class _PodPromptCard extends StatelessWidget {
+  const _PodPromptCard({required this.trip});
+
+  final Trip trip;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            l10n.podPromptTitle,
+            style: Theme.of(context).textTheme.headlineSmall,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          AppButton(
+            label: l10n.podPromptAction,
+            variant: AppButtonVariant.accent,
+            large: true,
+            onPressed: () => context.push(RouteNames.driverPod, extra: trip),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -731,15 +797,9 @@ class _VoiceConfirmChip extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: onYes,
-                child: Text(l10n.yesAction),
-              ),
+              ElevatedButton(onPressed: onYes, child: Text(l10n.yesAction)),
               const SizedBox(width: AppSpacing.sm),
-              OutlinedButton(
-                onPressed: onNo,
-                child: Text(l10n.noAction),
-              ),
+              OutlinedButton(onPressed: onNo, child: Text(l10n.noAction)),
             ],
           ),
         ],
@@ -834,14 +894,11 @@ class _RouteRow extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: context.tokens.inkMuted,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: context.tokens.inkMuted),
               ),
-              Text(
-                value,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
+              Text(value, style: Theme.of(context).textTheme.bodyMedium),
             ],
           ),
         ),
@@ -880,32 +937,6 @@ class _ContactRow extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _Fact extends StatelessWidget {
-  const _Fact({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: context.tokens.inkMuted,
-              ),
-        ),
-        Text(
-          value,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-      ],
     );
   }
 }

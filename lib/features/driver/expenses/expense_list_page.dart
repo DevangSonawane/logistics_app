@@ -7,6 +7,7 @@ import '../../../core/router/route_names.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/widgets/app_header.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_state.dart';
@@ -30,13 +31,12 @@ class ExpenseListPage extends ConsumerWidget {
     if (driverId == null) {
       return AppScaffold(body: ErrorState(message: l10n.commonError));
     }
-    final AsyncValue<DriverTripState> tripState =
-        ref.watch(driverTripProvider(driverId));
+    final AsyncValue<DriverTripState> tripState = ref.watch(
+      driverTripProvider(driverId),
+    );
     return tripState.when(
-      loading: () => AppScaffold(
-        title: l10n.expensesTitle,
-        body: const SkeletonList(),
-      ),
+      loading: () =>
+          AppScaffold(title: l10n.expensesTitle, body: const SkeletonList()),
       error: (e, _) => AppScaffold(
         title: l10n.expensesTitle,
         body: ErrorState(message: l10n.commonError),
@@ -53,64 +53,55 @@ class ExpenseListPage extends ConsumerWidget {
             ),
           );
         }
-        final AsyncValue<List<Expense>> expenses =
-            ref.watch(tripExpensesProvider(trip.id));
-        final AsyncValue<int> balance =
-            ref.watch(advanceBalanceProvider(driverId));
-        return AppScaffold(
-          title: l10n.expensesTitle,
+        final AsyncValue<List<Expense>> expenses = ref.watch(
+          tripExpensesProvider(trip.id),
+        );
+        final AsyncValue<int> balance = ref.watch(
+          advanceBalanceProvider(driverId),
+        );
+        return Scaffold(
           floatingActionButton: FloatingActionButton.extended(
             heroTag: 'add-expense',
-            onPressed: () => context.push(
-              RouteNames.driverAddExpense,
-              extra: trip,
-            ),
+            onPressed: () =>
+                context.push(RouteNames.driverAddExpense, extra: trip),
             icon: const Icon(Icons.add),
             label: Text(l10n.addExpenseAction),
           ),
           body: Column(
             children: [
-              balance.when(
-                loading: () => const SizedBox.shrink(),
-                error: (_, _) => const SizedBox.shrink(),
-                data: (int value) => Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(AppSpacing.md),
-                  decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: 0.15),
-                    borderRadius: AppSpacing.cardRadius,
-                    border: Border.all(color: AppColors.accent),
-                  ),
-                  child: Text(
-                    '${l10n.advanceBalance}: ${Formatters.inr(value)}',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+              OverlapHeader(
+                title: l10n.expensesTitle,
+                heroValue: Formatters.inr(balance.value ?? trip.advanceGiven),
+                heroLabel: l10n.advanceBalance,
               ),
               const SizedBox(height: AppSpacing.md),
               Expanded(
-                child: expenses.when(
-                  loading: () => const SkeletonList(),
-                  error: (e, _) => ErrorState(
-                    message: l10n.commonError,
-                    onRetry: () =>
-                        ref.invalidate(tripExpensesProvider(trip.id)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
                   ),
-                  data: (List<Expense> items) => items.isEmpty
-                      ? EmptyState(
-                          title: l10n.commonEmpty,
-                          message: '',
-                          icon: Icons.receipt_outlined,
-                        )
-                      : ListView.separated(
-                          itemCount: items.length,
-                          separatorBuilder: (_, _) => const SizedBox(
-                            height: AppSpacing.sm,
+                  child: expenses.when(
+                    loading: () => const SkeletonList(),
+                    error: (e, _) => ErrorState(
+                      message: l10n.commonError,
+                      onRetry: () =>
+                          ref.invalidate(tripExpensesProvider(trip.id)),
+                    ),
+                    data: (List<Expense> items) => items.isEmpty
+                        ? EmptyState(
+                            title: l10n.commonEmpty,
+                            message: '',
+                            icon: Icons.receipt_outlined,
+                          )
+                        : ListView.separated(
+                            padding: EdgeInsets.zero,
+                            itemCount: items.length,
+                            separatorBuilder: (_, _) =>
+                                const SizedBox(height: AppSpacing.sm),
+                            itemBuilder: (context, index) =>
+                                _ExpenseTile(expense: items[index]),
                           ),
-                          itemBuilder: (context, index) =>
-                              _ExpenseTile(expense: items[index]),
-                        ),
+                  ),
                 ),
               ),
             ],
@@ -149,16 +140,15 @@ class _ExpenseTile extends StatelessWidget {
                 Text(
                   Formatters.dateTime(expense.createdAt),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: context.tokens.inkMuted,
-                      ),
+                    color: context.tokens.inkMuted,
+                  ),
                 ),
                 if (expense.normFlag)
                   Text(
                     l10n.aboveNorm,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: AppColors.warning),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: AppColors.warning),
                   ),
               ],
             ),

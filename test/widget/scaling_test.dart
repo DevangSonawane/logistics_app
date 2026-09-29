@@ -24,19 +24,19 @@ class _TestSession extends Session {
 }
 
 SessionState _driverState() => const SessionState(
-      onboardingDone: true,
-      loggedIn: true,
-      user: AppUser(
-        id: 'u-driver-1',
-        name: 'Ramesh Yadav',
-        phone: '9000000001',
-        roles: [AppRole.driver],
-        branchIds: ['br-pune'],
-        language: 'hi',
-      ),
-      activeRole: AppRole.driver,
-      permissionsDone: true,
-    );
+  onboardingDone: true,
+  loggedIn: true,
+  user: AppUser(
+    id: 'u-driver-1',
+    name: 'Ramesh Yadav',
+    phone: '9000000001',
+    roles: [AppRole.driver],
+    branchIds: ['br-pune'],
+    language: 'hi',
+  ),
+  activeRole: AppRole.driver,
+  permissionsDone: true,
+);
 
 void main() {
   setUpAll(() async {
@@ -50,8 +50,7 @@ void main() {
   ) async {
     tester.view.physicalSize = size;
     tester.view.devicePixelRatio = 1.0;
-    tester.binding.platformDispatcher.textScaleFactorTestValue =
-        textScale;
+    tester.binding.platformDispatcher.textScaleFactorTestValue = textScale;
     addTearDown(() {
       tester.view.resetPhysicalSize();
       tester.view.resetDevicePixelRatio();
@@ -59,19 +58,14 @@ void main() {
     });
   }
 
-  Future<void> pumpApp(
-    WidgetTester tester, {
-    SessionState? session,
-  }) async {
+  Future<void> pumpApp(WidgetTester tester, {SessionState? session}) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           secureStoreProvider.overrideWithValue(memorySecureStore()),
           ...memoryBoxOverrides(),
           if (session != null)
-            sessionProvider.overrideWith(
-              () => _TestSession(session),
-            ),
+            sessionProvider.overrideWith(() => _TestSession(session)),
         ],
         child: const RoadOpsApp(),
       ),
@@ -89,13 +83,10 @@ void main() {
       MediaQuery.textScalerOf(tester.element(finder)).scale(1.0);
 
   group('text scale clamp', () {
-    testWidgets('360dp at system 1.3 clamps to 1.15, no overflow',
-        (tester) async {
-      await setSurface(
-        tester,
-        const Size(360, 640),
-        1.3,
-      );
+    testWidgets('360dp at system 1.3 clamps to 1.15, no overflow', (
+      tester,
+    ) async {
+      await setSurface(tester, const Size(360, 640), 1.3);
       await pumpApp(tester);
       expect(find.text('Log in with your phone number'), findsOneWidget);
       expect(
@@ -105,13 +96,8 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('420dp at system 1.0 stays 1.0, no overflow',
-        (tester) async {
-      await setSurface(
-        tester,
-        const Size(420, 900),
-        1.0,
-      );
+    testWidgets('420dp at system 1.0 stays 1.0, no overflow', (tester) async {
+      await setSurface(tester, const Size(420, 900), 1.0);
       await pumpApp(tester);
       expect(find.text('Log in with your phone number'), findsOneWidget);
       expect(
@@ -122,11 +108,7 @@ void main() {
     });
 
     testWidgets('system 0.8 floors to 0.9', (tester) async {
-      await setSurface(
-        tester,
-        const Size(360, 640),
-        0.8,
-      );
+      await setSurface(tester, const Size(360, 640), 0.8);
       await pumpApp(tester);
       expect(
         scalerOf(tester, find.text('Log in with your phone number')),
@@ -138,21 +120,14 @@ void main() {
 
   group('driver theme isolation', () {
     testWidgets('driver routes get the 1.15x text theme', (tester) async {
-      await setSurface(
-        tester,
-        const Size(360, 640),
-        1.0,
-      );
+      await setSurface(tester, const Size(360, 640), 1.0);
       await pumpApp(tester, session: _driverState());
       expect(find.text('Namaste, Ramesh Yadav'), findsOneWidget);
       final ThemeData theme = Theme.of(
         tester.element(find.text('Namaste, Ramesh Yadav')),
       );
       // 20 (h2 token) x 1.15 driver multiplier; staff screens stay 20.
-      expect(
-        theme.textTheme.headlineMedium!.fontSize!,
-        moreOrLessEquals(23.0),
-      );
+      expect(theme.textTheme.headlineMedium!.fontSize!, moreOrLessEquals(23.0));
       // Builder clamp does not stack: system 1.0 stays 1.0 in driver too.
       expect(
         scalerOf(tester, find.text('Namaste, Ramesh Yadav')),
@@ -161,13 +136,8 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('staff screens keep the unscaled text theme',
-        (tester) async {
-      await setSurface(
-        tester,
-        const Size(360, 640),
-        1.0,
-      );
+    testWidgets('staff screens keep the unscaled text theme', (tester) async {
+      await setSurface(tester, const Size(360, 640), 1.0);
       await pumpApp(tester);
       final ThemeData theme = Theme.of(
         tester.element(find.text('Log in with your phone number')),

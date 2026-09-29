@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/app_localizations.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/driver_theme.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
 import '../application/driver_settings.dart';
@@ -26,38 +27,32 @@ class DriverShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final double textScale =
-        ref.watch(driverSettingsProvider.select((s) => s.textScale));
+    final double textScale = ref.watch(
+      driverSettingsProvider.select((s) => s.textScale),
+    );
     final MediaQueryData media = MediaQuery.of(context);
     return Theme(
       data: DriverTheme.themed(context),
       child: MediaQuery(
-        data: media.copyWith(
-          textScaler: TextScaler.linear(textScale),
-        ),
+        data: media.copyWith(textScaler: TextScaler.linear(textScale)),
         child: Scaffold(
           body: navigationShell,
           bottomNavigationBar: AppBottomNavBar(
-          currentIndex: navigationShell.currentIndex,
-          onTap: _goBranch,
-          items: [
-            AppNavItem(
-              icon: Icons.local_shipping_outlined,
-              label: l10n.tabMyTrip,
-            ),
-            AppNavItem(
-              icon: Icons.account_balance_wallet_outlined,
-              label: l10n.tabEarnings,
-            ),
-            AppNavItem(
-              icon: Icons.folder_outlined,
-              label: l10n.tabDocuments,
-            ),
-            AppNavItem(
-              icon: Icons.person_outline,
-              label: l10n.tabProfile,
-            ),
-          ],
+            currentIndex: navigationShell.currentIndex,
+            onTap: _goBranch,
+            accent: AppColors.driverAccent,
+            items: [
+              AppNavItem(
+                icon: Icons.local_shipping_outlined,
+                label: l10n.tabMyTrip,
+              ),
+              AppNavItem(
+                icon: Icons.account_balance_wallet_outlined,
+                label: l10n.tabEarnings,
+              ),
+              AppNavItem(icon: Icons.folder_outlined, label: l10n.tabDocuments),
+              AppNavItem(icon: Icons.person_outline, label: l10n.tabProfile),
+            ],
           ),
         ),
       ),

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/l10n/app_localizations.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
+import '../../../core/utils/formatters.dart';
 import '../../../core/utils/launch_helpers.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_card.dart';
@@ -12,8 +14,9 @@ import '../../../core/widgets/skeleton_list.dart';
 import '../../../data/models/dashboard.dart';
 import '../application/owner_providers.dart';
 
-/// O5. Daily brief: date pager, money/trips/risks/wins sections,
-/// share to WhatsApp.
+/// O5. Daily brief: date pager, summary, trips / money / risks sections,
+/// share to WhatsApp. Share action sits in a SafeArea with bottom
+/// padding so it never slides under the system nav bar.
 class DailyBriefPage extends ConsumerStatefulWidget {
   const DailyBriefPage({super.key});
 
@@ -31,6 +34,7 @@ class _DailyBriefPageState extends ConsumerState<DailyBriefPage> {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
+    final AppColorTokens tokens = context.tokens;
     final DateTime day =
         DateTime.now().add(Duration(days: _dayOffset));
     final AsyncValue<String> brief = ref.watch(dailyBriefProvider);
@@ -40,101 +44,229 @@ class _DailyBriefPageState extends ConsumerState<DailyBriefPage> {
         ref.watch(attentionProvider);
     return AppScaffold(
       title: l10n.briefTitle,
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      padding: EdgeInsets.zero,
+      body: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.lg,
+            AppSpacing.md,
+            AppSpacing.lg,
+            AppSpacing.lg,
+          ),
+          child: Column(
             children: [
-              IconButton(
-                icon: const Icon(Icons.chevron_left_outlined),
-                onPressed: _dayOffset > -6
-                    ? () => setState(() => _dayOffset--)
-                    : null,
+              AppCard(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.sm,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.chevron_left_outlined),
+                      onPressed: _dayOffset > -6
+                          ? () => setState(() => _dayOffset--)
+                          : null,
+                    ),
+                    Expanded(
+                      child: Text(
+                        Formatters.date(day),
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.chevron_right_outlined),
+                      onPressed: _dayOffset < 0
+                          ? () => setState(() => _dayOffset++)
+                          : null,
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                '${day.day}/${day.month}/${day.year}',
-                style: Theme.of(context).textTheme.headlineSmall,
+              const SizedBox(height: AppSpacing.md),
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(AppSpacing.lg),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            AppColors.primary,
+                            AppColors.primaryDark,
+                          ],
+                        ),
+                        borderRadius: AppSpacing.cardRadius,
+                      ),
+                      child: brief.when(
+                        loading: () =>
+                            const SkeletonList(itemCount: 3),
+                        error: (e, _) => ErrorState(
+                          message: l10n.commonError,
+                          onRetry: () =>
+                              ref.invalidate(dailyBriefProvider),
+                        ),
+                        data: (String text) => Text(
+                          text,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(
+                                color: Colors.white.withValues(alpha: 0.95),
+                                height: 1.5,
+                              ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    kpis.when(
+                      loading: () => const SkeletonList(itemCount: 2),
+                      error: (e, _) => ErrorState(
+                        message: l10n.commonError,
+                      ),
+                      data: (DashboardKpis k) => AppCard(
+                        child: Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                          children: [
+                            _SectionTitle(
+                              icon: Icons.local_shipping_outlined,
+                              title:
+                                  '${l10n.tripsToday}: ${k.tripsToday}',
+                            ),
+                            const SizedBox(height: AppSpacing.xs),
+                            Text(
+                              '${l10n.collectionsMonth}: '
+                              '${Formatters.inr(k.collectionsMonth)}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(color: tokens.inkMuted),
+                            ),
+                            Text(
+                              '${l10n.outstandingLabel}: '
+                              '${Formatters.inr(k.outstanding)}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(color: tokens.inkMuted),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    attention.when(
+                      loading: () => const SkeletonList(itemCount: 2),
+                      error: (e, _) => ErrorState(
+                        message: l10n.commonError,
+                      ),
+                      data: (List<AttentionItem> list) => AppCard(
+                        child: Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                          children: [
+                            _SectionTitle(
+                              icon: Icons.warning_amber_outlined,
+                              title: l10n.briefRisks,
+                              tint: AppColors.warning,
+                            ),
+                            const SizedBox(height: AppSpacing.xs),
+                            for (final AttentionItem item in list)
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: AppSpacing.xs,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 6,
+                                      height: 6,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: AppColors.danger,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: AppSpacing.sm,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        '${item.count} ${item.title}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              IconButton(
-                icon: const Icon(Icons.chevron_right_outlined),
-                onPressed: _dayOffset < 0
-                    ? () => setState(() => _dayOffset++)
-                    : null,
+              const SizedBox(height: AppSpacing.md),
+              AppButton(
+                label: l10n.shareWhatsapp,
+                icon: Icons.share_outlined,
+                onPressed: () => _share(brief.value ?? ''),
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
-          Expanded(
-            child: ListView(
-              children: [
-                AppCard(
-                  child: brief.when(
-                    loading: () => const SkeletonList(itemCount: 3),
-                    error: (e, _) => ErrorState(
-                      message: l10n.commonError,
-                      onRetry: () =>
-                          ref.invalidate(dailyBriefProvider),
-                    ),
-                    data: (String text) => Text(text),
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                AppCard(
-                  child: kpis.when(
-                    loading: () => const SkeletonList(itemCount: 2),
-                    error: (e, _) => ErrorState(
-                      message: l10n.commonError,
-                    ),
-                    data: (DashboardKpis k) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.briefMoney,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall,
-                        ),
-                        Text(
-                          '${l10n.collectionsMonth}: ${k.collectionsMonth} · '
-                          '${l10n.outstandingLabel}: ${k.outstanding}',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                AppCard(
-                  child: attention.when(
-                    loading: () => const SkeletonList(itemCount: 2),
-                    error: (e, _) => ErrorState(
-                      message: l10n.commonError,
-                    ),
-                    data: (List<AttentionItem> list) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.briefRisks,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall,
-                        ),
-                        for (final AttentionItem item in list)
-                          Text('• ${item.count} ${item.title}'),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          AppButton(
-            label: l10n.shareWhatsapp,
-            icon: Icons.share_outlined,
-            onPressed: () => _share(brief.value ?? ''),
-          ),
-        ],
+        ),
       ),
+    );
+  }
+}
+
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({
+    required this.icon,
+    required this.title,
+    this.tint,
+  });
+
+  final IconData icon;
+  final String title;
+  final Color? tint;
+
+  @override
+  Widget build(BuildContext context) {
+    final Color color = tint ?? context.tokens.primary;
+    return Row(
+      children: [
+        Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color.withValues(alpha: 0.12),
+          ),
+          child: Icon(icon, size: 18, color: color),
+        ),
+        const SizedBox(width: AppSpacing.sm),
+        Expanded(
+          child: Text(
+            title,
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(fontWeight: FontWeight.w700),
+          ),
+        ),
+      ],
     );
   }
 }

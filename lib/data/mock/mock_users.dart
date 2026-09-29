@@ -2,11 +2,16 @@ import '../models/app_user.dart';
 import '../models/branch.dart';
 
 /// Demo credentials from Section 9 of the build prompt.
-/// OTP for every account: 123456. Wrong OTP errors, 000000 = expired.
+/// Login is a simple phone + password form (no OTP); the demo password
+/// below is accepted for every account. Role pills on the login page
+/// autofill these numbers.
 /// Consignee POD OTP: 4321. Lock page demo PIN: 1234.
 abstract final class MockUsers {
   static const String demoOtp = '123456';
   static const String expiredOtp = '000000';
+
+  /// Demo password autofilled by the login role pills.
+  static const String demoPassword = '123456';
   static const String podOtp = '4321';
   static const String demoPin = '1234';
 

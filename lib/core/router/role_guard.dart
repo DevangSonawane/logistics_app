@@ -5,8 +5,8 @@ import '../../../features/auth/application/session_provider.dart';
 import 'route_names.dart';
 
 /// Router-level enforcement (Section 5). Evaluated in this order:
-/// onboarding -> login -> role pick -> permissions -> biometric -> lock,
-/// else the active role home. The UI never enforces roles itself.
+/// onboarding -> login -> role pick -> active role home. The UI never
+/// enforces roles itself.
 String? roleGuard(SessionState session, GoRouterState state) {
   final String path = state.uri.path;
 
@@ -26,18 +26,6 @@ String? roleGuard(SessionState session, GoRouterState state) {
     return path == RouteNames.rolePicker ? null : RouteNames.rolePicker;
   }
 
-  if (!session.permissionsDone) {
-    return path == RouteNames.permissions ? null : RouteNames.permissions;
-  }
-
-  if (session.isStaff && !session.biometricSetup) {
-    return path == RouteNames.biometricSetup ? null : RouteNames.biometricSetup;
-  }
-
-  if (session.locked) {
-    return path == RouteNames.lock ? null : RouteNames.lock;
-  }
-
   final String home = RouteNames.homeFor(session.activeRole);
 
   // Keep logged-in users out of the pre-home flow.
@@ -46,10 +34,7 @@ String? roleGuard(SessionState session, GoRouterState state) {
     RouteNames.language,
     RouteNames.login,
     RouteNames.rolePicker,
-    RouteNames.permissions,
     RouteNames.biometricSetup,
-    // Unlocked sessions never linger on the lock page (locked ones are
-    // held above).
     RouteNames.lock,
   };
   if (preHome.contains(path)) return home;

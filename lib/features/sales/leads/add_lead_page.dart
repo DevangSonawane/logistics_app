@@ -9,6 +9,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../core/widgets/app_filter_chip.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/photo_capture_sheet.dart';
@@ -233,10 +234,10 @@ class _AddLeadPageState extends ConsumerState<AddLeadPage> {
             spacing: AppSpacing.sm,
             children: [
               for (final LeadSource s in LeadSource.values)
-                ChoiceChip(
-                  label: Text(_sourceLabel(l10n, s)),
+                AppFilterChip(
+                  label: _sourceLabel(l10n, s),
                   selected: _source == s,
-                  onSelected: (_) => setState(() => _source = s),
+                  onTap: () => setState(() => _source = s),
                 ),
             ],
           ),

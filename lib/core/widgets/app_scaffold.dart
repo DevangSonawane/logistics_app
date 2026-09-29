@@ -33,7 +33,15 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = Padding(padding: padding, child: body);
+    // Cap line length on wide screens (tablets): phones render edge to
+    // edge, larger surfaces center a 640dp column instead of stretching.
+    Widget content = Align(
+      alignment: Alignment.topCenter,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 640),
+        child: Padding(padding: padding, child: body),
+      ),
+    );
     if (refresh != null) {
       content = RefreshIndicator(onRefresh: refresh!, child: content);
     }

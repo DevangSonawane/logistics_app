@@ -7,6 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/app_card.dart';
+import '../../../core/widgets/app_filter_chip.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/error_state.dart';
 import '../../../core/widgets/skeleton_list.dart';
@@ -53,23 +54,15 @@ class _PnlPageState extends ConsumerState<PnlPage> {
       ],
       body: Column(
         children: [
-          SizedBox(
-            height: 44,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                for (final entry in groups.entries)
-                  Padding(
-                    padding: const EdgeInsets.only(right: AppSpacing.sm),
-                    child: ChoiceChip(
-                      label: Text(entry.value),
-                      selected: _group == entry.key,
-                      onSelected: (_) =>
-                          setState(() => _group = entry.key),
-                    ),
-                  ),
-              ],
-            ),
+          AppFilterRow(
+            children: [
+              for (final entry in groups.entries)
+                AppFilterChip(
+                  label: entry.value,
+                  selected: _group == entry.key,
+                  onTap: () => setState(() => _group = entry.key),
+                ),
+            ],
           ),
           const SizedBox(height: AppSpacing.md),
           Expanded(

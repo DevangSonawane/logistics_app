@@ -14,6 +14,7 @@ class OverlapHeader extends StatelessWidget {
     this.subtitle,
     this.trailing = const SizedBox.shrink(),
     this.gradient = AppColors.heroGradient,
+    this.foreground = Colors.white,
     this.overlap,
     this.heroValue,
     this.heroLabel,
@@ -25,6 +26,10 @@ class OverlapHeader extends StatelessWidget {
 
   /// Hero gradient override per role surface.
   final LinearGradient gradient;
+
+  /// Text/icon color drawn on the gradient. Defaults to white for the
+  /// saturated purple heroes; pass ink for the near-white headers.
+  final Color foreground;
 
   /// Card overlapping the header's bottom edge (the screen's focal point).
   final Widget? overlap;
@@ -58,13 +63,15 @@ class OverlapHeader extends StatelessWidget {
                         Text(
                           title,
                           style: Theme.of(context).textTheme.headlineLarge
-                              ?.copyWith(color: Colors.white),
+                              ?.copyWith(color: foreground),
                         ),
                         if (subtitle != null)
                           Text(
                             subtitle!,
                             style: Theme.of(context).textTheme.bodyLarge
-                                ?.copyWith(color: Colors.white70),
+                                ?.copyWith(
+                                  color: foreground.withValues(alpha: 0.7),
+                                ),
                           ),
                       ],
                     ),
@@ -77,15 +84,18 @@ class OverlapHeader extends StatelessWidget {
                 Text(
                   heroValue!,
                   style: AppTypography.kpiNumber(
-                    Colors.white,
+                    foreground,
                   ).copyWith(fontSize: 40),
                 ),
                 if (heroLabel != null)
                   Text(
                     heroLabel!,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge?.copyWith(color: Colors.white70),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(
+                          color: foreground.withValues(alpha: 0.7),
+                        ),
                   ),
               ],
               SizedBox(

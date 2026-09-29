@@ -28,7 +28,7 @@ abstract final class DriverTheme {
           textStyle: AppTypography.textTheme().labelLarge,
         ),
       ),
-      iconTheme: base.iconTheme.copyWith(size: 28),
+      iconTheme: base.iconTheme.copyWith(size: 24),
     );
   }
 }

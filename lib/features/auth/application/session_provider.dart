@@ -124,7 +124,8 @@ class Session extends _$Session {
     } catch (_) {}
   }
 
-  /// Called by the auth controller after OTP verification (Phase 2).
+  /// Called by the login form. The permissions checklist was removed
+  /// from the flow, so sessions start with it done.
   void signIn(AppUser user) {
     final bool multi = user.roles.length > 1;
     state = state.copyWith(
@@ -132,7 +133,7 @@ class Session extends _$Session {
       user: user,
       activeRole: multi ? null : user.roles.first,
       needsRolePick: multi,
-      permissionsDone: false,
+      permissionsDone: true,
       biometricSetup: false,
       locked: false,
     );

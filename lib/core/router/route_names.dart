@@ -7,7 +7,6 @@ abstract final class RouteNames {
   static const String language = '/language';
   static const String login = '/login';
   static const String rolePicker = '/role-picker';
-  static const String permissions = '/permissions';
   static const String biometricSetup = '/biometric-setup';
   static const String lock = '/lock';
   static const String forbidden = '/403';
@@ -74,15 +73,15 @@ abstract final class RouteNames {
   static const String supervisorHome = '/supervisor/home';
   static const String accountantHome = '/accountant/home';
 
-  /// Home route for a role. Unknown/null falls back to login.
+  /// Home route for a role. Tabbed roles land on their first shell tab.
   static String homeFor(AppRole? role) {
     return switch (role) {
       AppRole.driver => driverHome,
       AppRole.owner => ownerHome,
       // Ops lands on the orders tab (shell root has no separate home).
       AppRole.ops => opsOrders,
-      AppRole.sales => salesHome,
-      AppRole.supervisor => supervisorHome,
+      AppRole.sales => salesLeads,
+      AppRole.supervisor => superToday,
       AppRole.accountant => accountantHome,
       null => login,
     };

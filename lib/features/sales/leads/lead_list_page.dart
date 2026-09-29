@@ -6,6 +6,7 @@ import '../../../core/l10n/app_localizations.dart';
 import '../../../core/router/route_names.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
+import '../../../core/widgets/app_filter_chip.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_state.dart';
@@ -96,34 +97,20 @@ class _LeadListPageState extends ConsumerState<LeadListPage> {
       ),
       body: Column(
         children: [
-          SizedBox(
-            height: 44,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.only(right: AppSpacing.sm),
-                  child: ChoiceChip(
-                    label: Text(l10n.filterAll),
-                    selected: _source == null,
-                    onSelected: (_) =>
-                        setState(() => _source = null),
-                  ),
+          AppFilterRow(
+            children: [
+              AppFilterChip(
+                label: l10n.filterAll,
+                selected: _source == null,
+                onTap: () => setState(() => _source = null),
+              ),
+              for (final LeadSource s in LeadSource.values)
+                AppFilterChip(
+                  label: _sourceLabel(l10n, s),
+                  selected: _source == s,
+                  onTap: () => setState(() => _source = s),
                 ),
-                for (final LeadSource s in LeadSource.values)
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(right: AppSpacing.sm),
-                    child: ChoiceChip(
-                      label: Text(_sourceLabel(l10n, s)),
-                      selected: _source == s,
-                      onSelected: (_) =>
-                          setState(() => _source = s),
-                    ),
-                  ),
-              ],
-            ),
+            ],
           ),
           const SizedBox(height: AppSpacing.md),
           Expanded(

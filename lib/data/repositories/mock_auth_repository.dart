@@ -25,6 +25,19 @@ class MockAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<AuthResult> signInWithCredentials({
+    required String phone,
+    required String password,
+  }) async {
+    await mockDelay();
+    throwIfChaos();
+    if (password.trim().length < 4) {
+      throw const AuthException(AuthFailure.invalidPhone);
+    }
+    return demoSignIn(phone);
+  }
+
+  @override
   Future<void> logout() async {
     await mockDelay();
   }

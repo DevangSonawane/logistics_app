@@ -52,6 +52,7 @@ class EarningsPage extends ConsumerWidget {
             OverlapHeader(
               title: l10n.earningsTitle,
               gradient: AppColors.darkHeroGradient,
+              foreground: context.tokens.ink,
               heroValue: Formatters.inrShort(summary.monthTotal),
               heroLabel: l10n.monthTotal,
               overlap: _SettlementOverlap(summary: summary),

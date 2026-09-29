@@ -15,9 +15,10 @@ class ThemeModeController extends _$ThemeModeController {
   @override
   ThemeMode build() {
     final String? name = _store.themeModeName;
+    // Default to the white light theme; dark stays opt-in via Settings.
     return ThemeMode.values.firstWhere(
       (ThemeMode m) => m.name == name,
-      orElse: () => ThemeMode.system,
+      orElse: () => ThemeMode.light,
     );
   }
 

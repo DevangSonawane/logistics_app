@@ -6,6 +6,7 @@ import '../../../core/l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/widgets/app_filter_chip.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_state.dart';
@@ -34,34 +35,20 @@ class _InvoiceListPageState extends ConsumerState<InvoiceListPage> {
       title: l10n.invoicesTitle,
       body: Column(
         children: [
-          SizedBox(
-            height: 44,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.only(right: AppSpacing.sm),
-                  child: ChoiceChip(
-                    label: Text(l10n.filterAll),
-                    selected: _filter == null,
-                    onSelected: (_) =>
-                        setState(() => _filter = null),
-                  ),
+          AppFilterRow(
+            children: [
+              AppFilterChip(
+                label: l10n.filterAll,
+                selected: _filter == null,
+                onTap: () => setState(() => _filter = null),
+              ),
+              for (final InvoiceStatus s in InvoiceStatus.values)
+                AppFilterChip(
+                  label: _statusLabel(l10n, s),
+                  selected: _filter == s,
+                  onTap: () => setState(() => _filter = s),
                 ),
-                for (final InvoiceStatus s in InvoiceStatus.values)
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(right: AppSpacing.sm),
-                    child: ChoiceChip(
-                      label: Text(_statusLabel(l10n, s)),
-                      selected: _filter == s,
-                      onSelected: (_) =>
-                          setState(() => _filter = s),
-                    ),
-                  ),
-              ],
-            ),
+            ],
           ),
           const SizedBox(height: AppSpacing.md),
           Expanded(

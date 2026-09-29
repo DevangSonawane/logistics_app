@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
-import 'app_card.dart';
 
-/// KPI card: label, animated big number, delta chip, mini sparkline,
-/// tinted icon bubble. Numbers are pre-formatted by the caller
-/// (Formatters.inrShort for KPIs).
+/// KPI card (soft embossed style): tinted icon bubble + label + optional
+/// progress percent, big numeral, bottom range bar / sparkline / delta.
+///
+/// Numbers are pre-formatted by the caller (Formatters.inrShort).
 class KpiCard extends StatelessWidget {
   const KpiCard({
     super.key,
@@ -19,6 +19,8 @@ class KpiCard extends StatelessWidget {
     this.icon,
     this.iconTint,
     this.sparkline,
+    this.fraction,
+    this.progressLabel,
     this.onTap,
   });
 
@@ -29,27 +31,63 @@ class KpiCard extends StatelessWidget {
   final IconData? icon;
   final Color? iconTint;
   final List<double>? sparkline;
+
+  /// 0..1 fill of the bottom range bar (e.g. utilisation, relative scale).
+  final double? fraction;
+
+  /// Percent text beside the label (e.g. "78%"). Shown only when given.
+  final String? progressLabel;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final AppColorTokens tokens = context.tokens;
     final Color tint = iconTint ?? tokens.primary;
-    return AppCard(
-      onTap: onTap,
+    final Widget card = Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: tokens.surfaceAlt,
+        borderRadius: AppSpacing.cardRadius,
+        boxShadow: [
+          const BoxShadow(
+            color: Colors.white,
+            blurRadius: 12,
+            offset: Offset(-6, -6),
+          ),
+          BoxShadow(
+            color: tokens.inkFaint.withValues(alpha: 0.45),
+            blurRadius: 12,
+            offset: const Offset(6, 6),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
               if (icon != null)
                 Container(
-                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  width: 36,
+                  height: 36,
                   decoration: BoxDecoration(
-                    color: tint.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(AppSpacing.md),
+                    shape: BoxShape.circle,
+                    color: tint,
+                    boxShadow: [
+                      const BoxShadow(
+                        color: Colors.white,
+                        blurRadius: 4,
+                        offset: Offset(-2, -2),
+                      ),
+                      BoxShadow(
+                        color: tint.withValues(alpha: 0.5),
+                        blurRadius: 4,
+                        offset: const Offset(2, 2),
+                      ),
+                    ],
                   ),
-                  child: Icon(icon, color: tint, size: AppSpacing.xl),
+                  child: Icon(icon, color: Colors.white, size: 18),
                 ),
               if (icon != null) const SizedBox(width: AppSpacing.sm),
               Expanded(
@@ -58,46 +96,115 @@ class KpiCard extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall
-                      ?.copyWith(color: tokens.inkMuted),
+                      ?.copyWith(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: tokens.inkMuted,
+                        height: 1.2,
+                      ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              if (progressLabel != null) ...[
+                const SizedBox(width: AppSpacing.xs),
+                Text(
+                  progressLabel!,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(
+                        color: AppColors.success,
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+              ],
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
-          Text(value, style: AppTypography.kpiNumber(tokens.ink)),
-          const SizedBox(height: AppSpacing.xs),
-          Row(
-            children: [
-              if (delta != null)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.sm,
-                    vertical: 2,
-                  ),
-                  decoration: BoxDecoration(
-                    color: (deltaUp ?? true
-                            ? AppColors.success
-                            : AppColors.danger)
-                        .withValues(alpha: 0.12),
-                    borderRadius: AppSpacing.chipRadius,
-                  ),
-                  child: Text(
-                    delta!,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: deltaUp ?? true
-                              ? AppColors.success
-                              : AppColors.danger,
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                ),
-              if (delta != null && sparkline != null)
-                const SizedBox(width: AppSpacing.sm),
-              if (sparkline != null)
-                Expanded(child: _Sparkline(values: sparkline!, color: tint)),
-            ],
+          Text(
+            value,
+            style: AppTypography.kpiNumber(tokens.ink).copyWith(fontSize: 24),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          if (fraction != null) ...[
+            const SizedBox(height: AppSpacing.sm),
+            _RangeBar(fraction: fraction!.clamp(0.0, 1.0), tint: tint),
+          ] else if (sparkline != null) ...[
+            const SizedBox(height: AppSpacing.sm),
+            _Sparkline(values: sparkline!, color: tint),
+          ] else if (delta != null) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.sm,
+                vertical: 2,
+              ),
+              decoration: BoxDecoration(
+                color: (deltaUp ?? true
+                        ? AppColors.success
+                        : AppColors.danger)
+                    .withValues(alpha: 0.12),
+                borderRadius: AppSpacing.chipRadius,
+              ),
+              child: Text(
+                delta!,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: deltaUp ?? true
+                          ? AppColors.success
+                          : AppColors.danger,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+    if (onTap == null) return card;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: AppSpacing.cardRadius,
+        onTap: onTap,
+        child: card,
+      ),
+    );
+  }
+}
+
+/// Embossed track with a solid tinted fill.
+class _RangeBar extends StatelessWidget {
+  const _RangeBar({required this.fraction, required this.tint});
+
+  final double fraction;
+  final Color tint;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 8,
+      decoration: BoxDecoration(
+        color: context.tokens.surface,
+        borderRadius: AppSpacing.chipRadius,
+        boxShadow: [
+          BoxShadow(
+            color: context.tokens.inkFaint.withValues(alpha: 0.35),
+            blurRadius: 3,
+            offset: const Offset(1, 1),
           ),
         ],
+      ),
+      child: FractionallySizedBox(
+        alignment: Alignment.centerLeft,
+        widthFactor: fraction,
+        child: Container(
+          decoration: BoxDecoration(
+            color: tint,
+            borderRadius: AppSpacing.chipRadius,
+          ),
+        ),
       ),
     );
   }

@@ -102,8 +102,8 @@ class _TripBody extends StatelessWidget {
   }
 }
 
-/// Greeting header on the dark gradient: display-size greeting (Rule 4),
-/// vehicle + GPS chips left, sync pill right (Rule 5 asymmetry).
+/// Greeting header on the near-white gradient: display-size greeting
+/// (Rule 4), vehicle + GPS chips left, sync pill right (Rule 5 asymmetry).
 class _DriverHeader extends ConsumerWidget {
   const _DriverHeader();
 
@@ -136,7 +136,7 @@ class _DriverHeader extends ConsumerWidget {
                     child: Text(
                       l10n.greeting(name),
                       style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        color: Colors.white,
+                        color: context.tokens.primary,
                         fontSize: 28,
                       ),
                     ),

@@ -48,7 +48,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get langPunjabi => 'Punjabi';
 
   @override
-  String get loginTitle => 'Log in with your phone number';
+  String get loginTitle => 'Login';
 
   @override
   String get loginSubtitle =>
@@ -64,13 +64,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phoneError => 'Enter a valid 10-digit mobile number';
 
   @override
+  String get passwordLabel => 'Password';
+
+  @override
+  String get passwordHint => 'Enter your password';
+
+  @override
+  String get passwordError => 'Password must be at least 4 characters';
+
+  @override
+  String get signInAction => 'Login';
+
+  @override
+  String get forgotPassword => 'Forgot Password?';
+
+  @override
+  String get quickSignInHint => 'Tap a role below to autofill login details';
+
+  @override
   String get getOtp => 'Get OTP';
 
   @override
   String get demoAccounts => 'Demo accounts';
 
   @override
-  String get demoAccountsHint => 'Tap a role to autofill the demo number';
+  String get demoAccountsHint => 'Tap a role below to autofill login details';
 
   @override
   String get invalidPhone =>
@@ -230,7 +248,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logoutTitle => 'Log out?';
 
   @override
-  String get logoutMessage => 'You will need an OTP to log back in.';
+  String get logoutMessage =>
+      'You will need your login details to log back in.';
 
   @override
   String get logoutAction => 'Log out';
@@ -874,6 +893,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trendTitle => 'Revenue vs collection';
+
+  @override
+  String get legendRevenue => 'Revenue';
+
+  @override
+  String get legendCollection => 'Collection';
 
   @override
   String get topLanesTitle => 'Top lanes by margin';

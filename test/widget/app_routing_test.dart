@@ -42,9 +42,7 @@ void main() {
   group('design-system widgets', () {
     testWidgets('StatusChip shows label', (tester) async {
       await tester.pumpWidget(
-        _l10nWrap(
-          const StatusChip(label: 'Running', color: AppColors.primary),
-        ),
+        _l10nWrap(const StatusChip(label: 'Running', color: AppColors.primary)),
       );
       expect(find.text('Running'), findsOneWidget);
     });
@@ -52,9 +50,7 @@ void main() {
     testWidgets('AppButton shows label and reacts to tap', (tester) async {
       bool tapped = false;
       await tester.pumpWidget(
-        _l10nWrap(
-          AppButton(label: 'Continue', onPressed: () => tapped = true),
-        ),
+        _l10nWrap(AppButton(label: 'Continue', onPressed: () => tapped = true)),
       );
       await tester.tap(find.text('Continue'));
       expect(tapped, isTrue);
@@ -89,19 +85,35 @@ void main() {
 
   group('role-guarded routing', () {
     SessionState driverState() => const SessionState(
-          onboardingDone: true,
-          loggedIn: true,
-          user: AppUser(
-            id: 'u-driver-1',
-            name: 'Ramesh Yadav',
-            phone: '9000000001',
-            roles: [AppRole.driver],
-            branchIds: ['br-pune'],
-            language: 'hi',
-          ),
-          activeRole: AppRole.driver,
-          permissionsDone: true,
-        );
+      onboardingDone: true,
+      loggedIn: true,
+      user: AppUser(
+        id: 'u-driver-1',
+        name: 'Ramesh Yadav',
+        phone: '9000000001',
+        roles: [AppRole.driver],
+        branchIds: ['br-pune'],
+        language: 'hi',
+      ),
+      activeRole: AppRole.driver,
+      permissionsDone: true,
+    );
+
+    SessionState salesState() => const SessionState(
+      onboardingDone: true,
+      loggedIn: true,
+      user: AppUser(
+        id: 'u-sales-1',
+        name: 'Karan Shah',
+        phone: '9000000031',
+        roles: [AppRole.sales],
+        branchIds: ['br-pune'],
+        language: 'en',
+      ),
+      activeRole: AppRole.sales,
+      permissionsDone: true,
+      biometricSetup: true,
+    );
 
     Future<void> pumpApp(WidgetTester tester, SessionState state) async {
       await tester.pumpWidget(
@@ -124,21 +136,23 @@ void main() {
       expect(find.text('Namaste, Ramesh Yadav'), findsOneWidget);
     });
 
+    testWidgets('sales lands on leads tab home', (tester) async {
+      await pumpApp(tester, salesState());
+      expect(find.text('Leads'), findsWidgets);
+      expect(find.text('Add lead'), findsOneWidget);
+    });
+
     testWidgets('driver cannot open owner routes (403)', (tester) async {
       await pumpApp(tester, driverState());
-      final Element el =
-          tester.element(find.text('Namaste, Ramesh Yadav'));
+      final Element el = tester.element(find.text('Namaste, Ramesh Yadav'));
       GoRouter.of(el).go('/owner/home');
       await tester.pumpAndSettle();
       expect(find.text('Not allowed'), findsOneWidget);
     });
 
     testWidgets('logged-out user is sent to login', (tester) async {
-      await pumpApp(
-        tester,
-        const SessionState(onboardingDone: true),
-      );
-      expect(find.text('Log in with your phone number'), findsOneWidget);
+      await pumpApp(tester, const SessionState(onboardingDone: true));
+      expect(find.text('Login'), findsNWidgets(2));
     });
 
     testWidgets('fresh install starts at language select', (tester) async {

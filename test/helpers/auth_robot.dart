@@ -28,46 +28,62 @@ Future<void> pumpFreshApp(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
-/// Language -> tap a demo account card -> permissions (no OTP).
+/// Demo phones per account name for the simple login form.
+const Map<String, String> demoPhones = {
+  'Ramesh Yadav': '9000000001',
+  'Suresh Patil': '9000000002',
+  'Murugan K': '9000000003',
+  'Anil Mehta': '9000000011',
+  'Priya Nair': '9000000021',
+  'Karan Shah': '9000000031',
+  'Vijay Gaikwad': '9000000041',
+  'Neha Kulkarni': '9000000051',
+  'Rajesh Iyer': '9000000099',
+};
+
+/// Language -> fill the login form (phone + demo password) -> Sign In.
+/// No OTP: the form signs straight in and the guard routes onward.
 Future<void> signInAs(WidgetTester tester, String name) async {
   await pumpFreshApp(tester);
   expect(find.text('Choose your language'), findsOneWidget);
   await tester.tap(find.text('Continue'));
   await tester.pumpAndSettle();
-  await tester.scrollUntilVisible(find.text(name), 200);
-  await tester.tap(find.text(name));
+  await tester.enterText(
+    find.byKey(const Key('loginPhone')),
+    demoPhones[name] ?? name,
+  );
+  await tester.enterText(
+    find.byKey(const Key('loginPassword')),
+    '123456',
+  );
+  await tester.tap(find.byKey(const Key('signInSubmit')));
   await tester.pump(const Duration(seconds: 2));
 }
 
-/// Taps through every permission card to the end of the checklist.
-/// The background-location step uses Accept instead of Allow.
+/// Permissions step was removed from the flow; login lands directly on
+/// the role home (or biometric setup for staff). Kept as a no-op so
+/// existing journey tests keep compiling.
 Future<void> allowAllPermissions(WidgetTester tester) async {
-  for (int i = 0; i < 10; i++) {
-    await tester.pump(const Duration(milliseconds: 200));
-    // Stop once we leave the permissions page (driver home also
-    // has an Accept button for trip offers).
-    if (find.text('We need a few permissions').evaluate().isEmpty) {
-      break;
-    }
-    final Finder allow = find.text('Allow');
-    final Finder accept = find.text('Accept');
-    if (allow.evaluate().isNotEmpty) {
-      await tester.tap(allow);
-    } else if (accept.evaluate().isNotEmpty) {
-      await tester.tap(accept);
-    } else {
-      break;
-    }
-    await tester.pumpAndSettle();
+  await tester.pumpAndSettle();
+}
+
+/// Opens the profile tab. Bottom nav is icons-only, so tap the profile
+/// icon (person in most shells, overflow in owner).
+Future<void> openProfileTab(WidgetTester tester) async {
+  final Finder person = find.byIcon(Icons.person_outline);
+  if (person.evaluate().isNotEmpty) {
+    await tester.tap(person);
+  } else {
+    await tester.tap(find.byIcon(Icons.more_horiz_outlined));
   }
+  await tester.pumpAndSettle();
 }
 
 /// Profile tab -> scroll to Log out -> confirm dialog.
 /// Dialog/opening taps retry once: in FakeAsync, taps landing mid-transition
 /// can miss without failing the finder.
 Future<void> confirmLogout(WidgetTester tester) async {
-  await tester.tap(find.text('Profile'));
-  await tester.pumpAndSettle();
+  await openProfileTab(tester);
   // Bring Log out to a safely tappable spot: fling from a known-free
   // point until its center sits clear of bars and overlays.
   for (int i = 0; i < 6; i++) {

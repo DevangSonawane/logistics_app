@@ -48,7 +48,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get langPunjabi => 'पंजाबी';
 
   @override
-  String get loginTitle => 'अपने फोन नंबर से लॉगिन करें';
+  String get loginTitle => 'लॉगिन';
 
   @override
   String get loginSubtitle =>
@@ -64,13 +64,32 @@ class AppLocalizationsHi extends AppLocalizations {
   String get phoneError => 'सही 10 अंकों का मोबाइल नंबर डालें';
 
   @override
+  String get passwordLabel => 'पासवर्ड';
+
+  @override
+  String get passwordHint => 'अपना पासवर्ड डालें';
+
+  @override
+  String get passwordError => 'पासवर्ड कम से कम 4 अक्षरों का हो';
+
+  @override
+  String get signInAction => 'लॉगिन';
+
+  @override
+  String get forgotPassword => 'पासवर्ड भूल गए?';
+
+  @override
+  String get quickSignInHint => 'लॉगिन डिटेल भरने के लिए नीचे कोई रोल टैप करें';
+
+  @override
   String get getOtp => 'OTP पाएं';
 
   @override
   String get demoAccounts => 'डेमो अकाउंट';
 
   @override
-  String get demoAccountsHint => 'डेमो नंबर भरने के लिए भूमिका पर टैप करें';
+  String get demoAccountsHint =>
+      'लॉगिन डिटेल भरने के लिए नीचे कोई रोल टैप करें';
 
   @override
   String get invalidPhone =>
@@ -228,7 +247,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get logoutTitle => 'लॉगआउट करें?';
 
   @override
-  String get logoutMessage => 'वापस लॉगिन के लिए OTP चाहिए होगा।';
+  String get logoutMessage =>
+      'वापस लॉगिन के लिए आपको अपनी लॉगिन डिटेल चाहिए होगी।';
 
   @override
   String get logoutAction => 'लॉगआउट';
@@ -872,6 +892,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get trendTitle => 'आय बनाम वसूली';
+
+  @override
+  String get legendRevenue => 'Revenue';
+
+  @override
+  String get legendCollection => 'Collection';
 
   @override
   String get topLanesTitle => 'सबसे फायदेमंद लेन';

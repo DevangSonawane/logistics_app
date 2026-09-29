@@ -39,54 +39,53 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
+    final AppColorTokens tokens = context.tokens;
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(gradient: AppColors.heroGradient),
-        child: SafeArea(
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TweenAnimationBuilder<double>(
-                  tween: Tween(begin: 0.7, end: 1),
-                  duration: const Duration(milliseconds: 600),
-                  curve: Curves.easeOutBack,
-                  builder: (context, scale, child) => Opacity(
-                    opacity: scale.clamp(0.0, 1.0),
-                    child: Transform.scale(scale: scale, child: child),
+      backgroundColor: tokens.background,
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.7, end: 1),
+                duration: const Duration(milliseconds: 600),
+                curve: Curves.easeOutBack,
+                builder: (context, scale, child) => Opacity(
+                  opacity: scale.clamp(0.0, 1.0),
+                  child: Transform.scale(scale: scale, child: child),
+                ),
+                child: Container(
+                  padding: const EdgeInsets.all(AppSpacing.xl),
+                  decoration: BoxDecoration(
+                    gradient: AppColors.heroGradient,
+                    borderRadius:
+                        BorderRadius.circular(AppSpacing.xxxl),
                   ),
-                  child: Container(
-                    padding: const EdgeInsets.all(AppSpacing.xl),
-                    decoration: BoxDecoration(
-                      color: AppColors.accent,
-                      borderRadius:
-                          BorderRadius.circular(AppSpacing.xxxl),
-                    ),
-                    child: const Icon(
-                      Icons.local_shipping,
-                      size: AppSpacing.huge,
-                      color: AppColors.onAccent,
-                    ),
+                  child: const Icon(
+                    Icons.local_shipping,
+                    size: AppSpacing.huge,
+                    color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.lg),
-                Text(
-                  l10n.appName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .displayLarge
-                      ?.copyWith(color: Colors.white),
-                ),
-                const SizedBox(height: AppSpacing.xs),
-                Text(
-                  l10n.splashTagline,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(color: Colors.white70),
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              Text(
+                l10n.appName,
+                style: Theme.of(context)
+                    .textTheme
+                    .displayLarge
+                    ?.copyWith(color: tokens.primary),
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                l10n.splashTagline,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(color: tokens.inkMuted),
+              ),
+            ],
           ),
         ),
       ),

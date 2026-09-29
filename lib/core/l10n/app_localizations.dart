@@ -191,7 +191,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginTitle.
   ///
   /// In en, this message translates to:
-  /// **'Log in with your phone number'**
+  /// **'Login'**
   String get loginTitle;
 
   /// No description provided for @loginSubtitle.
@@ -218,6 +218,42 @@ abstract class AppLocalizations {
   /// **'Enter a valid 10-digit mobile number'**
   String get phoneError;
 
+  /// No description provided for @passwordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordLabel;
+
+  /// No description provided for @passwordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get passwordHint;
+
+  /// No description provided for @passwordError.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 4 characters'**
+  String get passwordError;
+
+  /// No description provided for @signInAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get signInAction;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPassword;
+
+  /// No description provided for @quickSignInHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a role below to autofill login details'**
+  String get quickSignInHint;
+
   /// No description provided for @getOtp.
   ///
   /// In en, this message translates to:
@@ -233,7 +269,7 @@ abstract class AppLocalizations {
   /// No description provided for @demoAccountsHint.
   ///
   /// In en, this message translates to:
-  /// **'Tap a role to autofill the demo number'**
+  /// **'Tap a role below to autofill login details'**
   String get demoAccountsHint;
 
   /// No description provided for @invalidPhone.
@@ -521,7 +557,7 @@ abstract class AppLocalizations {
   /// No description provided for @logoutMessage.
   ///
   /// In en, this message translates to:
-  /// **'You will need an OTP to log back in.'**
+  /// **'You will need your login details to log back in.'**
   String get logoutMessage;
 
   /// No description provided for @logoutAction.
@@ -1777,6 +1813,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Revenue vs collection'**
   String get trendTitle;
+
+  /// No description provided for @legendRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get legendRevenue;
+
+  /// No description provided for @legendCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection'**
+  String get legendCollection;
 
   /// No description provided for @topLanesTitle.
   ///

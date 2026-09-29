@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 /// Widgets must use these (via [AppColorTokens] extension on ThemeData)
 /// and never hard-code hex values.
 abstract final class AppColors {
-  // Brand
-  static const Color primary = Color(0xFF5B5BF0);
-  static const Color primaryDark = Color(0xFF3D3DD1);
-  static const Color primaryContainer = Color(0xFFE8E8FF);
-  static const Color accent = Color(0xFFC6F432);
-  static const Color onAccent = Color(0xFF0B1020);
+  // Brand: white surfaces + purple primary (no black base).
+  static const Color primary = Color(0xFF7C3AED);
+  static const Color primaryDark = Color(0xFF6D28D9);
+  static const Color primaryContainer = Color(0xFFEDE9FE);
+  static const Color accent = Color(0xFFA78BFA);
+  static const Color onAccent = Color(0xFF2E1065);
   static const Color secondary = Color(0xFF00C2A8);
 
   // Status
@@ -19,27 +19,30 @@ abstract final class AppColors {
   static const Color info = Color(0xFF3B82F6);
   static const Color podPending = Color(0xFFF97316);
 
-  // Gradients
+  // Gradients (purple family throughout; no black stops)
   static const LinearGradient heroGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF5B5BF0), Color(0xFF8E5BFF)],
+    colors: [Color(0xFF7C3AED), Color(0xFFA78BFA)],
   );
+  // Formerly near-black purple; now a near-white lavender so every
+  // header reads white with purple ink text (see OverlapHeader.foreground
+  // and _DriverHeader).
   static const LinearGradient darkHeroGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF0B1020), Color(0xFF1E1B4B)],
+    colors: [Color(0xFFFFFFFF), Color(0xFFEDE9FE)],
   );
   static const LinearGradient limeGlow = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFFC6F432), Color(0xFF9BE21A)],
+    colors: [Color(0xFFA78BFA), Color(0xFF7C3AED)],
   );
 
   // Role accents (subtle tint on shell app-bar and avatar ring)
-  static const Color driverAccent = Color(0xFFC6F432);
+  static const Color driverAccent = Color(0xFF6D28D9);
   static const Color ownerAccent = Color(0xFF8E5BFF);
-  static const Color opsAccent = Color(0xFF5B5BF0);
+  static const Color opsAccent = Color(0xFF7C3AED);
   static const Color salesAccent = Color(0xFFFF7A59);
   static const Color supervisorAccent = Color(0xFF00C2A8);
   static const Color accountantAccent = Color(0xFF3B82F6);
@@ -73,18 +76,18 @@ class AppColorTokens extends ThemeExtension<AppColorTokens> {
   final List<BoxShadow> cardShadow;
 
   static const AppColorTokens light = AppColorTokens(
-    background: Color(0xFFF6F7FB),
+    background: Color(0xFFFFFFFF),
     surface: Color(0xFFFFFFFF),
-    surfaceAlt: Color(0xFFEEF0F7),
-    ink: Color(0xFF0B1020),
-    inkMuted: Color(0xFF5A6180),
-    inkFaint: Color(0xFF9AA0BC),
-    border: Color(0xFFE3E6F0),
+    surfaceAlt: Color(0xFFF4F0FF),
+    ink: Color(0xFF1E1B4B),
+    inkMuted: Color(0xFF5B5580),
+    inkFaint: Color(0xFF9A92C0),
+    border: Color(0xFFE7E0FB),
     primary: AppColors.primary,
     onPrimary: Colors.white,
     cardShadow: [
       BoxShadow(
-        color: Color(0x0F0B1020),
+        color: Color(0x144C1D95),
         blurRadius: 24,
         offset: Offset(0, 8),
       ),
@@ -92,15 +95,15 @@ class AppColorTokens extends ThemeExtension<AppColorTokens> {
   );
 
   static const AppColorTokens dark = AppColorTokens(
-    background: Color(0xFF0B1020),
-    surface: Color(0xFF141A33),
-    surfaceAlt: Color(0xFF1C2444),
-    ink: Color(0xFFF4F6FF),
-    inkMuted: Color(0xFFA5ACCB),
-    inkFaint: Color(0xFF6B7394),
-    border: Color(0xFF2A3358),
-    primary: Color(0xFF8080FF),
-    onPrimary: Color(0xFF0B1020),
+    background: Color(0xFF171233),
+    surface: Color(0xFF221C4E),
+    surfaceAlt: Color(0xFF2C2560),
+    ink: Color(0xFFF5F2FF),
+    inkMuted: Color(0xFFB9B0E6),
+    inkFaint: Color(0xFF7E75A8),
+    border: Color(0xFF3B3271),
+    primary: Color(0xFFA78BFA),
+    onPrimary: Color(0xFF241D5A),
     cardShadow: [],
   );
 

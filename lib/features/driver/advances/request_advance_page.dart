@@ -9,6 +9,7 @@ import '../../../core/offline/offline_action.dart';
 import '../../../core/offline/offline_queue.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../core/widgets/app_filter_chip.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../data/models/advance.dart';
@@ -110,10 +111,10 @@ class _RequestAdvancePageState extends ConsumerState<RequestAdvancePage> {
             spacing: AppSpacing.sm,
             children: [
               for (final (purpose, label) in purposes)
-                ChoiceChip(
-                  label: Text(label),
+                AppFilterChip(
+                  label: label,
                   selected: _purpose == purpose,
-                  onSelected: (_) => setState(() => _purpose = purpose),
+                  onTap: () => setState(() => _purpose = purpose),
                 ),
             ],
           ),

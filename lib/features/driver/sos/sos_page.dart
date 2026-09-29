@@ -12,6 +12,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/launch_helpers.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../core/widgets/app_filter_chip.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/slide_confirm.dart';
 import '../../auth/application/session_provider.dart';
@@ -158,10 +159,10 @@ class _SosPageState extends ConsumerState<SosPage>
                   runSpacing: AppSpacing.sm,
                   children: [
                     for (final (id, label) in types)
-                      ChoiceChip(
-                        label: Text(label),
+                      AppFilterChip(
+                        label: label,
                         selected: _type == id,
-                        onSelected: (_) => setState(() => _type = id),
+                        onTap: () => setState(() => _type = id),
                       ),
                   ],
                 ),

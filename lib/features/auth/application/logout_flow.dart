@@ -16,7 +16,8 @@ import 'session_provider.dart';
 /// Shared logout flow (Section 6.3): confirm, driver blockers, sign out.
 ///
 /// Driver blockers:
-/// - running trip -> hard block with the "complete or ask Ops" message.
+/// - running trip -> warning with the "complete or ask Ops" message;
+///   demo builds also offer "Force logout".
 /// - unsynced items -> block with Sync now / View queue; demo builds also
 ///   offer "Force logout".
 /// Used by the role shell (Phase 2) and the profile page.
@@ -37,7 +38,7 @@ Future<void> runLogoutFlow(BuildContext context, WidgetRef ref) async {
         .hasActiveTrip(session.user!.id);
     if (!context.mounted) return;
     if (hasTrip) {
-      await _showBlocker(context, message: l10n.logoutRunningTrip);
+      await _showRunningTripBlocker(context, ref);
       return;
     }
     final int pending = ref.read(pendingSyncCountProvider);
@@ -56,21 +57,32 @@ Future<void> _finishLogout(WidgetRef ref) async {
   await ref.read(sessionProvider.notifier).signOut();
 }
 
-Future<void> _showBlocker(
-  BuildContext context, {
-  required String message,
-}) {
+/// Running-trip warning: advises finishing the trip first, but demo builds
+/// offer "Force logout" so testers are never stuck. GPS tracking is
+/// stopped on the way out.
+Future<void> _showRunningTripBlocker(
+  BuildContext context,
+  WidgetRef ref,
+) {
   final AppLocalizations l10n = AppLocalizations.of(context);
   return showDialog<void>(
     context: context,
-    builder: (context) => AlertDialog(
+    builder: (dialogContext) => AlertDialog(
       title: Text(l10n.logoutTitle),
-      content: Text(message),
+      content: Text(l10n.logoutRunningTrip),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(dialogContext).pop(),
           child: Text(l10n.cancelAction),
         ),
+        if (AppConfig.demo)
+          TextButton(
+            onPressed: () async {
+              Navigator.of(dialogContext).pop();
+              await _finishLogout(ref);
+            },
+            child: Text(l10n.forceLogout),
+          ),
       ],
     ),
   );

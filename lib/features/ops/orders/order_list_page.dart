@@ -7,6 +7,7 @@ import '../../../core/router/route_names.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/widgets/app_filter_chip.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/search_bar.dart';
 import '../../../core/widgets/empty_state.dart';
@@ -79,28 +80,20 @@ class _OrderListPageState extends ConsumerState<OrderListPage> {
       },
       body: Column(
         children: [
-          SizedBox(
-            height: 44,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                for (final OrderStatus s in [
-                  OrderStatus.pending,
-                  OrderStatus.planned,
-                  OrderStatus.running,
-                  OrderStatus.completed,
-                ])
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(right: AppSpacing.sm),
-                    child: ChoiceChip(
-                      label: Text(tabLabel(s)),
-                      selected: _tab == s,
-                      onSelected: (_) => setState(() => _tab = s),
-                    ),
-                  ),
-              ],
-            ),
+          AppFilterRow(
+            children: [
+              for (final OrderStatus s in [
+                OrderStatus.pending,
+                OrderStatus.planned,
+                OrderStatus.running,
+                OrderStatus.completed,
+              ])
+                AppFilterChip(
+                  label: tabLabel(s),
+                  selected: _tab == s,
+                  onTap: () => setState(() => _tab = s),
+                ),
+            ],
           ),
           const SizedBox(height: AppSpacing.md),
           AppSearchBar(

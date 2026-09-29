@@ -22,14 +22,16 @@ class ApprovalDetailSheet extends ConsumerStatefulWidget {
     BuildContext context, {
     required ApprovalItem item,
   }) {
+    // Content-sized sheet (no fixed 85% height): wraps the content and
+    // lifts above the keyboard when the comment field focuses.
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      builder: (_) => DraggableScrollableSheet(
-        expand: false,
-        initialChildSize: 0.85,
-        builder: (_, controller) =>
-            ApprovalDetailSheet(item: item),
+      builder: (sheetContext) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
+        ),
+        child: ApprovalDetailSheet(item: item),
       ),
     );
   }
@@ -122,36 +124,94 @@ class _ApprovalDetailSheetState
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
+    final AppColorTokens tokens = context.tokens;
     final ApprovalItem item = widget.item;
+    // Hierarchy: requester (title, semibold) + amount (title, primary,
+    // bold) -> reason (body, muted) -> risk (semibold, danger) ->
+    // timestamp (caption, faint) -> comment -> actions.
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        child: ListView(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.lg,
+          AppSpacing.md,
+          AppSpacing.lg,
+          AppSpacing.lg,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              '${item.requester} · ${Formatters.inr(item.amount)}',
-              style: Theme.of(context).textTheme.headlineSmall,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Expanded(
+                  child: Text(
+                    item.requester,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Text(
+                  Formatters.inr(item.amount),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(
+                        color: tokens.primary,
+                        fontWeight: FontWeight.w800,
+                      ),
+                ),
+              ],
             ),
-            const SizedBox(height: AppSpacing.sm),
-            Text(item.reason),
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              item.reason,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: tokens.inkMuted,
+                  ),
+            ),
             if (item.riskFlag != null) ...[
-              const SizedBox(height: AppSpacing.sm),
-              Text(
-                item.riskFlag!,
-                style: const TextStyle(color: AppColors.danger),
+              const SizedBox(height: AppSpacing.xs),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.warning_amber_outlined,
+                    size: 16,
+                    color: AppColors.danger,
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                  Expanded(
+                    child: Text(
+                      item.riskFlag!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(
+                            color: AppColors.danger,
+                            fontWeight: FontWeight.w600,
+                          ),
+                    ),
+                  ),
+                ],
               ),
             ],
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.xs),
             Text(
-              '${l10n.createdLabel}: ${Formatters.dateTime(item.createdAt)}',
-              style: Theme.of(context).textTheme.bodySmall,
+              '${l10n.createdLabel} · ${Formatters.dateTime(item.createdAt)}',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: tokens.inkFaint,
+                  ),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: AppSpacing.md),
             AppTextField(
               controller: _comment,
               label: l10n.commentHint,
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: AppSpacing.md),
             AppButton(
               label: l10n.approveAction,
               loading: _working,
@@ -163,7 +223,6 @@ class _ApprovalDetailSheetState
               variant: AppButtonVariant.danger,
               onPressed: _working ? null : () => _decide(false),
             ),
-            const SizedBox(height: AppSpacing.sm),
             AppButton(
               label: l10n.askInfoAction,
               variant: AppButtonVariant.text,

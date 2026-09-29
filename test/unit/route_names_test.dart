@@ -7,8 +7,8 @@ void main() {
     expect(RouteNames.homeFor(AppRole.driver), '/driver/home');
     expect(RouteNames.homeFor(AppRole.owner), '/owner/home');
     expect(RouteNames.homeFor(AppRole.ops), '/ops/orders');
-    expect(RouteNames.homeFor(AppRole.sales), '/sales/home');
-    expect(RouteNames.homeFor(AppRole.supervisor), '/supervisor/home');
+    expect(RouteNames.homeFor(AppRole.sales), '/sales/leads');
+    expect(RouteNames.homeFor(AppRole.supervisor), '/supervisor/today');
     expect(RouteNames.homeFor(AppRole.accountant), '/accountant/home');
   });
 

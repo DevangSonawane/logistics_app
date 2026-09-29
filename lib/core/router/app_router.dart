@@ -20,7 +20,6 @@ import '../../features/auth/application/session_provider.dart';
 import '../../features/auth/presentation/biometric_setup_page.dart';
 import '../../features/auth/presentation/lock_page.dart';
 import '../../features/auth/presentation/login_page.dart';
-import '../../features/auth/presentation/permissions_page.dart';
 import '../../features/auth/presentation/role_picker_page.dart';
 import '../../features/common/notifications/notification_center_page.dart';
 import '../../features/common/pdf_viewer/pdf_preview_page.dart';
@@ -119,10 +118,6 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: RouteNames.rolePicker,
         builder: (context, state) => const RolePickerPage(),
-      ),
-      GoRoute(
-        path: RouteNames.permissions,
-        builder: (context, state) => const PermissionsPage(),
       ),
       GoRoute(
         path: RouteNames.biometricSetup,

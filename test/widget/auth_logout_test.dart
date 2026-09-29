@@ -18,13 +18,15 @@ void main() {
       await signInAs(tester, names[phone] ?? phone);
       await allowAllPermissions(tester);
       await tester.pumpAndSettle();
-      return tester.element(find.text('My Trip'));
+      return tester.element(find.textContaining('Namaste'));
     }
 
     // Shared robust helper from the auth robot (scroll + retry +
     // dialog-scoped confirm tap).
 
-    testWidgets('running trip blocks driver logout', (tester) async {
+    testWidgets('running trip warns but force logout escapes (demo)', (
+      tester,
+    ) async {
       await driverHome(tester, '9000000001');
       await confirmLogout(tester);
       expect(
@@ -33,6 +35,9 @@ void main() {
         ),
         findsOneWidget,
       );
+      await tester.tap(find.text('Force logout (demo)'));
+      await tester.pumpAndSettle();
+      expect(find.text('Login'), findsNWidgets(2));
     });
 
     testWidgets('pending sync blocks logout, force logout escapes (demo)', (
@@ -55,22 +60,15 @@ void main() {
       expect(find.textContaining('not uploaded yet'), findsOneWidget);
       await tester.tap(find.text('Force logout (demo)'));
       await tester.pumpAndSettle();
-      expect(
-        find.text('Log in with your phone number'),
-        findsOneWidget,
-      );
+      expect(find.text('Login'), findsNWidgets(2));
     });
 
     testWidgets('staff logout needs only confirmation', (tester) async {
       await signInAs(tester, 'Priya Nair');
       await allowAllPermissions(tester);
-      await tester.tap(find.text('Enable'));
       await tester.pumpAndSettle();
       await confirmLogout(tester);
-      expect(
-        find.text('Log in with your phone number'),
-        findsOneWidget,
-      );
+      expect(find.text('Login'), findsNWidgets(2));
     });
   });
 }

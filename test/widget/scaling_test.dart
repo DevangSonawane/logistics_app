@@ -88,9 +88,10 @@ void main() {
     ) async {
       await setSurface(tester, const Size(360, 640), 1.3);
       await pumpApp(tester);
-      expect(find.text('Log in with your phone number'), findsOneWidget);
+      // Heading + submit button share the label.
+      expect(find.text('Login'), findsNWidgets(2));
       expect(
-        scalerOf(tester, find.text('Log in with your phone number')),
+        scalerOf(tester, find.text('Login').first),
         moreOrLessEquals(1.15),
       );
       expect(tester.takeException(), isNull);
@@ -99,9 +100,9 @@ void main() {
     testWidgets('420dp at system 1.0 stays 1.0, no overflow', (tester) async {
       await setSurface(tester, const Size(420, 900), 1.0);
       await pumpApp(tester);
-      expect(find.text('Log in with your phone number'), findsOneWidget);
+      expect(find.text('Login'), findsNWidgets(2));
       expect(
-        scalerOf(tester, find.text('Log in with your phone number')),
+        scalerOf(tester, find.text('Login').first),
         moreOrLessEquals(1.0),
       );
       expect(tester.takeException(), isNull);
@@ -111,7 +112,7 @@ void main() {
       await setSurface(tester, const Size(360, 640), 0.8);
       await pumpApp(tester);
       expect(
-        scalerOf(tester, find.text('Log in with your phone number')),
+        scalerOf(tester, find.text('Login').first),
         moreOrLessEquals(0.9),
       );
       expect(tester.takeException(), isNull);
@@ -140,7 +141,7 @@ void main() {
       await setSurface(tester, const Size(360, 640), 1.0);
       await pumpApp(tester);
       final ThemeData theme = Theme.of(
-        tester.element(find.text('Log in with your phone number')),
+        tester.element(find.text('Login').first),
       );
       expect(theme.textTheme.headlineMedium!.fontSize, 20);
       expect(tester.takeException(), isNull);

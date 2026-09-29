@@ -9,6 +9,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/launch_helpers.dart';
 import '../../../core/widgets/app_card.dart';
+import '../../../core/widgets/app_filter_chip.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/error_state.dart';
 import '../../../core/widgets/map_placeholder.dart';
@@ -84,11 +85,12 @@ class _LiveMapPageState extends ConsumerState<LiveMapPage> {
                 ),
                 child: Row(
                   children: [
-                    FilterChip(
-                      label: Text(l10n.exceptionsFilter),
+                    AppFilterChip(
+                      label: l10n.exceptionsFilter,
                       selected: _exceptionsOnly,
-                      onSelected: (v) =>
-                          setState(() => _exceptionsOnly = v),
+                      onTap: () => setState(
+                        () => _exceptionsOnly = !_exceptionsOnly,
+                      ),
                     ),
                     const Spacer(),
                     Text(

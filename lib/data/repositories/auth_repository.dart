@@ -18,6 +18,14 @@ abstract class AuthRepository {
   /// account (or throws [AuthException]) and returns user + tokens.
   Future<AuthResult> demoSignIn(String phone);
 
+  /// Simple phone + password sign-in for the demo login form.
+  /// The demo password is accepted for any known account; unknown or
+  /// blocked numbers throw [AuthException] just like [demoSignIn].
+  Future<AuthResult> signInWithCredentials({
+    required String phone,
+    required String password,
+  });
+
   Future<void> logout();
 }
 

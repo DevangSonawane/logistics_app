@@ -6,6 +6,7 @@ import '../../../core/l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/widgets/app_filter_chip.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_state.dart';
@@ -161,24 +162,20 @@ class _ApprovalsInboxPageState extends ConsumerState<ApprovalsInboxPage> {
               ),
               child: Text(widget.capNote!),
             ),
-          SizedBox(
-            height: 44,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                _FilterChip(
-                  label: l10n.filterAll,
-                  selected: _filter == null,
-                  onTap: () => setState(() => _filter = null),
+          AppFilterRow(
+            children: [
+              AppFilterChip(
+                label: l10n.filterAll,
+                selected: _filter == null,
+                onTap: () => setState(() => _filter = null),
+              ),
+              for (final ApprovalType type in ApprovalType.values)
+                AppFilterChip(
+                  label: _typeLabel(l10n, type),
+                  selected: _filter == type,
+                  onTap: () => setState(() => _filter = type),
                 ),
-                for (final ApprovalType type in ApprovalType.values)
-                  _FilterChip(
-                    label: _typeLabel(l10n, type),
-                    selected: _filter == type,
-                    onTap: () => setState(() => _filter = type),
-                  ),
-              ],
-            ),
+            ],
           ),
           const SizedBox(height: AppSpacing.md),
           Expanded(
@@ -249,30 +246,6 @@ class _ApprovalsInboxPageState extends ConsumerState<ApprovalsInboxPage> {
       ApprovalType.vendor => l10n.approvalVendor,
       ApprovalType.purchase => l10n.approvalPurchase,
     };
-  }
-}
-
-class _FilterChip extends StatelessWidget {
-  const _FilterChip({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: AppSpacing.sm),
-      child: ChoiceChip(
-        label: Text(label),
-        selected: selected,
-        onSelected: (_) => onTap(),
-      ),
-    );
   }
 }
 

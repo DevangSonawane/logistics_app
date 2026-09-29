@@ -55,7 +55,12 @@ class _LedgerPageState extends ConsumerState<LedgerPage> {
       ],
       body: Column(
         children: [
-          if (_isCustomer) _AccountPicker(onPick: (id) => setState(() => _accountId = id)),
+          if (_isCustomer) ...[
+            _AccountPicker(
+              onPick: (id) => setState(() => _accountId = id),
+            ),
+            const SizedBox(height: AppSpacing.md),
+          ],
           AppSearchBar(
             controller: _search,
             hint: l10n.searchHint,
@@ -188,11 +193,19 @@ class _EntryList extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(e.particulars),
+                    Text(
+                      e.particulars,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 2),
                     Text(
                       Formatters.date(e.date),
-                      style:
-                          Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(
+                            color: context.tokens.inkMuted,
+                          ),
                     ),
                   ],
                 ),
@@ -203,16 +216,27 @@ class _EntryList extends StatelessWidget {
                   if (e.debit > 0)
                     Text(
                       Formatters.inr(e.debit),
-                      style: const TextStyle(color: Colors.red),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: AppColors.danger),
                     ),
                   if (e.credit > 0)
                     Text(
                       Formatters.inr(e.credit),
-                      style: const TextStyle(color: Colors.green),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: AppColors.success),
                     ),
                   Text(
                     '${l10n.balanceLabel}: ${Formatters.inr(e.balance)}',
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(
+                          color: context.tokens.inkMuted,
+                        ),
                   ),
                 ],
               ),

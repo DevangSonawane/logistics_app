@@ -57,6 +57,10 @@ class _PlanTripPageState extends ConsumerState<PlanTripPage> {
   bool _assigned = false;
   String? _assignedTripNo;
 
+  /// Loaded once: rebuilding (e.g. picking a vehicle) must not refetch.
+  late final Future<Order?> _orderFuture =
+      ref.read(orderRepositoryProvider).get(widget.orderId);
+
   @override
   void dispose() {
     _advance.dispose();
@@ -124,11 +128,24 @@ class _PlanTripPageState extends ConsumerState<PlanTripPage> {
     });
   }
 
+  bool get _canContinue =>
+      _step == 0 ||
+      (_step == 1 && _vehicleId != null) ||
+      (_step == 2 && _driverId != null);
+
+  void _next(Order order) {
+    if (_step < 3 && _canContinue) {
+      setState(() => _step++);
+    } else if (_step == 3) {
+      _assign(order);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     return FutureBuilder<Order?>(
-      future: ref.watch(orderRepositoryProvider).get(widget.orderId),
+      future: _orderFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return AppScaffold(
@@ -143,98 +160,54 @@ class _PlanTripPageState extends ConsumerState<PlanTripPage> {
             body: ErrorState(message: l10n.commonError),
           );
         }
-        if (_assigned) return _ReturnLoad(order: order, tripNo: _assignedTripNo ?? '');
+        if (_assigned) {
+          return _ReturnLoad(
+            order: order,
+            tripNo: _assignedTripNo ?? '',
+          );
+        }
         final double km = _haversineKm(order);
+        final List<String> steps = [
+          l10n.planStepVehicle,
+          l10n.planStepDriver,
+          l10n.planStepSummary,
+        ];
         return AppScaffold(
           title: l10n.planTitle,
-          body: Stepper(
-            currentStep: _step,
-            onStepContinue: () {
-              if (_step == 0 ||
-                  (_step == 1 && _vehicleId != null) ||
-                  (_step == 2 && _driverId != null)) {
-                setState(() => _step++);
-              } else if (_step == 3) {
-                _assign(order);
-              }
-            },
-            onStepCancel: () {
-              if (_step > 0) setState(() => _step--);
-            },
-            controlsBuilder: (context, details) => Padding(
-              padding: const EdgeInsets.only(top: AppSpacing.lg),
-              child: AppButton(
-                label: _step == 3 ? l10n.assignAction : l10n.permissionNext,
-                variant: _step == 3
-                    ? AppButtonVariant.accent
-                    : AppButtonVariant.primary,
-                loading: _working,
-                onPressed: _working ? null : details.onStepContinue,
+          body: Column(
+            children: [
+              _OrderStrip(order: order),
+              const SizedBox(height: AppSpacing.sm),
+              _StepDots(
+                steps: steps,
+                current: _step == 0 ? 0 : _step - 1,
               ),
-            ),
-            steps: [
-              Step(
-                title: Text(l10n.planStepOrder),
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              const SizedBox(height: AppSpacing.sm),
+              Expanded(
+                child: _stepContent(order, km, steps),
+              ),
+              const SizedBox(height: AppSpacing.md),
+              SafeArea(
+                top: false,
+                child: Row(
                   children: [
-                    Text(
-                      '${order.no} · ${order.customerName}',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    Text(
-                      '${order.stops.first.address} → ${order.stops.last.address}',
-                    ),
-                    Text(
-                      '${order.vehicleType} · ${order.weightKg} kg · ${Formatters.inr(order.rate)}',
-                    ),
-                  ],
-                ),
-              ),
-              Step(
-                title: Text(l10n.planStepVehicle),
-                content: _VehicleOptions(
-                  order: order,
-                  selected: _vehicleId,
-                  onPick: (id) => setState(() => _vehicleId = id),
-                ),
-              ),
-              Step(
-                title: Text(l10n.planStepDriver),
-                content: _DriverOptions(
-                  selected: _driverId,
-                  onPick: (id) => setState(() => _driverId = id),
-                ),
-              ),
-              Step(
-                title: Text(l10n.planStepSummary),
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _SummaryRow(
-                      label: l10n.routeKm,
-                      value: Formatters.distanceKm(km),
-                    ),
-                    _SummaryRow(
-                      label: l10n.tollEst,
-                      value: Formatters.inr(km * 1.1),
-                    ),
-                    _SummaryRow(
-                      label: l10n.dieselEst,
-                      value:
-                          '${(km / 4).round()} L · ${Formatters.inr(km / 4 * 91)}',
-                    ),
-                    _SummaryRow(
-                      label: l10n.etaLabel,
-                      value: Formatters.duration(
-                        Duration(hours: (km / 40).round()),
+                    if (_step > 0)
+                      IconButton.outlined(
+                        onPressed: () => setState(() => _step--),
+                        icon: const Icon(Icons.arrow_back_outlined),
                       ),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    AppTextField(
-                      controller: _advance,
-                      label: l10n.advanceOptional,
-                      keyboardType: TextInputType.number,
+                    if (_step > 0)
+                      const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: AppButton(
+                        label: _step == 3
+                            ? l10n.assignAction
+                            : l10n.permissionNext,
+                        loading: _working,
+                        onPressed: _working || !_canContinue
+                            ? null
+                            : () => _next(order),
+                      ),
                     ),
                   ],
                 ),
@@ -243,6 +216,220 @@ class _PlanTripPageState extends ConsumerState<PlanTripPage> {
           ),
         );
       },
+    );
+  }
+
+  /// Step 0 shows the order as a confirmation card; steps 1-3 map onto
+  /// vehicle / driver / summary.
+  Widget _stepContent(Order order, double km, List<String> steps) {
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    if (_step == 0) {
+      return ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          _OrderDetailCard(order: order, km: km),
+        ],
+      );
+    }
+    if (_step == 1) {
+      return SingleChildScrollView(
+        padding: EdgeInsets.zero,
+        child: _VehicleOptions(
+          order: order,
+          selected: _vehicleId,
+          onPick: (id) => setState(() => _vehicleId = id),
+        ),
+      );
+    }
+    if (_step == 2) {
+      return SingleChildScrollView(
+        padding: EdgeInsets.zero,
+        child: _DriverOptions(
+          selected: _driverId,
+          onPick: (id) => setState(() => _driverId = id),
+        ),
+      );
+    }
+    return ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        _SummaryRow(label: l10n.routeKm, value: Formatters.distanceKm(km)),
+        _SummaryRow(label: l10n.tollEst, value: Formatters.inr(km * 1.1)),
+        _SummaryRow(
+          label: l10n.dieselEst,
+          value: '${(km / 4).round()} L · ${Formatters.inr(km / 4 * 91)}',
+        ),
+        _SummaryRow(
+          label: l10n.etaLabel,
+          value: Formatters.duration(Duration(hours: (km / 40).round())),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        AppTextField(
+          controller: _advance,
+          label: l10n.advanceOptional,
+          keyboardType: TextInputType.number,
+        ),
+      ],
+    );
+  }
+}
+
+/// Slim order strip pinned under the app bar.
+class _OrderStrip extends StatelessWidget {
+  const _OrderStrip({required this.order});
+
+  final Order order;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppColorTokens tokens = context.tokens;
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: tokens.primary.withValues(alpha: 0.08),
+        borderRadius: AppSpacing.cardRadius,
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.receipt_long_outlined,
+            color: tokens.primary,
+            size: 18,
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Text(
+              '${order.no} · ${order.customerName}',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: tokens.primary,
+                  ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Step 0 confirmation card: route, cargo, rate.
+class _OrderDetailCard extends StatelessWidget {
+  const _OrderDetailCard({required this.order, required this.km});
+
+  final Order order;
+  final double km;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppColorTokens tokens = context.tokens;
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: tokens.surface,
+        borderRadius: AppSpacing.cardRadius,
+        border: Border.all(color: tokens.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${order.no} · ${order.customerName}',
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Row(
+            children: [
+              Icon(
+                Icons.route_outlined,
+                size: 18,
+                color: tokens.primary,
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: Text(
+                  '${order.stops.first.address} → ${order.stops.last.address}',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            '${order.vehicleType} · ${order.weightKg} kg · ${Formatters.inr(order.rate)}',
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: tokens.inkMuted,
+                ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            Formatters.distanceKm(km),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: tokens.primary,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Minimal 3-dot progress with labels.
+class _StepDots extends StatelessWidget {
+  const _StepDots({required this.steps, required this.current});
+
+  final List<String> steps;
+  final int current;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppColorTokens tokens = context.tokens;
+    return Row(
+      children: [
+        for (int i = 0; i < steps.length; i++) ...[
+          Expanded(
+            child: Column(
+              children: [
+                AnimatedContainer(
+                  duration: AppSpacing.motionFast,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: i <= current
+                        ? tokens.primary
+                        : tokens.border,
+                    borderRadius: AppSpacing.chipRadius,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  steps[i],
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(
+                        color: i <= current
+                            ? tokens.primary
+                            : tokens.inkFaint,
+                        fontWeight: i == current
+                            ? FontWeight.w700
+                            : FontWeight.w500,
+                      ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          if (i < steps.length - 1) const SizedBox(width: AppSpacing.sm),
+        ],
+      ],
     );
   }
 }
@@ -276,6 +463,7 @@ class _VehicleOptions extends ConsumerWidget {
             _OptionCard(
               selected: selected == v.id,
               onTap: () => onPick(v.id),
+              icon: Icons.local_shipping_outlined,
               title: v.regNo,
               subtitle:
                   '${v.type} · ${v.capacityTons}t · ${v.ownership.name}',
@@ -333,6 +521,7 @@ class _DriverOptions extends ConsumerWidget {
               return _OptionCard(
                 selected: selected == d.id,
                 onTap: blocked ? null : () => onPick(d.id),
+                icon: Icons.person_outline,
                 title: d.name,
                 subtitle:
                     '${d.phone} · ${l10n.onTimeLabel} ${d.onTimePct}%',
@@ -356,12 +545,14 @@ class _OptionCard extends StatelessWidget {
   const _OptionCard({
     required this.selected,
     required this.onTap,
+    required this.icon,
     required this.title,
     required this.subtitle,
     this.trailing,
   });
 
   final bool selected;
+  final IconData icon;
   final VoidCallback? onTap;
   final String title;
   final String subtitle;
@@ -369,26 +560,47 @@ class _OptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppColorTokens tokens = context.tokens;
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: Opacity(
         opacity: onTap == null ? 0.55 : 1,
-        child: Container(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          decoration: BoxDecoration(
-            color: context.tokens.surface,
-            borderRadius: AppSpacing.cardRadius,
-            border: Border.all(
+        child: GestureDetector(
+          onTap: onTap,
+          behavior: HitTestBehavior.opaque,
+          child: AnimatedContainer(
+            duration: AppSpacing.motionFast,
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
               color: selected
-                  ? context.tokens.primary
-                  : context.tokens.border,
-              width: selected ? 2 : 1,
+                  ? tokens.primary.withValues(alpha: 0.07)
+                  : tokens.surface,
+              borderRadius: AppSpacing.cardRadius,
+              border: Border.all(
+                color: selected ? tokens.primary : tokens.border,
+                width: selected ? 1.5 : 1,
+              ),
             ),
-          ),
-          child: InkWell(
-            onTap: onTap,
             child: Row(
               children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: selected
+                        ? tokens.primary
+                        : tokens.primary.withValues(alpha: 0.1),
+                  ),
+                  child: Icon(
+                    icon,
+                    size: 20,
+                    color: selected
+                        ? tokens.onPrimary
+                        : tokens.primary,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -397,16 +609,29 @@ class _OptionCard extends StatelessWidget {
                         title,
                         style:
                             Theme.of(context).textTheme.bodyMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         subtitle,
-                        style:
-                            Theme.of(context).textTheme.bodySmall,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(color: tokens.inkMuted),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                 ),
-                trailing ?? const SizedBox.shrink(),
+                if (selected)
+                  Icon(
+                    Icons.check_circle,
+                    size: 22,
+                    color: tokens.primary,
+                  )
+                else
+                  trailing ?? const SizedBox.shrink(),
               ],
             ),
           ),

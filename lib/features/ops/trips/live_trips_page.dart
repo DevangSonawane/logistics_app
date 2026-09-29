@@ -32,28 +32,48 @@ class _LiveTripsPageState extends ConsumerState<LiveTripsPage> {
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final AsyncValue<List<Trip>> trips = ref.watch(opsLiveTripsProvider);
+    final AppColorTokens tokens = context.tokens;
+    final int count = trips.value?.length ?? 0;
     return AppScaffold(
       title: l10n.liveTripsTitle,
-      body: Column(
-        children: [
-          SegmentedButton<bool>(
-            segments: [
-              ButtonSegment(
-                value: false,
-                label: Text(l10n.listTab),
-                icon: const Icon(Icons.list_outlined),
+      actions: [
+        Container(
+          decoration: BoxDecoration(
+            color: tokens.surfaceAlt,
+            borderRadius: AppSpacing.chipRadius,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _ViewToggle(
+                icon: Icons.list_outlined,
+                label: l10n.listTab,
+                selected: !_mapMode,
+                onTap: () => setState(() => _mapMode = false),
               ),
-              ButtonSegment(
-                value: true,
-                label: Text(l10n.mapTab),
-                icon: const Icon(Icons.map_outlined),
+              _ViewToggle(
+                icon: Icons.map_outlined,
+                label: l10n.mapTab,
+                selected: _mapMode,
+                onTap: () => setState(() => _mapMode = true),
               ),
             ],
-            selected: {_mapMode},
-            onSelectionChanged: (s) =>
-                setState(() => _mapMode = s.first),
           ),
-          const SizedBox(height: AppSpacing.md),
+        ),
+      ],
+      body: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              '$count ${l10n.tripsLabel}',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: tokens.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
           Expanded(
             child: trips.when(
               loading: () => const SkeletonList(),
@@ -71,13 +91,13 @@ class _LiveTripsPageState extends ConsumerState<LiveTripsPage> {
                 }
                 return Column(
                   children: [
-                    if (_mapMode)
+                    if (_mapMode) ...[
                       MapPlaceholder(
                         message: l10n.noGpsKey,
-                        height: 200,
+                        height: 160,
                       ),
-                    if (_mapMode)
                       const SizedBox(height: AppSpacing.md),
+                    ],
                     Expanded(
                       child: ListView.separated(
                         itemCount: items.length,
@@ -116,12 +136,22 @@ class _LiveTripsPageState extends ConsumerState<LiveTripsPage> {
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium,
+                                          maxLines: 1,
+                                          overflow:
+                                              TextOverflow.ellipsis,
                                         ),
                                         Text(
                                           '${trip.customer} · ETA ${trip.liveEta != null ? Formatters.time(trip.liveEta!) : '-'}',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodySmall,
+                                              .bodySmall
+                                              ?.copyWith(
+                                                color: context
+                                                    .tokens.inkMuted,
+                                              ),
+                                          maxLines: 1,
+                                          overflow:
+                                              TextOverflow.ellipsis,
                                         ),
                                       ],
                                     ),
@@ -148,6 +178,61 @@ class _LiveTripsPageState extends ConsumerState<LiveTripsPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Compact list/map toggle for the app-bar actions.
+class _ViewToggle extends StatelessWidget {
+  const _ViewToggle({
+    required this.icon,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppColorTokens tokens = context.tokens;
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: AppSpacing.motionFast,
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.xs,
+        ),
+        decoration: BoxDecoration(
+          color: selected ? tokens.surface : Colors.transparent,
+          borderRadius: AppSpacing.chipRadius,
+          boxShadow: selected ? tokens.cardShadow : null,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 18,
+              color: selected ? tokens.primary : tokens.inkFaint,
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            Text(
+              label,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color:
+                        selected ? tokens.primary : tokens.inkFaint,
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }

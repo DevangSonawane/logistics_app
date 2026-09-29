@@ -22,6 +22,7 @@ class SalesShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     return Scaffold(
+      extendBody: true,
       body: navigationShell,
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: navigationShell.currentIndex,
@@ -43,10 +44,7 @@ class SalesShell extends ConsumerWidget {
             icon: Icons.business_outlined,
             label: l10n.salesTabCustomers,
           ),
-          AppNavItem(
-            icon: Icons.person_outline,
-            label: l10n.tabProfile,
-          ),
+          AppNavItem(icon: Icons.person_outline, label: l10n.tabProfile),
         ],
       ),
     );

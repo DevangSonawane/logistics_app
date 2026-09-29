@@ -148,31 +148,65 @@ class _TripControlPageState extends ConsumerState<TripControlPage> {
           );
         }
         final TripStepType? next = nextStepFor(trip.status);
+        final AppColorTokens tokens = context.tokens;
         return AppScaffold(
           title: trip.no,
           body: ListView(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      '${trip.customer} · ${trip.vehicleReg}',
-                      style:
-                          Theme.of(context).textTheme.headlineSmall,
+              _SectionCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            trip.customer,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        StatusChip(
+                          label: tripStatusLabel(l10n, trip.status),
+                          color: AppColors.primary,
+                        ),
+                      ],
                     ),
-                  ),
-                  StatusChip(
-                    label: tripStatusLabel(l10n, trip.status),
-                    color: AppColors.primary,
-                  ),
-                ],
+                    Text(
+                      trip.vehicleReg,
+                      style:
+                          Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: tokens.inkMuted,
+                              ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    _RouteLine(
+                      icon: Icons.trip_origin,
+                      text: trip.pickupAddress,
+                    ),
+                    _RouteLine(
+                      icon: Icons.place_outlined,
+                      text: trip.dropAddress,
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: AppSpacing.md),
               Row(
                 children: [
                   Expanded(
                     child: OutlinedButton.icon(
-                      icon: const Icon(Icons.phone_outlined),
+                      style: _compactAction(context),
+                      icon: const Icon(
+                        Icons.phone_outlined,
+                        size: 16,
+                      ),
                       label: Text(l10n.callDriver),
                       onPressed: () async {
                         final Driver driver = await ref
@@ -195,7 +229,11 @@ class _TripControlPageState extends ConsumerState<TripControlPage> {
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: OutlinedButton.icon(
-                      icon: const Icon(Icons.share_outlined),
+                      style: _compactAction(context),
+                      icon: const Icon(
+                        Icons.share_outlined,
+                        size: 16,
+                      ),
                       label: Text(l10n.shareTracking),
                       onPressed: () => LaunchHelpers.whatsappShare(
                         'Track ${trip.no}: roadops://trip/${trip.id}',
@@ -204,98 +242,180 @@ class _TripControlPageState extends ConsumerState<TripControlPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: AppSpacing.lg),
-              Text(
-                l10n.timelineTitle,
-                style: Theme.of(context).textTheme.headlineSmall,
+              const SizedBox(height: AppSpacing.md),
+              _SectionCard(
+                title: l10n.timelineTitle,
+                child: Column(
+                  children: [
+                    for (int i = 0; i < trip.steps.length; i++)
+                      TimelineTile(
+                        title: tripStepLabel(l10n, trip.steps[i].type),
+                        time: Formatters.dateTime(trip.steps[i].at),
+                        color: AppColors.success,
+                        isFirst: i == 0,
+                        isLast: i == trip.steps.length - 1,
+                      ),
+                  ],
+                ),
               ),
-              const SizedBox(height: AppSpacing.sm),
-              for (int i = 0; i < trip.steps.length; i++)
-                TimelineTile(
-                  title: tripStepLabel(l10n, trip.steps[i].type),
-                  time: Formatters.dateTime(trip.steps[i].at),
-                  color: AppColors.success,
-                  isFirst: i == 0,
-                  isLast: i == trip.steps.length - 1,
-                ),
               if (next != null) ...[
-                const SizedBox(height: AppSpacing.lg),
-                Text(
-                  l10n.updateStatusAction,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                AppTextField(
-                  controller: _reason,
-                  label: l10n.reasonRequired,
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                AppButton(
-                  label:
+                const SizedBox(height: AppSpacing.md),
+                _SectionCard(
+                  title:
                       '${l10n.updateStatusAction}: ${tripStepLabel(l10n, next)}',
-                  loading: _working,
-                  onPressed: _working
-                      ? null
-                      : () => _updateStatus(trip, next),
+                  child: Column(
+                    children: [
+                      AppTextField(
+                        controller: _reason,
+                        label: l10n.reasonRequired,
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      AppButton(
+                        label: l10n.updateStatusAction,
+                        loading: _working,
+                        onPressed: _working
+                            ? null
+                            : () => _updateStatus(trip, next),
+                      ),
+                    ],
+                  ),
                 ),
               ],
-              const SizedBox(height: AppSpacing.lg),
-              Text(
-                l10n.raiseAdvanceAction,
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Row(
-                children: [
-                  Expanded(
-                    child: AppTextField(
-                      controller: _advance,
-                      label: l10n.amountLabel,
-                      keyboardType: TextInputType.number,
+              const SizedBox(height: AppSpacing.md),
+              _SectionCard(
+                title: l10n.raiseAdvanceAction,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: AppTextField(
+                        controller: _advance,
+                        label: l10n.amountLabel,
+                        keyboardType: TextInputType.number,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  ElevatedButton(
-                    onPressed: _working
-                        ? null
-                        : () => _raiseAdvance(trip),
-                    child: Text(l10n.requestAction),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              Text(
-                l10n.ewayLabel,
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Row(
-                children: [
-                  Expanded(
-                    child: AppTextField(
-                      controller: _eway,
-                      label: trip.ewayBillNo ?? l10n.ewayLabel,
+                    const SizedBox(width: AppSpacing.sm),
+                    ElevatedButton(
+                      onPressed: _working
+                          ? null
+                          : () => _raiseAdvance(trip),
+                      child: Text(l10n.requestAction),
                     ),
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  ElevatedButton(
-                    onPressed:
-                        _working ? null : () => _saveEway(trip),
-                    child: Text(l10n.saveAction),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              const SizedBox(height: AppSpacing.lg),
-              Text(
-                l10n.lrEwayLabel,
-                style: Theme.of(context).textTheme.headlineSmall,
+              const SizedBox(height: AppSpacing.md),
+              _SectionCard(
+                title: l10n.ewayLabel,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AppTextField(
+                            controller: _eway,
+                            label: trip.ewayBillNo ?? l10n.ewayLabel,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        ElevatedButton(
+                          onPressed:
+                              _working ? null : () => _saveEway(trip),
+                          child: Text(l10n.saveAction),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(
+                      'LR: ${trip.lrNo ?? '-'}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: tokens.inkMuted),
+                    ),
+                  ],
+                ),
               ),
-              Text('LR: ${trip.lrNo ?? '-'}'),
-              Text('${l10n.ewayLabel}: ${trip.ewayBillNo ?? '-'}'),
             ],
           ),
         );
       },
+    );
+  }
+}
+
+/// Compact 40dp outlined action (call / share): 13px semibold label.
+ButtonStyle _compactAction(BuildContext context) {
+  return OutlinedButton.styleFrom(
+    minimumSize: const Size(0, 40),
+    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+    textStyle: Theme.of(context)
+        .textTheme
+        .bodySmall
+        ?.copyWith(fontWeight: FontWeight.w600),
+  );
+}
+
+/// Grouped card with a semibold section title.
+class _SectionCard extends StatelessWidget {
+  const _SectionCard({required this.child, this.title});
+
+  final Widget child;
+  final String? title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: context.tokens.surface,
+        borderRadius: AppSpacing.cardRadius,
+        border: Border.all(color: context.tokens.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (title != null) ...[
+            Text(
+              title!,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontSize: 15),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+          ],
+          child,
+        ],
+      ),
+    );
+  }
+}
+
+class _RouteLine extends StatelessWidget {
+  const _RouteLine({required this.icon, required this.text});
+
+  final IconData icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpacing.xs),
+      child: Row(
+        children: [
+          Icon(icon, size: 14, color: context.tokens.inkFaint),
+          const SizedBox(width: AppSpacing.xs),
+          Expanded(
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.bodySmall,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

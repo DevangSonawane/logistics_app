@@ -22,9 +22,9 @@ class AccountantShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final int pending =
-        ref.watch(pendingApprovalsCountProvider).value ?? 0;
+    final int pending = ref.watch(pendingApprovalsCountProvider).value ?? 0;
     return Scaffold(
+      extendBody: true,
       body: navigationShell,
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: navigationShell.currentIndex,
@@ -34,10 +34,7 @@ class AccountantShell extends ConsumerWidget {
             icon: Icons.dashboard_outlined,
             label: l10n.acctTabSummary,
           ),
-          AppNavItem(
-            icon: Icons.book_outlined,
-            label: l10n.acctTabLedgers,
-          ),
+          AppNavItem(icon: Icons.book_outlined, label: l10n.acctTabLedgers),
           AppNavItem(
             icon: Icons.request_quote_outlined,
             label: l10n.acctTabInvoices,
@@ -50,10 +47,7 @@ class AccountantShell extends ConsumerWidget {
                 ? '${l10n.acctTabApprovals} ($pending)'
                 : l10n.acctTabApprovals,
           ),
-          AppNavItem(
-            icon: Icons.person_outline,
-            label: l10n.tabProfile,
-          ),
+          AppNavItem(icon: Icons.person_outline, label: l10n.tabProfile),
         ],
       ),
     );

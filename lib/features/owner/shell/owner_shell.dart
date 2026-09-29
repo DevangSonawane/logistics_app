@@ -22,9 +22,9 @@ class OwnerShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final int pending =
-        ref.watch(pendingApprovalsCountProvider).value ?? 0;
+    final int pending = ref.watch(pendingApprovalsCountProvider).value ?? 0;
     return Scaffold(
+      extendBody: true,
       body: navigationShell,
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: navigationShell.currentIndex,
@@ -46,14 +46,8 @@ class OwnerShell extends ConsumerWidget {
             icon: Icons.account_balance_outlined,
             label: l10n.ownerTabAccounts,
           ),
-          AppNavItem(
-            icon: Icons.map_outlined,
-            label: l10n.ownerTabMap,
-          ),
-          AppNavItem(
-            icon: Icons.more_horiz_outlined,
-            label: l10n.tabProfile,
-          ),
+          AppNavItem(icon: Icons.map_outlined, label: l10n.ownerTabMap),
+          AppNavItem(icon: Icons.more_horiz_outlined, label: l10n.tabProfile),
         ],
       ),
     );

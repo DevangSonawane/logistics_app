@@ -7,6 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../core/widgets/app_filter_chip.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../data/models/customer.dart';
@@ -34,8 +35,18 @@ const List<String> orderVehicleTypes = [
 ];
 
 const List<String> _indentCities = [
-  'pune', 'mumbai', 'chennai', 'delhi', 'bengaluru', 'hyderabad',
-  'jaipur', 'ahmedabad', 'nagpur', 'kolkata', 'patna', 'indore',
+  'pune',
+  'mumbai',
+  'chennai',
+  'delhi',
+  'bengaluru',
+  'hyderabad',
+  'jaipur',
+  'ahmedabad',
+  'nagpur',
+  'kolkata',
+  'patna',
+  'indore',
 ];
 
 /// Parses "2 trucks 32 ft Pune to Chennai tomorrow" into prefill data.
@@ -47,9 +58,9 @@ ParsedOrderMessage parseWhatsappMessage(String text) {
   String? from;
   String? to;
   int? dateOffset;
-  final Match? truckMatch =
-      RegExp(r'(\d+)\s*(trucks?|trailers?|containers?|aces?)')
-          .firstMatch(lower);
+  final Match? truckMatch = RegExp(
+    r'(\d+)\s*(trucks?|trailers?|containers?|aces?)',
+  ).firstMatch(lower);
   if (truckMatch != null) {
     cargo = '${truckMatch.group(1)} truck load';
   }
@@ -67,8 +78,7 @@ ParsedOrderMessage parseWhatsappMessage(String text) {
       break;
     }
   }
-  final List<String> found =
-      _indentCities.where(lower.contains).toList();
+  final List<String> found = _indentCities.where(lower.contains).toList();
   if (found.length >= 2) {
     from = found[0][0].toUpperCase() + found[0].substring(1);
     to = found[1][0].toUpperCase() + found[1].substring(1);
@@ -142,8 +152,7 @@ class _CreateOrderPageState extends ConsumerState<CreateOrderPage> {
       filled.add('route');
     }
     if (parsed.dateOffsetDays != null) {
-      _neededBy =
-          DateTime.now().add(Duration(days: parsed.dateOffsetDays!));
+      _neededBy = DateTime.now().add(Duration(days: parsed.dateOffsetDays!));
       filled.add('date');
     }
     setState(() {
@@ -169,8 +178,7 @@ class _CreateOrderPageState extends ConsumerState<CreateOrderPage> {
             child: Text(l10n.cancelAction),
           ),
           TextButton(
-            onPressed: () =>
-                Navigator.of(context).pop(controller.text),
+            onPressed: () => Navigator.of(context).pop(controller.text),
             child: Text(l10n.permissionNext),
           ),
         ],
@@ -184,14 +192,15 @@ class _CreateOrderPageState extends ConsumerState<CreateOrderPage> {
   Future<void> _submit() async {
     final AppLocalizations l10n = AppLocalizations.of(context);
     if (_customerId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.selectCustomer)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.selectCustomer)));
       return;
     }
     setState(() => _working = true);
-    final List<Customer> customers =
-        await ref.read(customerRepositoryProvider).list();
+    final List<Customer> customers = await ref
+        .read(customerRepositoryProvider)
+        .list();
     final Customer customer = customers.firstWhere(
       (c) => c.id == _customerId,
       orElse: () => customers.first,
@@ -224,197 +233,331 @@ class _CreateOrderPageState extends ConsumerState<CreateOrderPage> {
     } catch (_) {
       if (!mounted) return;
       setState(() => _working = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.commonError)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.commonError)));
       return;
     }
     ref.invalidate(ordersByStatusProvider(OrderStatus.pending));
     ref.invalidate(allOpsOrdersProvider);
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.orderCreated)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.orderCreated)));
     context.pop();
+  }
+
+  List<String> _titles(AppLocalizations l10n) => [
+    l10n.stepCustomer,
+    l10n.stepRoute,
+    l10n.stepCargo,
+    l10n.stepRate,
+  ];
+
+  void _next() {
+    if (_step < 3) {
+      setState(() => _step++);
+    } else {
+      _submit();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
+    final List<String> titles = _titles(l10n);
     return AppScaffold(
       title: l10n.newOrder,
-      body: Stepper(
-        currentStep: _step,
-        onStepContinue: () {
-          if (_step < 3) {
-            setState(() => _step++);
-          } else {
-            _submit();
-          }
-        },
-        onStepCancel: () {
-          if (_step > 0) setState(() => _step--);
-        },
-        controlsBuilder: (context, details) => Padding(
-          padding: const EdgeInsets.only(top: AppSpacing.lg),
-          child: Row(
-            children: [
-              Expanded(
-                child: AppButton(
-                  label: _step == 3 ? l10n.createOrder : l10n.permissionNext,
-                  loading: _working,
-                  onPressed: _working ? null : details.onStepContinue,
-                ),
-              ),
-              if (_step > 0) ...[
-                const SizedBox(width: AppSpacing.sm),
-                TextButton(
-                  onPressed: details.onStepCancel,
-                  child: Text(l10n.goBackAction),
-                ),
-              ],
-            ],
-          ),
-        ),
-        steps: [
-          Step(
-            title: Text(l10n.stepCustomer),
-            content: Column(
+      body: Column(
+        children: [
+          _CreateDots(steps: titles, current: _step),
+          const SizedBox(height: AppSpacing.lg),
+          Expanded(child: _stepBody(titles)),
+          const SizedBox(height: AppSpacing.md),
+          SafeArea(
+            top: false,
+            child: Row(
               children: [
-                _CustomerDropdown(
-                  value: _customerId,
-                  onChanged: (v) => setState(() => _customerId = v),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                SegmentedButton<OrderType>(
-                  segments: [
-                    ButtonSegment(
-                      value: OrderType.ftl,
-                      label: Text(l10n.orderTypeFtl),
-                    ),
-                    ButtonSegment(
-                      value: OrderType.ptl,
-                      label: Text(l10n.orderTypePtl),
-                    ),
-                  ],
-                  selected: {_type},
-                  onSelectionChanged: (s) =>
-                      setState(() => _type = s.first),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.chat_outlined),
-                  label: Text(l10n.pasteWhatsapp),
-                  onPressed: _pasteWhatsapp,
-                ),
-              ],
-            ),
-          ),
-          Step(
-            title: Text(l10n.stepRoute),
-            content: Column(
-              children: [
-                AppTextField(
-                  controller: _pickup,
-                  label: l10n.pickupPoint,
-                ),
-                if (_aiFilled.contains('route'))
-                  _AiChip(text: l10n.aiFilled),
-                const SizedBox(height: AppSpacing.md),
-                AppTextField(
-                  controller: _drop,
-                  label: l10n.dropPoint,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _neededBy == null
-                            ? l10n.neededByLabel
-                            : Formatters.date(_neededBy!),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        final DateTime? picked = await showDatePicker(
-                          context: context,
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(
-                            const Duration(days: 60),
-                          ),
-                        );
-                        if (picked != null) {
-                          setState(() => _neededBy = picked);
-                        }
-                      },
-                      child: Text(l10n.pickDate),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Step(
-            title: Text(l10n.stepCargo),
-            content: Column(
-              children: [
-                AppTextField(
-                  controller: _commodity,
-                  label: l10n.commodityLabel,
-                ),
-                if (_aiFilled.contains('cargo'))
-                  _AiChip(text: l10n.aiFilled),
-                const SizedBox(height: AppSpacing.md),
-                AppTextField(
-                  controller: _weight,
-                  label: l10n.weightLabel,
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                AppTextField(
-                  controller: _value,
-                  label: l10n.declaredValueLabel,
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                DropdownButtonFormField<String>(
-                  initialValue: _vehicleType,
-                  decoration: InputDecoration(
-                    labelText: l10n.vehicleTypeLabel,
+                if (_step > 0)
+                  IconButton.outlined(
+                    onPressed: () => setState(() => _step--),
+                    icon: const Icon(Icons.arrow_back_outlined),
                   ),
-                  items: [
-                    for (final String v in vehicleTypes)
-                      DropdownMenuItem(value: v, child: Text(v)),
-                  ],
-                  onChanged: (v) {
-                    if (v != null) setState(() => _vehicleType = v);
-                  },
-                ),
-              ],
-            ),
-          ),
-          Step(
-            title: Text(l10n.stepRate),
-            content: Column(
-              children: [
-                AppTextField(
-                  controller: _rate,
-                  label: l10n.rateLabel,
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                _ContractCheck(
-                  from: _pickup.text.trim(),
-                  to: _drop.text.trim(),
-                  vehicle: _vehicleType,
-                  entered: int.tryParse(_rate.text.trim()) ?? 0,
+                if (_step > 0) const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: AppButton(
+                    label: _step == 3 ? l10n.createOrder : l10n.permissionNext,
+                    loading: _working,
+                    onPressed: _working ? null : _next,
+                  ),
                 ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  /// One clean step per screen with a WhatsApp shortcut on step 0.
+  Widget _stepBody(List<String> titles) {
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    final AppColorTokens tokens = context.tokens;
+    switch (_step) {
+      case 0:
+        return ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            Text(
+              titles[0],
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            _CustomerDropdown(
+              value: _customerId,
+              onChanged: (v) => setState(() => _customerId = v),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            AppFilterRow(
+              children: [
+                AppFilterChip(
+                  label: l10n.orderTypeFtl,
+                  selected: _type == OrderType.ftl,
+                  onTap: () => setState(() => _type = OrderType.ftl),
+                ),
+                AppFilterChip(
+                  label: l10n.orderTypePtl,
+                  selected: _type == OrderType.ptl,
+                  onTap: () => setState(() => _type = OrderType.ptl),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.md),
+            GestureDetector(
+              onTap: _pasteWhatsapp,
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                decoration: BoxDecoration(
+                  color: tokens.primary.withValues(alpha: 0.08),
+                  borderRadius: AppSpacing.cardRadius,
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.chat_outlined, size: 20, color: tokens.primary),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: Text(
+                        l10n.pasteWhatsapp,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(color: tokens.primary),
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_outlined,
+                      size: 18,
+                      color: tokens.primary,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      case 1:
+        return ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            Text(
+              titles[1],
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            AppTextField(
+              controller: _pickup,
+              label: l10n.pickupPoint,
+              prefixIcon: Icons.trip_origin,
+            ),
+            if (_aiFilled.contains('route')) _AiChip(text: l10n.aiFilled),
+            const SizedBox(height: AppSpacing.md),
+            AppTextField(
+              controller: _drop,
+              label: l10n.dropPoint,
+              prefixIcon: Icons.place_outlined,
+            ),
+            const SizedBox(height: AppSpacing.md),
+            GestureDetector(
+              onTap: () async {
+                final DateTime? picked = await showDatePicker(
+                  context: context,
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(const Duration(days: 60)),
+                );
+                if (picked != null) {
+                  setState(() => _neededBy = picked);
+                }
+              },
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                decoration: BoxDecoration(
+                  color: tokens.surface,
+                  borderRadius: AppSpacing.cardRadius,
+                  border: Border.all(color: tokens.border),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.calendar_today_outlined,
+                      size: 20,
+                      color: tokens.primary,
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: Text(
+                        _neededBy == null
+                            ? l10n.neededByLabel
+                            : Formatters.date(_neededBy!),
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                    Text(
+                      l10n.pickDate,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: tokens.primary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      case 2:
+        return ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            Text(
+              titles[2],
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            AppTextField(controller: _commodity, label: l10n.commodityLabel),
+            if (_aiFilled.contains('cargo')) _AiChip(text: l10n.aiFilled),
+            const SizedBox(height: AppSpacing.md),
+            Row(
+              children: [
+                Expanded(
+                  child: AppTextField(
+                    controller: _weight,
+                    label: l10n.weightLabel,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: AppTextField(
+                    controller: _value,
+                    label: l10n.declaredValueLabel,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.md),
+            DropdownButtonFormField<String>(
+              initialValue: _vehicleType,
+              decoration: InputDecoration(labelText: l10n.vehicleTypeLabel),
+              items: [
+                for (final String v in vehicleTypes)
+                  DropdownMenuItem(value: v, child: Text(v)),
+              ],
+              onChanged: (v) {
+                if (v != null) setState(() => _vehicleType = v);
+              },
+            ),
+          ],
+        );
+      default:
+        return ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            Text(
+              titles[3],
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            AppTextField(
+              controller: _rate,
+              label: l10n.rateLabel,
+              keyboardType: TextInputType.number,
+              prefixIcon: Icons.currency_rupee_outlined,
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            _ContractCheck(
+              from: _pickup.text.trim(),
+              to: _drop.text.trim(),
+              vehicle: _vehicleType,
+              entered: int.tryParse(_rate.text.trim()) ?? 0,
+            ),
+          ],
+        );
+    }
+  }
+}
+
+/// Minimal dot progress shared by the ops wizards.
+class _CreateDots extends StatelessWidget {
+  const _CreateDots({required this.steps, required this.current});
+
+  final List<String> steps;
+  final int current;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppColorTokens tokens = context.tokens;
+    return Row(
+      children: [
+        for (int i = 0; i < steps.length; i++) ...[
+          Expanded(
+            child: Column(
+              children: [
+                AnimatedContainer(
+                  duration: AppSpacing.motionFast,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: i <= current ? tokens.primary : tokens.border,
+                    borderRadius: AppSpacing.chipRadius,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  steps[i],
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: i <= current ? tokens.primary : tokens.inkFaint,
+                    fontWeight: i == current
+                        ? FontWeight.w700
+                        : FontWeight.w500,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          if (i < steps.length - 1) const SizedBox(width: AppSpacing.sm),
+        ],
+      ],
     );
   }
 }
@@ -428,8 +571,7 @@ class _CustomerDropdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final AsyncValue<List<Customer>> customers =
-        ref.watch(customersProvider);
+    final AsyncValue<List<Customer>> customers = ref.watch(customersProvider);
     return customers.when(
       loading: () => const LinearProgressIndicator(),
       error: (e, _) => Text(l10n.commonError),
@@ -453,11 +595,33 @@ class _AiChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppColorTokens tokens = context.tokens;
     return Align(
       alignment: Alignment.centerLeft,
-      child: Chip(
-        label: Text(text),
-        avatar: const Icon(Icons.auto_awesome_outlined, size: 16),
+      child: Container(
+        margin: const EdgeInsets.only(top: AppSpacing.xs),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.xs,
+        ),
+        decoration: BoxDecoration(
+          color: tokens.primary.withValues(alpha: 0.1),
+          borderRadius: AppSpacing.chipRadius,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.auto_awesome_outlined, size: 14, color: tokens.primary),
+            const SizedBox(width: AppSpacing.xs),
+            Text(
+              text,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: tokens.primary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -481,8 +645,9 @@ class _ContractCheck extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     if (from.isEmpty || to.isEmpty) return const SizedBox.shrink();
-    final AsyncValue<int?> contract =
-        ref.watch(contractRateProvider(from, to, vehicle));
+    final AsyncValue<int?> contract = ref.watch(
+      contractRateProvider(from, to, vehicle),
+    );
     return contract.when(
       loading: () => const SizedBox.shrink(),
       error: (e, _) => const SizedBox.shrink(),

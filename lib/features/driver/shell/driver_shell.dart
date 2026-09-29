@@ -36,6 +36,7 @@ class DriverShell extends ConsumerWidget {
       child: MediaQuery(
         data: media.copyWith(textScaler: TextScaler.linear(textScale)),
         child: Scaffold(
+          extendBody: true,
           body: navigationShell,
           bottomNavigationBar: AppBottomNavBar(
             currentIndex: navigationShell.currentIndex,

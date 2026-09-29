@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
@@ -31,101 +32,99 @@ class AppBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppColorTokens tokens = context.tokens;
-    return SafeArea(
-      top: false,
+    final double bottomInset = MediaQuery.paddingOf(context).bottom;
+    final double bottomGap =
+        bottomInset + (bottomInset == 0 ? AppSpacing.xs : AppSpacing.sm);
+    return SizedBox(
+      height: 64 + bottomGap,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          AppSpacing.xl,
+        padding: EdgeInsets.fromLTRB(
+          AppSpacing.lg,
           AppSpacing.xs,
-          AppSpacing.xl,
-          AppSpacing.md,
+          AppSpacing.lg,
+          bottomGap,
         ),
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.sm,
-            vertical: AppSpacing.sm,
-          ),
-          decoration: BoxDecoration(
-            color: tokens.surface,
-            borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: tokens.border),
-            boxShadow: [
-              BoxShadow(
-                color: tokens.ink.withValues(alpha: 0.1),
-                blurRadius: 20,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              for (int i = 0; i < items.length; i++)
-                Expanded(
-                  child: _Destination(
-                    item: items[i],
-                    selected: i == currentIndex,
-                    accent: accent,
-                    onTap: () => onTap(i),
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _Destination extends StatelessWidget {
-  const _Destination({
-    required this.item,
-    required this.selected,
-    required this.accent,
-    required this.onTap,
-  });
-
-  final AppNavItem item;
-  final bool selected;
-  final Color accent;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final AppColorTokens tokens = context.tokens;
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: AppSpacing.minTapTarget),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedContainer(
-              duration: AppSpacing.motionFast,
-              curve: AppSpacing.motionCurve,
-              width: 48,
-              height: 44,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 560),
+            child: DecoratedBox(
               decoration: BoxDecoration(
-                color: selected ? accent : Colors.transparent,
-                borderRadius: BorderRadius.circular(14),
-                boxShadow: selected
-                    ? [
-                        BoxShadow(
-                          color: accent.withValues(alpha: 0.4),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ]
-                    : null,
+                color: tokens.surface,
+                borderRadius: AppSpacing.chipRadius,
+                border: Border.all(color: tokens.border),
+                boxShadow: [
+                  BoxShadow(
+                    color: tokens.ink.withValues(alpha: 0.12),
+                    blurRadius: 18,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
-              child: Icon(
-                item.icon,
-                size: 22,
-                color: selected ? Colors.white : tokens.inkFaint,
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpacing.xs),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final double textScale = MediaQuery.textScalerOf(
+                      context,
+                    ).scale(1);
+                    final bool compact =
+                        items.length > 5 ||
+                        (items.length >= 5 && constraints.maxWidth < 380) ||
+                        textScale > 1.1;
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: compact
+                          ? const BouncingScrollPhysics()
+                          : const NeverScrollableScrollPhysics(),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minWidth: constraints.maxWidth,
+                        ),
+                        child: GNav(
+                          selectedIndex: currentIndex.clamp(
+                            0,
+                            items.length - 1,
+                          ),
+                          onTabChange: onTap,
+                          gap: compact ? 0 : AppSpacing.xs,
+                          iconSize: 22,
+                          haptic: true,
+                          duration: AppSpacing.motionNormal,
+                          curve: AppSpacing.motionCurve,
+                          mainAxisAlignment: compact
+                              ? MainAxisAlignment.spaceEvenly
+                              : MainAxisAlignment.spaceBetween,
+                          backgroundColor: Colors.transparent,
+                          color: tokens.inkMuted,
+                          activeColor: Colors.white,
+                          tabBackgroundColor: accent,
+                          tabBorderRadius: AppSpacing.radiusChip,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.md,
+                            vertical: AppSpacing.md,
+                          ),
+                          textStyle: Theme.of(context).textTheme.labelMedium
+                              ?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                          tabs: [
+                            for (final AppNavItem item in items)
+                              GButton(
+                                icon: item.icon,
+                                text: compact ? '' : item.label,
+                                semanticLabel: item.label,
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

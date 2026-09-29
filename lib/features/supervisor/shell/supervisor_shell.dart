@@ -22,15 +22,13 @@ class SupervisorShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     return Scaffold(
+      extendBody: true,
       body: navigationShell,
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: navigationShell.currentIndex,
         onTap: _goBranch,
         items: [
-          AppNavItem(
-            icon: Icons.today_outlined,
-            label: l10n.superTabToday,
-          ),
+          AppNavItem(icon: Icons.today_outlined, label: l10n.superTabToday),
           AppNavItem(
             icon: Icons.door_front_door_outlined,
             label: l10n.superTabGate,
@@ -43,10 +41,7 @@ class SupervisorShell extends ConsumerWidget {
             icon: Icons.list_alt_outlined,
             label: l10n.superTabManifest,
           ),
-          AppNavItem(
-            icon: Icons.person_outline,
-            label: l10n.tabProfile,
-          ),
+          AppNavItem(icon: Icons.person_outline, label: l10n.tabProfile),
         ],
       ),
     );

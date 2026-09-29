@@ -52,10 +52,7 @@ Future<void> signInAs(WidgetTester tester, String name) async {
     find.byKey(const Key('loginPhone')),
     demoPhones[name] ?? name,
   );
-  await tester.enterText(
-    find.byKey(const Key('loginPassword')),
-    '123456',
-  );
+  await tester.enterText(find.byKey(const Key('loginPassword')), '123456');
   await tester.tap(find.byKey(const Key('signInSubmit')));
   await tester.pump(const Duration(seconds: 2));
 }
@@ -67,15 +64,9 @@ Future<void> allowAllPermissions(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
-/// Opens the profile tab. Bottom nav is icons-only, so tap the profile
-/// icon (person in most shells, overflow in owner).
+/// Opens the profile tab through the bottom-nav semantics label.
 Future<void> openProfileTab(WidgetTester tester) async {
-  final Finder person = find.byIcon(Icons.person_outline);
-  if (person.evaluate().isNotEmpty) {
-    await tester.tap(person);
-  } else {
-    await tester.tap(find.byIcon(Icons.more_horiz_outlined));
-  }
+  await tester.tap(find.bySemanticsLabel('Profile').last);
   await tester.pumpAndSettle();
 }
 

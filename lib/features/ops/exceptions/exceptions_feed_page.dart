@@ -138,8 +138,19 @@ class _ExceptionCardState extends ConsumerState<_ExceptionCard> {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final ExceptionItem item = widget.item;
     final bool isSos = item.type == ExceptionType.sos;
+    final ButtonStyle compact = OutlinedButton.styleFrom(
+      minimumSize: const Size(0, 36),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      textStyle: Theme.of(context)
+          .textTheme
+          .bodySmall
+          ?.copyWith(fontWeight: FontWeight.w600),
+    );
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
       decoration: BoxDecoration(
         color: isSos
             ? AppColors.danger.withValues(alpha: 0.06)
@@ -158,33 +169,47 @@ class _ExceptionCardState extends ConsumerState<_ExceptionCard> {
               if (isSos)
                 const Padding(
                   padding: EdgeInsets.only(right: AppSpacing.sm),
-                  child: Icon(Icons.sos, color: AppColors.danger),
+                  child: Icon(
+                    Icons.sos,
+                    color: AppColors.danger,
+                    size: 20,
+                  ),
                 ),
               Expanded(
                 child: Text(
                   item.message,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontSize: 14,
+                      ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              const SizedBox(width: AppSpacing.sm),
               StatusChip(
                 label: _typeLabel(l10n, item.type),
                 color: _color,
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.xs),
           Text(
             '${item.vehicleReg} · ${item.driverName} · ${Formatters.dateTime(item.at)}',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: context.tokens.inkMuted,
+                  fontSize: 11,
                 ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.xs),
           Wrap(
             spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.xs,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               OutlinedButton.icon(
-                icon: const Icon(Icons.phone_outlined, size: 18),
+                style: compact,
+                icon: const Icon(Icons.phone_outlined, size: 15),
                 label: Text(l10n.callAction),
                 onPressed: _working
                     ? null
@@ -192,15 +217,30 @@ class _ExceptionCardState extends ConsumerState<_ExceptionCard> {
               ),
               if (item.type == ExceptionType.ewayExpiring)
                 OutlinedButton(
+                  style: compact,
                   onPressed:
                       _working ? null : () => _resolve(l10n.ewayExtended),
                   child: Text(l10n.extendEway),
                 ),
-              OutlinedButton(
+              TextButton(
+                style: TextButton.styleFrom(
+                  minimumSize: const Size(0, 36),
+                  textStyle: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(fontWeight: FontWeight.w600),
+                ),
                 onPressed: _working ? null : _escalate,
                 child: Text(l10n.escalateAction),
               ),
-              OutlinedButton(
+              TextButton(
+                style: TextButton.styleFrom(
+                  minimumSize: const Size(0, 36),
+                  textStyle: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(fontWeight: FontWeight.w600),
+                ),
                 onPressed: _working ? null : () => _resolve(),
                 child: Text(l10n.resolveAction),
               ),

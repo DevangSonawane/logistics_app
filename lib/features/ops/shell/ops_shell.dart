@@ -22,22 +22,16 @@ class OpsShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final int open =
-        ref.watch(openExceptionsCountProvider).value ?? 0;
+    final int open = ref.watch(openExceptionsCountProvider).value ?? 0;
     return Scaffold(
+      extendBody: true,
       body: navigationShell,
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: navigationShell.currentIndex,
         onTap: _goBranch,
         items: [
-          AppNavItem(
-            icon: Icons.list_alt_outlined,
-            label: l10n.opsTabOrders,
-          ),
-          AppNavItem(
-            icon: Icons.route_outlined,
-            label: l10n.opsTabPlan,
-          ),
+          AppNavItem(icon: Icons.list_alt_outlined, label: l10n.opsTabOrders),
+          AppNavItem(icon: Icons.route_outlined, label: l10n.opsTabPlan),
           AppNavItem(
             icon: Icons.local_shipping_outlined,
             label: l10n.opsTabTrips,
@@ -50,10 +44,7 @@ class OpsShell extends ConsumerWidget {
                 ? '${l10n.opsTabExceptions} ($open)'
                 : l10n.opsTabExceptions,
           ),
-          AppNavItem(
-            icon: Icons.person_outline,
-            label: l10n.tabProfile,
-          ),
+          AppNavItem(icon: Icons.person_outline, label: l10n.tabProfile),
         ],
       ),
     );

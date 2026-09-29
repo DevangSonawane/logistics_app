@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
-import '../../../core/theme/app_typography.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_scaffold.dart';
@@ -31,6 +30,7 @@ class TargetsPage extends ConsumerWidget {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final AsyncValue<List<SalesTarget>> targets =
         ref.watch(salesTargetsProvider);
+
     String label(String key) {
       return switch (key) {
         'revenue' => l10n.targetRevenue,
@@ -49,99 +49,170 @@ class TargetsPage extends ConsumerWidget {
           onRetry: () => ref.invalidate(salesTargetsProvider),
         ),
         data: (List<SalesTarget> items) => ListView(
+          padding: EdgeInsets.zero,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            GridView.count(
+              crossAxisCount: 3,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              mainAxisSpacing: AppSpacing.sm,
+              crossAxisSpacing: AppSpacing.sm,
+              childAspectRatio: 0.82,
               children: [
                 for (final SalesTarget t in items)
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.xs,
-                      ),
-                      child: AppCard(
-                        child: Column(
-                          children: [
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                SizedBox(
-                                  width: AppSpacing.huge,
-                                  height: AppSpacing.huge,
-                                  child: CircularProgressIndicator(
-                                    value: t.target == 0
-                                        ? 0
-                                        : (t.achieved / t.target)
-                                            .clamp(0.0, 1.0),
-                                    strokeWidth: AppSpacing.sm,
-                                    backgroundColor:
-                                        context.tokens.surfaceAlt,
-                                    color: AppColors.primary,
-                                  ),
-                                ),
-                                Text(
-                                  '${t.achieved}',
-                                  style: AppTypography.kpiNumber(
-                                    context.tokens.ink,
-                                  ).copyWith(fontSize: AppSpacing.xl),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            Text(
-                              label(t.label),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall,
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              '/ ${t.target}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                    color:
-                                        context.tokens.inkMuted,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                  _TargetRing(
+                    label: label(t.label),
+                    achieved: t.achieved,
+                    target: t.target,
                   ),
               ],
             ),
             const SizedBox(height: AppSpacing.xl),
             SectionHeader(title: l10n.leaderboardTitle),
             const SizedBox(height: AppSpacing.sm),
-            for (int i = 0; i < _board.length; i++)
-              Padding(
-                padding:
-                    const EdgeInsets.only(bottom: AppSpacing.sm),
-                child: AppCard(
-                  padding: const EdgeInsets.all(AppSpacing.md),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: AppSpacing.xxl,
-                        child: Text(
-                          '#${i + 1}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall,
-                        ),
-                      ),
-                      Expanded(child: Text(_board[i].$1)),
-                      Text(
-                        Formatters.inrShort(_board[i].$2),
-                      ),
-                    ],
-                  ),
-                ),
+            AppCard(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.sm,
               ),
+              child: Column(
+                children: [
+                  for (int i = 0; i < _board.length; i++) ...[
+                    if (i > 0)
+                      Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: context.tokens.border,
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSpacing.md,
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 32,
+                            height: 32,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: i == 0
+                                  ? AppColors.warning
+                                      .withValues(alpha: 0.15)
+                                  : context.tokens.primary
+                                      .withValues(alpha: 0.1),
+                            ),
+                            child: Text(
+                              '${i + 1}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                    color: i == 0
+                                        ? AppColors.warning
+                                        : context.tokens.primary,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.md),
+                          Expanded(
+                            child: Text(
+                              _board[i].$1,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Text(
+                            Formatters.inrShort(_board[i].$2),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Compact target ring card: pct in the ring, label + target below.
+class _TargetRing extends StatelessWidget {
+  const _TargetRing({
+    required this.label,
+    required this.achieved,
+    required this.target,
+  });
+
+  final String label;
+  final int achieved;
+  final int target;
+
+  @override
+  Widget build(BuildContext context) {
+    final double fraction =
+        target == 0 ? 0 : (achieved / target).clamp(0.0, 1.0);
+    return AppCard(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(
+                width: 64,
+                height: 64,
+                child: CircularProgressIndicator(
+                  value: fraction,
+                  strokeWidth: 7,
+                  backgroundColor: context.tokens.surfaceAlt,
+                  color: context.tokens.primary,
+                ),
+              ),
+              Text(
+                '${(fraction * 100).round()}%',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(fontWeight: FontWeight.w800),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: context.tokens.inkMuted,
+                  fontWeight: FontWeight.w600,
+                ),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            '$achieved / $target',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: context.tokens.inkFaint,
+                  fontSize: 11,
+                ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }

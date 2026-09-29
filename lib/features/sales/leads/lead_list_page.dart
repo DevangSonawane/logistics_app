@@ -79,84 +79,242 @@ class _LeadListPageState extends ConsumerState<LeadListPage> {
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final AsyncValue<List<Lead>> leads = ref.watch(salesLeadsProvider);
+    final AppColorTokens tokens = context.tokens;
+    final int count = leads.value?.length ?? 0;
     return AppScaffold(
-      title: l10n.leadsTitle,
-      actions: [
-        IconButton(
-          icon: Icon(
-            _kanban ? Icons.view_list_outlined : Icons.view_kanban_outlined,
-          ),
-          onPressed: () => setState(() => _kanban = !_kanban),
-        ),
-      ],
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: 'add-lead',
-        onPressed: () => context.push(RouteNames.salesLeadNew),
-        icon: const Icon(Icons.add),
-        label: Text(l10n.addLeadAction),
-      ),
+      padding: EdgeInsets.zero,
       body: Column(
         children: [
-          AppFilterRow(
-            children: [
-              AppFilterChip(
-                label: l10n.filterAll,
-                selected: _source == null,
-                onTap: () => setState(() => _source = null),
+          Container(
+            color: tokens.surface,
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.sm,
+              AppSpacing.lg,
+              AppSpacing.sm,
+            ),
+            child: SafeArea(
+              bottom: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              AppColors.primary,
+                              AppColors.primaryDark,
+                            ],
+                          ),
+                          borderRadius:
+                              BorderRadius.circular(AppSpacing.md),
+                        ),
+                        child: const Icon(
+                          Icons.trending_up_outlined,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.leadsTitle,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineLarge
+                                  ?.copyWith(fontSize: 22),
+                            ),
+                            Text(
+                              '$count ${l10n.salesTabLeads.toLowerCase()}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    color: tokens.primary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          _kanban
+                              ? Icons.view_list_outlined
+                              : Icons.view_kanban_outlined,
+                          color: tokens.ink,
+                        ),
+                        onPressed: () =>
+                            setState(() => _kanban = !_kanban),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  AppFilterRow(
+                    children: [
+                      AppFilterChip(
+                        label: l10n.filterAll,
+                        selected: _source == null,
+                        onTap: () =>
+                            setState(() => _source = null),
+                      ),
+                      for (final LeadSource s in LeadSource.values)
+                        AppFilterChip(
+                          label: _sourceLabel(l10n, s),
+                          selected: _source == s,
+                          onTap: () =>
+                              setState(() => _source = s),
+                        ),
+                    ],
+                  ),
+                ],
               ),
-              for (final LeadSource s in LeadSource.values)
-                AppFilterChip(
-                  label: _sourceLabel(l10n, s),
-                  selected: _source == s,
-                  onTap: () => setState(() => _source = s),
-                ),
-            ],
+            ),
           ),
-          const SizedBox(height: AppSpacing.md),
           Expanded(
-            child: leads.when(
-              loading: () => const SkeletonList(),
-              error: (e, _) => ErrorState(
-                message: l10n.commonError,
-                onRetry: () => ref.invalidate(salesLeadsProvider),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.sm,
+                AppSpacing.lg,
+                0,
               ),
-              data: (List<Lead> items) {
-                final List<Lead> visible = items
-                    .where((l) => _source == null || l.source == _source)
-                    .toList();
-                if (visible.isEmpty) {
-                  return EmptyState(
-                    title: l10n.commonEmpty,
-                    message: '',
-                    icon: Icons.person_add_outlined,
-                  );
-                }
-                if (_kanban) {
-                  return _Kanban(
-                    leads: visible,
-                    stageLabel: (s) => _stageLabel(l10n, s),
-                    slaText: (d) => _slaText(l10n, d),
-                    slaColor: _slaColor,
-                  );
-                }
-                return ListView.separated(
-                  itemCount: visible.length,
-                  separatorBuilder: (_, _) => const SizedBox(
-                    height: AppSpacing.sm,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: leads.when(
+                      loading: () => const SkeletonList(),
+                      error: (e, _) => ErrorState(
+                        message: l10n.commonError,
+                        onRetry: () =>
+                            ref.invalidate(salesLeadsProvider),
+                      ),
+                      data: (List<Lead> items) {
+                        final List<Lead> visible = items
+                            .where(
+                              (l) =>
+                                  _source == null ||
+                                  l.source == _source,
+                            )
+                            .toList();
+                        if (visible.isEmpty) {
+                          return EmptyState(
+                            title: l10n.commonEmpty,
+                            message: '',
+                            icon: Icons.person_add_outlined,
+                          );
+                        }
+                        if (_kanban) {
+                          return _Kanban(
+                            leads: visible,
+                            stageLabel: (s) => _stageLabel(l10n, s),
+                            slaText: (d) => _slaText(l10n, d),
+                            slaColor: _slaColor,
+                          );
+                        }
+                        return ListView.separated(
+                          itemCount: visible.length,
+                          separatorBuilder: (_, _) =>
+                              const SizedBox(
+                            height: AppSpacing.sm,
+                          ),
+                          itemBuilder: (context, index) =>
+                              _LeadTile(
+                            lead: visible[index],
+                            stageLabel: _stageLabel(
+                              l10n,
+                              visible[index].stage,
+                            ),
+                            slaText: _slaText(
+                              l10n,
+                              visible[index].slaDue,
+                            ),
+                            slaColor: _slaColor(
+                              visible[index].slaDue,
+                            ),
+                            sourceLabel: _sourceLabel(
+                              l10n,
+                              visible[index].source,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                  itemBuilder: (context, index) => _LeadTile(
-                    lead: visible[index],
-                    stageLabel: _stageLabel(l10n, visible[index].stage),
-                    slaText: _slaText(l10n, visible[index].slaDue),
-                    slaColor: _slaColor(visible[index].slaDue),
-                    sourceLabel:
-                        _sourceLabel(l10n, visible[index].source),
+                  const SizedBox(height: AppSpacing.sm),
+                  SafeArea(
+                    top: false,
+                    child: _AddLeadCta(
+                      label: l10n.addLeadAction,
+                      onTap: () =>
+                          context.push(RouteNames.salesLeadNew),
+                    ),
                   ),
-                );
-              },
+                ],
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Sticky gradient CTA pinned above the nav dock.
+class _AddLeadCta extends StatelessWidget {
+  const _AddLeadCta({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppColorTokens tokens = context.tokens;
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        height: AppSpacing.buttonHeightMd,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [AppColors.primary, AppColors.primaryDark],
+          ),
+          borderRadius:
+              BorderRadius.circular(AppSpacing.radiusButton),
+          boxShadow: [
+            BoxShadow(
+              color: tokens.primary.withValues(alpha: 0.35),
+              blurRadius: 16,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.add, color: Colors.white, size: 20),
+            const SizedBox(width: AppSpacing.sm),
+            Text(
+              label,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.white),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -179,46 +337,89 @@ class _LeadTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: context.tokens.surface,
-        borderRadius: AppSpacing.cardRadius,
-        border: Border.all(color: context.tokens.border),
-      ),
-      child: InkWell(
-        onTap: () => context.push('/sales/leads/${lead.id}'),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    final AppColorTokens tokens = context.tokens;
+    return GestureDetector(
+      onTap: () => context.push('/sales/leads/${lead.id}'),
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        decoration: BoxDecoration(
+          color: tokens.surface,
+          borderRadius: AppSpacing.cardRadius,
+          border: Border.all(color: tokens.border),
+        ),
+        child: Row(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    lead.company,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                StatusChip(label: stageLabel, color: AppColors.info),
-              ],
+            Container(
+              width: 40,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: tokens.primary.withValues(alpha: 0.1),
+              ),
+              child: Text(
+                lead.company.isEmpty ? '?' : lead.company[0].toUpperCase(),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: tokens.primary,
+                      fontWeight: FontWeight.w800,
+                    ),
+              ),
             ),
-            Text(
-              '${lead.from} → ${lead.to} · ${lead.expectedTrips}/mo',
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            const SizedBox(height: AppSpacing.xs),
-            Row(
-              children: [
-                Text(
-                  sourceLabel,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: context.tokens.inkMuted,
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          lead.company,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                ),
-                const Spacer(),
-                if (slaText.isNotEmpty)
-                  StatusChip(label: slaText, color: slaColor),
-              ],
+                      StatusChip(
+                        label: stageLabel,
+                        color: AppColors.info,
+                      ),
+                    ],
+                  ),
+                  Text(
+                    '${lead.from} → ${lead.to} · ${lead.expectedTrips}/mo',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: tokens.inkMuted),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        sourceLabel,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(
+                              color: tokens.inkFaint,
+                              fontSize: 11,
+                            ),
+                      ),
+                      const Spacer(),
+                      if (slaText.isNotEmpty)
+                        StatusChip(
+                          label: slaText,
+                          color: slaColor,
+                        ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),

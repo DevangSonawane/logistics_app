@@ -45,51 +45,146 @@ class LeadDetailPage extends ConsumerWidget {
         }
         final Lead current = lead;
         final LeadStage? next = _nextStage(current.stage);
+        final AppColorTokens tokens = context.tokens;
         return AppScaffold(
           title: current.company,
-          body: ListView(
+          body: Column(
             children: [
-              StatusChip(
-                label: _stageLabel(l10n, current.stage),
-                color: Theme.of(context).colorScheme.primary,
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    Container(
+                      padding:
+                          const EdgeInsets.all(AppSpacing.lg),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            AppColors.primary,
+                            AppColors.primaryDark,
+                          ],
+                        ),
+                        borderRadius: AppSpacing.cardRadius,
+                      ),
+                      child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 48,
+                                height: 48,
+                                alignment: Alignment.center,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white24,
+                                ),
+                                child: Text(
+                                  current.company.isEmpty
+                                      ? '?'
+                                      : current.company[0]
+                                          .toUpperCase(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall
+                                      ?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: AppSpacing.md,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      current.company,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall
+                                          ?.copyWith(
+                                            color: Colors.white,
+                                            fontWeight:
+                                                FontWeight.w700,
+                                          ),
+                                      maxLines: 1,
+                                      overflow:
+                                          TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      '${current.from} → ${current.to}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                            color: Colors.white
+                                                .withValues(alpha: 0.85),
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: AppSpacing.md,
+                          ),
+                          StatusChip(
+                            label:
+                                _stageLabel(l10n, current.stage),
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _FactsCard(lead: current),
+                    if (current.notes != null) ...[
+                      const SizedBox(height: AppSpacing.md),
+                      Container(
+                        width: double.infinity,
+                        padding:
+                            const EdgeInsets.all(AppSpacing.md),
+                        decoration: BoxDecoration(
+                          color: tokens.surface,
+                          borderRadius: AppSpacing.cardRadius,
+                          border: Border.all(
+                            color: tokens.border,
+                          ),
+                        ),
+                        child: Text(
+                          current.notes!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(color: tokens.inkMuted),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ),
-              const SizedBox(height: AppSpacing.md),
-              _Row(label: l10n.contactLabel, value: current.contact),
-              _Row(
-                label: l10n.phoneLabel,
-                value: '+91 ${current.phone}',
-              ),
-              _Row(
-                label: l10n.stepRoute,
-                value: '${current.from} → ${current.to}',
-              ),
-              _Row(
-                label: l10n.vehicleTypeLabel,
-                value: current.vehicleType ?? '-',
-              ),
-              _Row(
-                label: l10n.tripsPerMonth,
-                value: '${current.expectedTrips}',
-              ),
-              _Row(
-                label: l10n.targetRateLabel,
-                value: '${current.targetRate}',
-              ),
-              if (current.notes != null) ...[
-                const SizedBox(height: AppSpacing.sm),
-                Text(current.notes!),
-              ],
               if (next != null) ...[
-                const SizedBox(height: AppSpacing.xl),
-                AppButton(
-                  label:
-                      '${l10n.moveToStage}: ${_stageLabel(l10n, next)}',
-                  onPressed: () async {
-                    await ref
-                        .read(leadRepositoryProvider)
-                        .setStage(current.id, next);
-                    ref.invalidate(salesLeadsProvider);
-                  },
+                const SizedBox(height: AppSpacing.md),
+                SafeArea(
+                  top: false,
+                  child: AppButton(
+                    label:
+                        '${l10n.moveToStage}: ${_stageLabel(l10n, next)}',
+                    onPressed: () async {
+                      await ref
+                          .read(leadRepositoryProvider)
+                          .setStage(current.id, next);
+                      ref.invalidate(salesLeadsProvider);
+                    },
+                  ),
                 ),
               ],
             ],
@@ -121,27 +216,63 @@ class LeadDetailPage extends ConsumerWidget {
   }
 }
 
-class _Row extends StatelessWidget {
-  const _Row({required this.label, required this.value});
+/// Two-column fact grid: contact, phone, vehicle, trips, rate.
+class _FactsCard extends StatelessWidget {
+  const _FactsCard({required this.lead});
 
-  final String label;
-  final String value;
+  final Lead lead;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-      child: Row(
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    final AppColorTokens tokens = context.tokens;
+    final List<(String, String)> facts = [
+      (l10n.contactLabel, lead.contact),
+      (l10n.phoneLabel, '+91 ${lead.phone}'),
+      (l10n.vehicleTypeLabel, lead.vehicleType ?? '-'),
+      (l10n.tripsPerMonth, '${lead.expectedTrips}'),
+      (l10n.targetRateLabel, '${lead.targetRate}'),
+    ];
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: tokens.surface,
+        borderRadius: AppSpacing.cardRadius,
+        border: Border.all(color: tokens.border),
+      ),
+      child: Column(
         children: [
-          Expanded(
-            child: Text(
-              label,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: context.tokens.inkMuted,
+          for (int i = 0; i < facts.length; i++) ...[
+            if (i > 0)
+              Divider(
+                height: AppSpacing.lg,
+                thickness: 1,
+                color: tokens.border,
+              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    facts[i].$1,
+                    style:
+                        Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: tokens.inkMuted,
+                            ),
                   ),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Flexible(
+                  child: Text(
+                    facts[i].$2,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.end,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
             ),
-          ),
-          Text(value, style: Theme.of(context).textTheme.bodyMedium),
+          ],
         ],
       ),
     );

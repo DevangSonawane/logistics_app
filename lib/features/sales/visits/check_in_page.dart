@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/services/image_service.dart';
 import '../../../core/services/location_service.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_scaffold.dart';
@@ -112,53 +113,235 @@ class _CheckInPageState extends ConsumerState<CheckInPage> {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
+    final AppColorTokens tokens = context.tokens;
     return AppScaffold(
       title: l10n.checkInTitle,
-      body: ListView(
+      body: Column(
         children: [
-          if (_active == null) ...[
-            AppTextField(
-              controller: _title,
-              label: l10n.visitCustomerLabel,
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        AppColors.primary,
+                        AppColors.primaryDark,
+                      ],
+                    ),
+                    borderRadius: AppSpacing.cardRadius,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white24,
+                        ),
+                        child: const Icon(
+                          Icons.location_on_outlined,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _active == null
+                                  ? l10n.checkInTitle
+                                  : _active!.title,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall
+                                  ?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              _active == null
+                                  ? l10n.visitPlanned
+                                  : l10n.visitActive,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    color: Colors.white.withValues(
+                                      alpha: 0.85,
+                                    ),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                if (_active == null) ...[
+                  _FieldCard(
+                    child: Column(
+                      children: [
+                        AppTextField(
+                          controller: _title,
+                          label: l10n.visitCustomerLabel,
+                          prefixIcon:
+                              Icons.business_outlined,
+                        ),
+                        const SizedBox(
+                          height: AppSpacing.md,
+                        ),
+                        AppTextField(
+                          controller: _note,
+                          label: l10n.noteHint,
+                          maxLines: 3,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  GestureDetector(
+                    onTap: _capture,
+                    behavior: HitTestBehavior.opaque,
+                    child: Container(
+                      padding:
+                          const EdgeInsets.all(AppSpacing.md),
+                      decoration: BoxDecoration(
+                        color: _photo == null
+                            ? tokens.primary
+                                .withValues(alpha: 0.08)
+                            : AppColors.success
+                                .withValues(alpha: 0.1),
+                        borderRadius: AppSpacing.cardRadius,
+                        border: Border.all(
+                          color: _photo == null
+                              ? tokens.primary
+                                  .withValues(alpha: 0.25)
+                              : AppColors.success
+                                  .withValues(alpha: 0.4),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _photo == null
+                                  ? tokens.primary
+                                  : AppColors.success,
+                            ),
+                            child: Icon(
+                              _photo == null
+                                  ? Icons.photo_camera_outlined
+                                  : Icons.check_outlined,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.md),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _photo == null
+                                      ? l10n.checkinPhoto
+                                      : l10n.photoRetake,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                        color: _photo == null
+                                            ? tokens.primary
+                                            : AppColors.success,
+                                      ),
+                                ),
+                                if (_photo != null)
+                                  Text(
+                                    _photo!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          color:
+                                              tokens.inkMuted,
+                                        ),
+                                    maxLines: 1,
+                                    overflow:
+                                        TextOverflow.ellipsis,
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ] else ...[
+                  _FieldCard(
+                    child: AppTextField(
+                      controller: _outcome,
+                      label: l10n.outcomeLabel,
+                    ),
+                  ),
+                ],
+              ],
             ),
-            const SizedBox(height: AppSpacing.md),
-            AppTextField(
-              controller: _note,
-              label: l10n.noteHint,
-            ),
-            const SizedBox(height: AppSpacing.md),
-            OutlinedButton.icon(
-              icon: const Icon(Icons.photo_camera_outlined),
-              label: Text(
-                _photo == null
-                    ? l10n.checkinPhoto
-                    : l10n.photoRetake,
-              ),
-              onPressed: _capture,
-            ),
-            const SizedBox(height: AppSpacing.xl),
-            AppButton(
-              label: l10n.checkInAction,
-              variant: AppButtonVariant.accent,
-              large: true,
-              loading: _working,
-              icon: Icons.location_on_outlined,
-              onPressed: _working ? null : _checkIn,
-            ),
-          ] else ...[
-            AppTextField(
-              controller: _outcome,
-              label: l10n.outcomeLabel,
-            ),
-            const SizedBox(height: AppSpacing.xl),
-            AppButton(
-              label: l10n.checkOutAction,
-              loading: _working,
-              onPressed: _working ? null : _checkOut,
-            ),
-          ],
+          ),
+          const SizedBox(height: AppSpacing.md),
+          SafeArea(
+            top: false,
+            child: _active == null
+                ? AppButton(
+                    label: l10n.checkInAction,
+                    icon: Icons.location_on_outlined,
+                    loading: _working,
+                    onPressed: _working ? null : _checkIn,
+                  )
+                : AppButton(
+                    label: l10n.checkOutAction,
+                    loading: _working,
+                    onPressed: _working ? null : _checkOut,
+                  ),
+          ),
         ],
       ),
+    );
+  }
+}
+
+/// White card grouping form fields.
+class _FieldCard extends StatelessWidget {
+  const _FieldCard({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: context.tokens.surface,
+        borderRadius: AppSpacing.cardRadius,
+        border: Border.all(color: context.tokens.border),
+      ),
+      child: child,
     );
   }
 }

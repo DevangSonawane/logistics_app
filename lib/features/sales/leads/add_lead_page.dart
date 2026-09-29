@@ -181,150 +181,335 @@ class _AddLeadPageState extends ConsumerState<AddLeadPage> {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
+    final AppColorTokens tokens = context.tokens;
     return AppScaffold(
       title: l10n.addLeadTitle,
-      body: ListView(
+      body: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  icon: Icon(
-                    _recording ? Icons.stop_outlined : Icons.mic_none_outlined,
-                    color: _recording ? AppColors.danger : null,
-                  ),
-                  label: Text(
-                    _recording ? l10n.listeningLabel : l10n.voiceNoteAction,
-                  ),
-                  onPressed: _voiceNote,
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: _QuickTile(
+                        icon: _recording
+                            ? Icons.stop_outlined
+                            : Icons.mic_none_outlined,
+                        label: _recording
+                            ? l10n.listeningLabel
+                            : l10n.voiceNoteAction,
+                        tint: _recording
+                            ? AppColors.danger
+                            : tokens.primary,
+                        onTap: _voiceNote,
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: _QuickTile(
+                        icon: Icons.contact_page_outlined,
+                        label: l10n.scanCardAction,
+                        tint: tokens.primary,
+                        onTap: _scanCard,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: OutlinedButton.icon(
-                  icon: const Icon(Icons.contact_page_outlined),
-                  label: Text(l10n.scanCardAction),
-                  onPressed: _scanCard,
+                const SizedBox(height: AppSpacing.md),
+                _FormSection(
+                  title: l10n.companyLabel,
+                  child: Column(
+                    children: [
+                      AppTextField(
+                        controller: _company,
+                        label: l10n.companyLabel,
+                        prefixIcon: Icons.business_outlined,
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      AppTextField(
+                        controller: _contact,
+                        label: l10n.contactLabel,
+                        prefixIcon: Icons.person_outline,
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      AppTextField(
+                        controller: _phone,
+                        label: l10n.phoneLabel,
+                        keyboardType: TextInputType.phone,
+                        phonePrefix: true,
+                        prefixIcon: Icons.phone_outlined,
+                        onChanged: (_) => _checkDuplicate(),
+                      ),
+                      if (_duplicate) ...[
+                        const SizedBox(height: AppSpacing.xs),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.warning_amber_outlined,
+                              size: 14,
+                              color: AppColors.warning,
+                            ),
+                            const SizedBox(width: AppSpacing.xs),
+                            Expanded(
+                              child: Text(
+                                l10n.duplicateLead,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      color: AppColors.warning,
+                                      fontWeight:
+                                          FontWeight.w600,
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
+                const SizedBox(height: AppSpacing.md),
+                _FormSection(
+                  title: l10n.sourceLabel,
+                  child: Wrap(
+                    spacing: AppSpacing.sm,
+                    runSpacing: AppSpacing.sm,
+                    children: [
+                      for (final LeadSource s
+                          in LeadSource.values)
+                        AppFilterChip(
+                          label: _sourceLabel(l10n, s),
+                          selected: _source == s,
+                          onTap: () =>
+                              setState(() => _source = s),
+                        ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                _FormSection(
+                  title: l10n.stepRoute,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AppTextField(
+                              controller: _from,
+                              label: l10n.fromLabel,
+                              prefixIcon: Icons.trip_origin,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          Expanded(
+                            child: AppTextField(
+                              controller: _to,
+                              label: l10n.toLabel,
+                              prefixIcon:
+                                  Icons.place_outlined,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      DropdownButtonFormField<String>(
+                        initialValue: _vehicle,
+                        decoration: InputDecoration(
+                          labelText: l10n.vehicleTypeLabel,
+                        ),
+                        items: const [
+                          DropdownMenuItem(
+                            value: '32 ft MXL',
+                            child: Text('32 ft MXL'),
+                          ),
+                          DropdownMenuItem(
+                            value: '20 ft',
+                            child: Text('20 ft'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'Tata Ace',
+                            child: Text('Tata Ace'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'Container',
+                            child: Text('Container'),
+                          ),
+                        ],
+                        onChanged: (v) {
+                          if (v != null) {
+                            setState(() => _vehicle = v);
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                _FormSection(
+                  title: l10n.tripsPerMonth,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AppTextField(
+                              controller: _trips,
+                              label: l10n.tripsPerMonth,
+                              keyboardType:
+                                  TextInputType.number,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          Expanded(
+                            child: AppTextField(
+                              controller: _rate,
+                              label: l10n.targetRateLabel,
+                              keyboardType:
+                                  TextInputType.number,
+                              prefixIcon: Icons
+                                  .currency_rupee_outlined,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      AppTextField(
+                        controller: _notes,
+                        label: l10n.notesLabel,
+                        maxLines: 3,
+                      ),
+                    ],
+                  ),
+                ),
+                if (_error != null) ...[
+                  const SizedBox(height: AppSpacing.sm),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.error_outline,
+                        size: 16,
+                        color: AppColors.danger,
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      Expanded(
+                        child: Text(
+                          _error!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                color: AppColors.danger,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          SafeArea(
+            top: false,
+            child: AppButton(
+              label: l10n.saveLeadAction,
+              loading: _working,
+              onPressed: _working ? null : _save,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Tinted quick-action tile (voice note / card scan).
+class _QuickTile extends StatelessWidget {
+  const _QuickTile({
+    required this.icon,
+    required this.label,
+    required this.tint,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final Color tint;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        decoration: BoxDecoration(
+          color: tint.withValues(alpha: 0.08),
+          borderRadius: AppSpacing.cardRadius,
+          border: Border.all(color: tint.withValues(alpha: 0.25)),
+        ),
+        child: Column(
+          children: [
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: tint,
               ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          AppTextField(controller: _company, label: l10n.companyLabel),
-          const SizedBox(height: AppSpacing.md),
-          AppTextField(controller: _contact, label: l10n.contactLabel),
-          const SizedBox(height: AppSpacing.md),
-          AppTextField(
-            controller: _phone,
-            label: l10n.phoneLabel,
-            keyboardType: TextInputType.phone,
-            phonePrefix: true,
-            onChanged: (_) => _checkDuplicate(),
-          ),
-          if (_duplicate) ...[
+              child: Icon(icon, size: 18, color: Colors.white),
+            ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              l10n.duplicateLead,
-              style: const TextStyle(color: AppColors.warning),
+              label,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: tint,
+                    fontWeight: FontWeight.w700,
+                  ),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
-          const SizedBox(height: AppSpacing.md),
-          Text(l10n.sourceLabel),
-          Wrap(
-            spacing: AppSpacing.sm,
-            children: [
-              for (final LeadSource s in LeadSource.values)
-                AppFilterChip(
-                  label: _sourceLabel(l10n, s),
-                  selected: _source == s,
-                  onTap: () => setState(() => _source = s),
-                ),
-            ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Card grouping one form section with a semibold title.
+class _FormSection extends StatelessWidget {
+  const _FormSection({required this.title, required this.child});
+
+  final String title;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: context.tokens.surface,
+        borderRadius: AppSpacing.cardRadius,
+        border: Border.all(color: context.tokens.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(fontSize: 15),
           ),
           const SizedBox(height: AppSpacing.md),
-          Row(
-            children: [
-              Expanded(
-                child: AppTextField(
-                  controller: _from,
-                  label: l10n.fromLabel,
-                ),
-              ),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: AppTextField(
-                  controller: _to,
-                  label: l10n.toLabel,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.md),
-          DropdownButtonFormField<String>(
-            initialValue: _vehicle,
-            decoration: InputDecoration(
-              labelText: l10n.vehicleTypeLabel,
-            ),
-            items: const [
-              DropdownMenuItem(
-                value: '32 ft MXL',
-                child: Text('32 ft MXL'),
-              ),
-              DropdownMenuItem(value: '20 ft', child: Text('20 ft')),
-              DropdownMenuItem(
-                value: 'Tata Ace',
-                child: Text('Tata Ace'),
-              ),
-              DropdownMenuItem(
-                value: 'Container',
-                child: Text('Container'),
-              ),
-            ],
-            onChanged: (v) {
-              if (v != null) setState(() => _vehicle = v);
-            },
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Row(
-            children: [
-              Expanded(
-                child: AppTextField(
-                  controller: _trips,
-                  label: l10n.tripsPerMonth,
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: AppTextField(
-                  controller: _rate,
-                  label: l10n.targetRateLabel,
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.md),
-          AppTextField(
-            controller: _notes,
-            label: l10n.notesLabel,
-            maxLines: 3,
-          ),
-          if (_error != null) ...[
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              _error!,
-              style: const TextStyle(color: AppColors.danger),
-            ),
-          ],
-          const SizedBox(height: AppSpacing.xl),
-          AppButton(
-            label: l10n.saveLeadAction,
-            variant: AppButtonVariant.accent,
-            large: true,
-            loading: _working,
-            onPressed: _working ? null : _save,
-          ),
+          child,
         ],
       ),
     );

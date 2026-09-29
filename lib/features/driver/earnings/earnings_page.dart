@@ -9,7 +9,6 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/app_card.dart';
-import '../../../core/widgets/app_header.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/error_state.dart';
 import '../../../core/widgets/section_header.dart';
@@ -49,37 +48,111 @@ class EarningsPage extends ConsumerWidget {
         body: ListView(
           padding: EdgeInsets.zero,
           children: [
-            OverlapHeader(
-              title: l10n.earningsTitle,
-              gradient: AppColors.darkHeroGradient,
-              foreground: context.tokens.ink,
-              heroValue: Formatters.inrShort(summary.monthTotal),
-              heroLabel: l10n.monthTotal,
-              overlap: _SettlementOverlap(summary: summary),
+            Container(
+              color: context.tokens.surface,
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.md,
+                AppSpacing.lg,
+                AppSpacing.md,
+              ),
+              child: SafeArea(
+                bottom: false,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.earningsTitle,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineLarge
+                          ?.copyWith(fontSize: 22),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Container(
+                      width: double.infinity,
+                      padding:
+                          const EdgeInsets.all(AppSpacing.lg),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            AppColors.primary,
+                            AppColors.primaryDark,
+                          ],
+                        ),
+                        borderRadius: AppSpacing.cardRadius,
+                      ),
+                      child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.monthTotal,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                  color: Colors.white.withValues(
+                                    alpha: 0.85,
+                                  ),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                          Text(
+                            Formatters.inrShort(
+                              summary.monthTotal,
+                            ),
+                            style: AppTypography.kpiNumber(
+                              Colors.white,
+                            ).copyWith(fontSize: 32),
+                          ),
+                          const SizedBox(
+                            height: AppSpacing.sm,
+                          ),
+                          Row(
+                            children: [
+                              _HeroStat(
+                                value: '${summary.tripsDone}',
+                                label: l10n.tripsDoneLabel,
+                              ),
+                              const SizedBox(
+                                width: AppSpacing.xl,
+                              ),
+                              _HeroStat(
+                                value: '${summary.onTimePct}%',
+                                label: l10n.onTimeLabel,
+                              ),
+                              const SizedBox(
+                                width: AppSpacing.xl,
+                              ),
+                              _HeroStat(
+                                value: Formatters.inrShort(
+                                  summary.incentives,
+                                ),
+                                label: l10n.incentivesLabel,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            const SizedBox(height: AppSpacing.xxxl + AppSpacing.md),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.md,
+                AppSpacing.lg,
+                AppSpacing.lg,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _StatTile(
-                          label: l10n.tripsDoneLabel,
-                          value: '${summary.tripsDone}',
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: _StatTile(
-                          label: l10n.onTimeLabel,
-                          value: '${summary.onTimePct}%',
-                        ),
-                      ),
-                    ],
-                  ),
+                  _SettlementOverlap(summary: summary),
                   const SizedBox(height: AppSpacing.xl),
                   SectionHeader(title: l10n.allowancesTitle),
                   const SizedBox(height: AppSpacing.sm),
@@ -185,30 +258,6 @@ class _SettlementOverlap extends StatelessWidget {
   }
 }
 
-class _StatTile extends StatelessWidget {
-  const _StatTile({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      child: Column(
-        children: [
-          Text(value, style: AppTypography.kpiNumber(context.tokens.ink)),
-          Text(
-            label,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: context.tokens.inkMuted),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _MoneyRow extends StatelessWidget {
   const _MoneyRow({
     required this.label,
@@ -234,6 +283,37 @@ class _MoneyRow extends StatelessWidget {
           Text(Formatters.inr(amount), style: style?.copyWith(color: color)),
         ],
       ),
+    );
+  }
+}
+
+/// Small white stat inside the balance hero.
+class _HeroStat extends StatelessWidget {
+  const _HeroStat({required this.value, required this.label});
+
+  final String value;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          value,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+              ),
+        ),
+        Text(
+          label,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Colors.white.withValues(alpha: 0.75),
+                fontSize: 11,
+              ),
+        ),
+      ],
     );
   }
 }

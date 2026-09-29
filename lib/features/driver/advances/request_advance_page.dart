@@ -7,9 +7,9 @@ import '../../../core/l10n/app_localizations.dart';
 import '../../../core/network/connectivity_provider.dart';
 import '../../../core/offline/offline_action.dart';
 import '../../../core/offline/offline_queue.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
-import '../../../core/widgets/app_filter_chip.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../data/models/advance.dart';
@@ -101,48 +101,122 @@ class _RequestAdvancePageState extends ConsumerState<RequestAdvancePage> {
       (AdvancePurpose.food, l10n.purposeFood),
       (AdvancePurpose.other, l10n.purposeOther),
     ];
+    final AppColorTokens tokens = context.tokens;
+    const List<IconData> icons = [
+      Icons.local_gas_station_outlined,
+      Icons.route_outlined,
+      Icons.build_outlined,
+      Icons.restaurant_outlined,
+      Icons.more_horiz_outlined,
+    ];
     return AppScaffold(
       title: l10n.requestAdvanceTitle,
-      body: ListView(
+      body: Column(
         children: [
-          Text(l10n.purposeLabel),
-          const SizedBox(height: AppSpacing.sm),
-          Wrap(
-            spacing: AppSpacing.sm,
-            children: [
-              for (final (purpose, label) in purposes)
-                AppFilterChip(
-                  label: label,
-                  selected: _purpose == purpose,
-                  onTap: () => setState(() => _purpose = purpose),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: AppSpacing.sm,
+                    crossAxisSpacing: AppSpacing.sm,
+                    childAspectRatio: 1.6,
+                  ),
+                  itemCount: purposes.length,
+                  itemBuilder: (context, index) {
+                    final (purpose, label) = purposes[index];
+                    final bool selected = _purpose == purpose;
+                    return GestureDetector(
+                      onTap: () =>
+                          setState(() => _purpose = purpose),
+                      behavior: HitTestBehavior.opaque,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: selected
+                              ? tokens.primary
+                              : tokens.surface,
+                          borderRadius: AppSpacing.cardRadius,
+                          border: Border.all(
+                            color: selected
+                                ? tokens.primary
+                                : tokens.border,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment:
+                              MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              icons[index % icons.length],
+                              size: 18,
+                              color: selected
+                                  ? tokens.onPrimary
+                                  : tokens.inkMuted,
+                            ),
+                            const SizedBox(width: AppSpacing.xs),
+                            Flexible(
+                              child: Text(
+                                label,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: selected
+                                          ? tokens.onPrimary
+                                          : tokens.inkMuted,
+                                    ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          AppTextField(
-            controller: _amount,
-            label: l10n.amountLabel,
-            keyboardType: TextInputType.number,
+                const SizedBox(height: AppSpacing.md),
+                AppTextField(
+                  controller: _amount,
+                  label: l10n.amountLabel,
+                  keyboardType: TextInputType.number,
+                  prefixIcon: Icons.currency_rupee_outlined,
+                ),
+                const SizedBox(height: AppSpacing.md),
+                AppTextField(
+                  controller: _note,
+                  label: l10n.noteHint,
+                ),
+                if (_error != null) ...[
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    _error!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(
+                          color: AppColors.danger,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ],
+              ],
+            ),
           ),
           const SizedBox(height: AppSpacing.md),
-          AppTextField(
-            controller: _note,
-            label: l10n.noteHint,
-          ),
-          if (_error != null) ...[
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              _error!,
-              style: Theme.of(context).textTheme.bodyLarge,
+          SafeArea(
+            top: false,
+            child: AppButton(
+              label: l10n.requestAction,
+              loading: _working,
+              onPressed: _working ? null : _submit,
             ),
-          ],
-          const SizedBox(height: AppSpacing.xl),
-          AppButton(
-            label: l10n.requestAction,
-            variant: AppButtonVariant.accent,
-            large: true,
-            loading: _working,
-            onPressed: _working ? null : _submit,
           ),
         ],
       ),

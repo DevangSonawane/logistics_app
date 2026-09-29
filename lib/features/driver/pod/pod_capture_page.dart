@@ -11,7 +11,6 @@ import '../../../core/services/image_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
-import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/otp_input.dart';
@@ -193,61 +192,161 @@ class _PodCapturePageState extends ConsumerState<PodCapturePage> {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
+    final AppColorTokens tokens = context.tokens;
     return AppScaffold(
       title: l10n.podTitle,
-      body: ListView(
+      body: Column(
         children: [
-          _StepCard(
-            title: l10n.podStep1,
-            child: _lrPhoto == null
-                ? AppButton(
-                    label: l10n.photoCamera,
-                    variant: AppButtonVariant.secondary,
-                    icon: Icons.photo_camera_outlined,
-                    onPressed: _captureLr,
-                  )
-                : Column(
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md,
+                    vertical: AppSpacing.sm,
+                  ),
+                  decoration: BoxDecoration(
+                    color: tokens.primary.withValues(alpha: 0.08),
+                    borderRadius: AppSpacing.cardRadius,
+                  ),
+                  child: Row(
                     children: [
-                      ClipRRect(
-                        borderRadius: AppSpacing.cardRadius,
-                        child: Image.file(
-                          File(_lrPhoto!),
-                          height: 180,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, _, _) => Container(
-                            height: 180,
-                            color: context.tokens.surfaceAlt,
-                            child: const Icon(Icons.receipt_long_outlined),
-                          ),
-                        ),
+                      Icon(
+                        Icons.local_shipping_outlined,
+                        size: 18,
+                        color: tokens.primary,
                       ),
-                      TextButton(
-                        onPressed: _captureLr,
-                        child: Text(l10n.retryAction),
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: Text(
+                          '${widget.trip.no} · ${widget.trip.customer}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: tokens.primary,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          _StepCard(
-            title: l10n.podStep2,
+                ),
+                const SizedBox(height: AppSpacing.md),
+                _StepCard(
+                  index: 1,
+                  title: l10n.podStep1,
+                  done: _lrPhoto != null,
+                  child: _lrPhoto == null
+                      ? GestureDetector(
+                          onTap: _captureLr,
+                          behavior: HitTestBehavior.opaque,
+                          child: Container(
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: tokens.primary
+                                  .withValues(alpha: 0.06),
+                              borderRadius:
+                                  AppSpacing.inputRadius,
+                              border: Border.all(
+                                color: tokens.primary.withValues(
+                                  alpha: 0.3,
+                                ),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.add_a_photo_outlined,
+                                  size: 28,
+                                  color: tokens.primary,
+                                ),
+                                const SizedBox(
+                                  height: AppSpacing.xs,
+                                ),
+                                Text(
+                                  l10n.photoCamera,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                        color: tokens.primary,
+                                        fontWeight:
+                                            FontWeight.w700,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius:
+                                  AppSpacing.inputRadius,
+                              child: Image.file(
+                                File(_lrPhoto!),
+                                height: 160,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, _, _) =>
+                                    Container(
+                                  height: 160,
+                                  color: tokens.surfaceAlt,
+                                  child: const Icon(
+                                    Icons.receipt_long_outlined,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: _captureLr,
+                              child:
+                                  Text(l10n.photoRetake),
+                            ),
+                          ],
+                        ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                _StepCard(
+                  index: 2,
+                  title: l10n.podStep2,
+                  done: _method == PodMethod.otp
+                      ? _otp.text.trim().length == 4
+                      : _signature.isNotEmpty &&
+                          _name.text.trim().isNotEmpty,
             child: Column(
               children: [
-                SegmentedButton<PodMethod>(
-                  segments: [
-                    ButtonSegment(
-                      value: PodMethod.otp,
-                      label: Text(l10n.podOtpHint),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _MethodPill(
+                        label: l10n.podOtpHint,
+                        icon: Icons.sms_outlined,
+                        selected: _method == PodMethod.otp,
+                        onTap: () => setState(
+                          () => _method = PodMethod.otp,
+                        ),
+                      ),
                     ),
-                    ButtonSegment(
-                      value: PodMethod.signature,
-                      label: Text(l10n.podSignHint),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: _MethodPill(
+                        label: l10n.podSignHint,
+                        icon: Icons.draw_outlined,
+                        selected:
+                            _method == PodMethod.signature,
+                        onTap: () => setState(
+                          () => _method = PodMethod.signature,
+                        ),
+                      ),
                     ),
                   ],
-                  selected: {_method},
-                  onSelectionChanged: (s) =>
-                      setState(() => _method = s.first),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 if (_method == PodMethod.otp) ...[
@@ -294,16 +393,28 @@ class _PodCapturePageState extends ConsumerState<PodCapturePage> {
               ],
             ),
           ),
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.md),
           _StepCard(
+            index: 3,
             title: l10n.podDamageToggle,
+            done: false,
             child: Column(
               children: [
-                SwitchListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(l10n.podDamageToggle),
-                  value: _damage,
-                  onChanged: (v) => setState(() => _damage = v),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        l10n.podDamageToggle,
+                        style:
+                            Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                    Switch(
+                      value: _damage,
+                      onChanged: (v) =>
+                          setState(() => _damage = v),
+                    ),
+                  ],
                 ),
                 if (_damage) ...[
                   AppTextField(
@@ -357,13 +468,17 @@ class _PodCapturePageState extends ConsumerState<PodCapturePage> {
               ],
             ),
           ),
-          const SizedBox(height: AppSpacing.xl),
-          AppButton(
-            label: l10n.podSubmit,
-            variant: AppButtonVariant.accent,
-            large: true,
-            loading: _working,
-            onPressed: _working ? null : _submit,
+          ],
+        ),
+      ),
+          const SizedBox(height: AppSpacing.md),
+          SafeArea(
+            top: false,
+            child: AppButton(
+              label: l10n.podSubmit,
+              loading: _working,
+              onPressed: _working ? null : _submit,
+            ),
           ),
         ],
       ),
@@ -372,24 +487,146 @@ class _PodCapturePageState extends ConsumerState<PodCapturePage> {
 }
 
 class _StepCard extends StatelessWidget {
-  const _StepCard({required this.title, required this.child});
+  const _StepCard({
+    required this.index,
+    required this.title,
+    required this.done,
+    required this.child,
+  });
 
+  final int index;
   final String title;
+  final bool done;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return AppCard(
+    final AppColorTokens tokens = context.tokens;
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: tokens.surface,
+        borderRadius: AppSpacing.cardRadius,
+        border: Border.all(
+          color: done ? AppColors.success : tokens.border,
+          width: done ? 1.5 : 1,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headlineSmall,
+          Row(
+            children: [
+              Container(
+                width: 28,
+                height: 28,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: done
+                      ? AppColors.success
+                      : tokens.primary.withValues(alpha: 0.12),
+                ),
+                child: done
+                    ? const Icon(
+                        Icons.check_outlined,
+                        size: 16,
+                        color: Colors.white,
+                      )
+                    : Text(
+                        '$index',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(
+                              color: tokens.primary,
+                              fontWeight: FontWeight.w800,
+                            ),
+                      ),
+            ),
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: Text(
+                title,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(fontSize: 15),
+              ),
+            ),
+          ],
           ),
           const SizedBox(height: AppSpacing.md),
           child,
         ],
+      ),
+    );
+  }
+}
+
+/// Side-by-side confirm-method pill (OTP / signature).
+class _MethodPill extends StatelessWidget {
+  const _MethodPill({
+    required this.label,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppColorTokens tokens = context.tokens;
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: AppSpacing.motionFast,
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
+        decoration: BoxDecoration(
+          color: selected
+              ? tokens.primary
+              : tokens.primary.withValues(alpha: 0.07),
+          borderRadius: AppSpacing.cardRadius,
+          border: Border.all(
+            color: selected
+                ? tokens.primary
+                : tokens.primary.withValues(alpha: 0.25),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 18,
+              color:
+                  selected ? tokens.onPrimary : tokens.primary,
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            Flexible(
+              child: Text(
+                label,
+                style:
+                    Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: selected
+                              ? tokens.onPrimary
+                              : tokens.primary,
+                        ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

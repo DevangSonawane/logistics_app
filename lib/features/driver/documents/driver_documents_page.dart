@@ -7,8 +7,8 @@ import '../../../core/l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_card.dart';
-import '../../../core/widgets/app_header.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/error_state.dart';
 import '../../../core/widgets/skeleton_list.dart';
@@ -53,102 +53,116 @@ class DriverDocumentsPage extends ConsumerWidget {
                   DocExpiryBand.critical,
             )
             .length;
-        return Scaffold(
+        final AppColorTokens tokens = context.tokens;
+        return AppScaffold(
+          padding: EdgeInsets.zero,
           body: Column(
             children: [
-              OverlapHeader(
-                title: l10n.documentsTitle,
-                subtitle: data.driver.vehicleReg ?? '',
-                heroValue: '${data.docs.length}',
-                heroLabel: l10n.documentsTitle,
-                overlap: critical > 0 ? _CriticalAlert(count: critical) : null,
-              ),
-              SizedBox(
-                height: critical > 0
-                    ? AppSpacing.xxxl + AppSpacing.md
-                    : AppSpacing.md,
+              Container(
+                color: tokens.surface,
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.lg,
+                  AppSpacing.md,
+                  AppSpacing.lg,
+                  AppSpacing.md,
+                ),
+                child: SafeArea(
+                  bottom: false,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.documentsTitle,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineLarge
+                            ?.copyWith(fontSize: 22),
+                      ),
+                      if ((data.driver.vehicleReg ?? '').isNotEmpty)
+                        Text(
+                          data.driver.vehicleReg!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                color: tokens.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                      if (critical > 0) ...[
+                        const SizedBox(height: AppSpacing.sm),
+                        _CriticalAlert(count: critical),
+                      ],
+                    ],
+                  ),
+                ),
               ),
               Expanded(
-                child: ListView.separated(
+                child: Padding(
                   padding: const EdgeInsets.fromLTRB(
                     AppSpacing.lg,
-                    0,
+                    AppSpacing.md,
                     AppSpacing.lg,
-                    AppSpacing.xxl,
+                    AppSpacing.lg,
                   ),
-                  itemCount: data.docs.length,
-                  separatorBuilder: (_, _) =>
-                      const SizedBox(height: AppSpacing.sm),
-                  itemBuilder: (context, index) {
-                    final VehicleDoc doc = data.docs[index];
-                    final DocExpiryBand band = expiryBand(
-                      doc.expiry,
-                      DateTime.now(),
-                    );
-                    final (String label, Color color) = switch (band) {
-                      DocExpiryBand.ok => (
-                        l10n.expiresInDays(
-                          doc.expiry.difference(DateTime.now()).inDays,
-                        ),
-                        AppColors.success,
-                      ),
-                      DocExpiryBand.warning => (
-                        l10n.expiresInDays(
-                          doc.expiry.difference(DateTime.now()).inDays,
-                        ),
-                        AppColors.warning,
-                      ),
-                      DocExpiryBand.critical =>
-                        doc.expiry.isBefore(DateTime.now())
-                            ? (l10n.expiredLabel, AppColors.danger)
-                            : (
-                                l10n.expiresInDays(
-                                  doc.expiry.difference(DateTime.now()).inDays,
-                                ),
-                                AppColors.danger,
-                              ),
-                    };
-                    return AppCard(
-                      onTap: () => _openDoc(context, doc),
-                      padding: const EdgeInsets.all(AppSpacing.md),
-                      child: Row(
-                        children: [
-                          Icon(
-                            _iconFor(doc.type),
-                            size: AppSpacing.xxxl,
-                            color: context.tokens.inkMuted,
+                  child: GridView.builder(
+                    padding: EdgeInsets.zero,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: AppSpacing.sm,
+                      crossAxisSpacing: AppSpacing.sm,
+                      childAspectRatio: 0.92,
+                    ),
+                    itemCount: data.docs.length,
+                    itemBuilder: (context, index) {
+                      final VehicleDoc doc = data.docs[index];
+                      final DocExpiryBand band = expiryBand(
+                        doc.expiry,
+                        DateTime.now(),
+                      );
+                      final (String label, Color color) =
+                          switch (band) {
+                        DocExpiryBand.ok => (
+                          l10n.expiresInDays(
+                            doc.expiry
+                                .difference(DateTime.now())
+                                .inDays,
                           ),
-                          const SizedBox(width: AppSpacing.md),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  _typeLabel(l10n, doc.type),
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                Text(
-                                  '${l10n.docNumberLabel}: ${doc.number}',
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(
-                                        color: context.tokens.inkMuted,
-                                      ),
-                                ),
-                                Text(
-                                  Formatters.date(doc.expiry),
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(
-                                        color: context.tokens.inkMuted,
-                                      ),
-                                ),
-                              ],
-                            ),
+                          AppColors.success,
+                        ),
+                        DocExpiryBand.warning => (
+                          l10n.expiresInDays(
+                            doc.expiry
+                                .difference(DateTime.now())
+                                .inDays,
                           ),
-                          StatusChip(label: label, color: color),
-                        ],
-                      ),
-                    );
-                  },
+                          AppColors.warning,
+                        ),
+                        DocExpiryBand.critical =>
+                          doc.expiry.isBefore(DateTime.now())
+                              ? (
+                                  l10n.expiredLabel,
+                                  AppColors.danger
+                                )
+                              : (
+                                  l10n.expiresInDays(
+                                    doc.expiry
+                                        .difference(DateTime.now())
+                                        .inDays,
+                                  ),
+                                  AppColors.danger,
+                                ),
+                      };
+                      return _DocGridCard(
+                        doc: doc,
+                        typeLabel: _typeLabel(l10n, doc.type),
+                        chipLabel: label,
+                        chipColor: color,
+                        onTap: () => _openDoc(context, doc),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
@@ -183,34 +197,90 @@ String _typeLabel(AppLocalizations l10n, VehicleDocType type) {
 
   void _openDoc(BuildContext context, VehicleDoc doc) {
   final AppLocalizations l10n = AppLocalizations.of(context);
+  final AppColorTokens tokens = context.tokens;
   showDialog<void>(
     context: context,
     builder: (context) => Dialog(
+      shape: const RoundedRectangleBorder(
+        borderRadius: AppSpacing.cardRadius,
+      ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              _typeLabel(l10n, doc.type),
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: AppSpacing.md),
-            if (doc.photoPath != null)
-              InteractiveViewer(
-                child: Image.file(
-                  File(doc.photoPath!),
-                  errorBuilder: (_, _, _) => const Icon(
-                    Icons.broken_image_outlined,
-                    size: AppSpacing.huge,
+            Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: tokens.primary.withValues(alpha: 0.1),
+                  ),
+                  child: Icon(
+                    _iconFor(doc.type),
+                    size: 20,
+                    color: tokens.primary,
                   ),
                 ),
-              )
-            else
-              const Icon(Icons.description_outlined, size: AppSpacing.huge),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Text(
+                    _typeLabel(l10n, doc.type),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: AppSpacing.md),
-            Text('${l10n.docNumberLabel}: ${doc.number}'),
-            Text(Formatters.date(doc.expiry)),
+            Container(
+              height: 180,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: tokens.surfaceAlt,
+                borderRadius: AppSpacing.inputRadius,
+              ),
+              child: doc.photoPath != null
+                  ? ClipRRect(
+                      borderRadius: AppSpacing.inputRadius,
+                      child: InteractiveViewer(
+                        child: Image.file(
+                          File(doc.photoPath!),
+                          errorBuilder: (_, _, _) =>
+                              const Icon(
+                            Icons.broken_image_outlined,
+                            size: AppSpacing.huge,
+                          ),
+                        ),
+                      ),
+                    )
+                  : const Icon(
+                      Icons.description_outlined,
+                      size: AppSpacing.huge,
+                    ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              '${l10n.docNumberLabel}: ${doc.number}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            Text(
+              Formatters.date(doc.expiry),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: tokens.inkMuted),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            AppButton(
+              label: l10n.closeAction,
+              onPressed: () => Navigator.of(context).pop(),
+            ),
           ],
         ),
       ),
@@ -246,6 +316,76 @@ class _CriticalAlert extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Grid card: tinted icon bubble, semibold type, expiry chip, number.
+class _DocGridCard extends StatelessWidget {
+  const _DocGridCard({
+    required this.doc,
+    required this.typeLabel,
+    required this.chipLabel,
+    required this.chipColor,
+    required this.onTap,
+  });
+
+  final VehicleDoc doc;
+  final String typeLabel;
+  final String chipLabel;
+  final Color chipColor;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppColorTokens tokens = context.tokens;
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        decoration: BoxDecoration(
+          color: tokens.surface,
+          borderRadius: AppSpacing.cardRadius,
+          border: Border.all(color: tokens.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: chipColor.withValues(alpha: 0.12),
+              ),
+              child: Icon(
+                _iconFor(doc.type),
+                size: 20,
+                color: chipColor,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              typeLabel,
+              style: Theme.of(context).textTheme.bodyMedium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              doc.number,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: tokens.inkMuted,
+                  ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            StatusChip(label: chipLabel, color: chipColor),
+          ],
+        ),
       ),
     );
   }

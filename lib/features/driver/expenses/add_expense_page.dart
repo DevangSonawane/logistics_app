@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -225,175 +223,282 @@ class _AddExpensePageState extends ConsumerState<AddExpensePage> {
       (ExpenseType.food, l10n.expenseFood, Icons.restaurant_outlined),
       (ExpenseType.other, l10n.expenseOther, Icons.more_horiz_outlined),
     ];
+    final AppColorTokens tokens = context.tokens;
     return AppScaffold(
       title: l10n.expenseTitle,
-      body: ListView(
+      body: Column(
         children: [
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              mainAxisSpacing: AppSpacing.sm,
-              crossAxisSpacing: AppSpacing.sm,
-              childAspectRatio: 0.85,
-            ),
-            itemCount: types.length,
-            itemBuilder: (context, index) {
-              final (type, label, icon) = types[index];
-              final bool selected = type == _type;
-              return GestureDetector(
-                onTap: () => setState(() => _type = type),
-                child: Container(
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.md),
                   decoration: BoxDecoration(
-                    color: selected
-                        ? context.tokens.primary.withValues(alpha: 0.12)
-                        : context.tokens.surface,
+                    color: tokens.primary.withValues(alpha: 0.08),
                     borderRadius: AppSpacing.cardRadius,
-                    border: Border.all(
-                      color: selected
-                          ? context.tokens.primary
-                          : context.tokens.border,
-                      width: selected ? 2 : 1,
-                    ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Row(
                     children: [
                       Icon(
-                        icon,
-                        color: selected
-                            ? context.tokens.primary
-                            : context.tokens.inkMuted,
+                        Icons.account_balance_wallet_outlined,
+                        size: 18,
+                        color: tokens.primary,
                       ),
-                      const SizedBox(height: AppSpacing.xs),
-                      Text(
-                        label,
-                        style: Theme.of(context).textTheme.bodySmall,
-                        textAlign: TextAlign.center,
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: Text(
+                          '${l10n.advanceBalance}: '
+                          '${Formatters.inr(ref.watch(advanceBalanceProvider(widget.trip.driverId)).value ?? 0)}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: tokens.primary),
+                        ),
                       ),
                     ],
                   ),
                 ),
-              );
-            },
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          if (_type == ExpenseType.diesel) ...[
-            Row(
-              children: [
-                Expanded(
-                  child: AppTextField(
-                    controller: _litres,
-                    label: l10n.litresLabel,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    onChanged: (_) => _recalcDiesel(),
+                const SizedBox(height: AppSpacing.md),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: AppSpacing.sm,
+                    crossAxisSpacing: AppSpacing.sm,
+                    childAspectRatio: 1.0,
                   ),
+                  itemCount: types.length,
+                  itemBuilder: (context, index) {
+                    final (type, label, icon) = types[index];
+                    final bool selected = type == _type;
+                    return GestureDetector(
+                      onTap: () => setState(() => _type = type),
+                      behavior: HitTestBehavior.opaque,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: selected
+                              ? tokens.primary
+                              : tokens.surface,
+                          borderRadius: AppSpacing.cardRadius,
+                          border: Border.all(
+                            color: selected
+                                ? tokens.primary
+                                : tokens.border,
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment:
+                              MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              icon,
+                              size: 22,
+                              color: selected
+                                  ? tokens.onPrimary
+                                  : tokens.inkMuted,
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              label,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                    color: selected
+                                        ? tokens.onPrimary
+                                        : tokens.inkMuted,
+                                  ),
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: AppTextField(
-                    controller: _rate,
-                    label: l10n.rateLabel,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    onChanged: (_) => _recalcDiesel(),
+                const SizedBox(height: AppSpacing.md),
+                if (_type == ExpenseType.diesel) ...[
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AppTextField(
+                          controller: _litres,
+                          label: l10n.litresLabel,
+                          keyboardType:
+                              const TextInputType.numberWithOptions(
+                            decimal: true,
+                          ),
+                          onChanged: (_) => _recalcDiesel(),
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: AppTextField(
+                          controller: _rate,
+                          label: l10n.rateLabel,
+                          keyboardType:
+                              const TextInputType.numberWithOptions(
+                            decimal: true,
+                          ),
+                          onChanged: (_) => _recalcDiesel(),
+                        ),
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: AppSpacing.md),
+                ],
+                AppTextField(
+                  controller: _amount,
+                  label: l10n.amountLabel,
+                  keyboardType: TextInputType.number,
+                  prefixIcon: Icons.currency_rupee_outlined,
                 ),
+                if (_showNormWarning) ...[
+                  const SizedBox(height: AppSpacing.xs),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.warning_amber_outlined,
+                        size: 14,
+                        color: AppColors.warning,
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      Expanded(
+                        child: Text(
+                          l10n.aboveNorm,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                color: AppColors.warning,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+                const SizedBox(height: AppSpacing.md),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _AttachTile(
+                        icon: Icons.receipt_long_outlined,
+                        label: l10n.billPhotoLabel,
+                        done: _billPhoto != null,
+                        onTap: _captureBill,
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: _AttachTile(
+                        icon: _recording
+                            ? Icons.stop_outlined
+                            : Icons.mic_none_outlined,
+                        label: _recording
+                            ? l10n.listeningLabel
+                            : l10n.voiceNoteAction,
+                        done: _voiceNote != null || _recording,
+                        danger: _recording,
+                        onTap: _toggleVoiceNote,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.md),
+                AppTextField(
+                  controller: _note,
+                  label: l10n.noteHint,
+                ),
+                if (_error != null) ...[
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    _error!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(
+                          color: AppColors.danger,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ],
               ],
             ),
-            const SizedBox(height: AppSpacing.md),
-          ],
-          AppTextField(
-            controller: _amount,
-            label: l10n.amountLabel,
-            keyboardType: TextInputType.number,
-          ),
-          if (_showNormWarning) ...[
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              l10n.aboveNorm,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: AppColors.warning),
-            ),
-          ],
-          const SizedBox(height: AppSpacing.md),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  icon: const Icon(Icons.receipt_long_outlined),
-                  label: Text(l10n.billPhotoLabel),
-                  onPressed: _captureBill,
-                ),
-              ),
-              if (_billPhoto != null) ...[
-                const SizedBox(width: AppSpacing.sm),
-                ClipRRect(
-                  borderRadius: AppSpacing.inputRadius,
-                  child: Image.file(
-                    File(_billPhoto!),
-                    width: AppSpacing.minTapTarget,
-                    height: AppSpacing.minTapTarget,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => Container(
-                      width: AppSpacing.minTapTarget,
-                      height: AppSpacing.minTapTarget,
-                      color: context.tokens.surfaceAlt,
-                      child: const Icon(Icons.receipt_outlined),
-                    ),
-                  ),
-                ),
-              ],
-            ],
           ),
           const SizedBox(height: AppSpacing.md),
-          AppTextField(
-            controller: _note,
-            label: l10n.noteHint,
-          ),
-          const SizedBox(height: AppSpacing.md),
-          OutlinedButton.icon(
-            icon: Icon(
-              _recording ? Icons.stop_outlined : Icons.mic_none_outlined,
-              color: _recording ? AppColors.danger : null,
+          SafeArea(
+            top: false,
+            child: AppButton(
+              label: l10n.saveAction,
+              loading: _working,
+              onPressed: _working ? null : _save,
             ),
-            label: Text(
-              _recording ? l10n.listeningLabel : l10n.voiceNoteAction,
-            ),
-            onPressed: _toggleVoiceNote,
-          ),
-          if (_error != null) ...[
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              _error!,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(color: AppColors.danger),
-            ),
-          ],
-          const SizedBox(height: AppSpacing.xl),
-          AppButton(
-            label: l10n.saveAction,
-            variant: AppButtonVariant.accent,
-            large: true,
-            loading: _working,
-            onPressed: _working ? null : _save,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            '${l10n.advanceBalance}: '
-            '${Formatters.inr(ref.watch(advanceBalanceProvider(widget.trip.driverId)).value ?? 0)}',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Small attachment tile (bill photo / voice note) with done state.
+class _AttachTile extends StatelessWidget {
+  const _AttachTile({
+    required this.icon,
+    required this.label,
+    required this.done,
+    required this.onTap,
+    this.danger = false,
+  });
+
+  final IconData icon;
+  final String label;
+  final bool done;
+  final VoidCallback onTap;
+  final bool danger;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppColorTokens tokens = context.tokens;
+    final Color tint =
+        danger ? AppColors.danger : done ? AppColors.success : tokens.primary;
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
+        decoration: BoxDecoration(
+          color: tint.withValues(alpha: 0.08),
+          borderRadius: AppSpacing.cardRadius,
+          border: Border.all(color: tint.withValues(alpha: 0.3)),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 20, color: tint),
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: Text(
+                label,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: tint,
+                      fontWeight: FontWeight.w700,
+                    ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

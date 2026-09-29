@@ -91,6 +91,7 @@ class _SosPageState extends ConsumerState<SosPage>
       ('threat', l10n.sosThreat),
       ('other', l10n.sosOther),
     ];
+    final AppColorTokens tokens = context.tokens;
     return AppScaffold(
       title: l10n.sosTitle,
       body: _sent
@@ -100,22 +101,24 @@ class _SosPageState extends ConsumerState<SosPage>
               children: [
                 const Icon(
                   Icons.check_circle,
-                  size: AppSpacing.huge,
+                  size: 56,
                   color: AppColors.success,
                 ),
-                const SizedBox(height: AppSpacing.lg),
+                const SizedBox(height: AppSpacing.md),
                 Text(
                   ref.read(isOnlineProvider)
                       ? l10n.sosSent
                       : l10n.sosQueued,
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(fontWeight: FontWeight.w700),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: AppSpacing.xl),
+                const SizedBox(height: AppSpacing.lg),
                 AppButton(
                   label: l10n.callOps,
                   variant: AppButtonVariant.danger,
-                  large: true,
                   icon: Icons.phone_outlined,
                   onPressed: () => LaunchHelpers.call('9000000021'),
                 ),
@@ -124,61 +127,85 @@ class _SosPageState extends ConsumerState<SosPage>
           : Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: AppSpacing.lg),
-                AnimatedBuilder(
-                  animation: _pulse,
-                  builder: (context, child) => Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(
-                      AppSpacing.xl + _pulse.value * AppSpacing.md,
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.zero,
+                    child: Column(
+                      children: [
+                        AnimatedBuilder(
+                          animation: _pulse,
+                          builder: (context, child) =>
+                              Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.all(
+                              AppSpacing.lg +
+                                  _pulse.value * AppSpacing.sm,
+                            ),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.danger.withValues(
+                                alpha:
+                                    0.12 + _pulse.value * 0.1,
+                              ),
+                            ),
+                            child: child,
+                          ),
+                          child: const Icon(
+                            Icons.sos,
+                            size: 56,
+                            color: AppColors.danger,
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        Text(
+                          l10n.sosSelectType,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          spacing: AppSpacing.sm,
+                          runSpacing: AppSpacing.sm,
+                          children: [
+                            for (final (id, label) in types)
+                              AppFilterChip(
+                                label: label,
+                                selected: _type == id,
+                                onTap: () =>
+                                    setState(() => _type = id),
+                              ),
+                          ],
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        Text(
+                          l10n.sosPrompt,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                color: tokens.inkMuted,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.danger.withValues(
-                        alpha: 0.12 + _pulse.value * 0.1,
-                      ),
-                    ),
-                    child: child,
                   ),
-                  child: const Icon(
-                    Icons.sos,
-                    size: AppSpacing.huge,
-                    color: AppColors.danger,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                Text(
-                  l10n.sosSelectType,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: AppSpacing.md),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: AppSpacing.sm,
-                  runSpacing: AppSpacing.sm,
-                  children: [
-                    for (final (id, label) in types)
-                      AppFilterChip(
-                        label: label,
-                        selected: _type == id,
-                        onTap: () => setState(() => _type = id),
-                      ),
-                  ],
+                SafeArea(
+                  top: false,
+                  child: SlideConfirm(
+                    label: l10n.sosTitle,
+                    enabled: _type != null && !_working,
+                    onConfirm: _send,
+                  ),
                 ),
-                const Spacer(),
-                Text(
-                  l10n.sosPrompt,
-                  style: Theme.of(context).textTheme.bodySmall,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                SlideConfirm(
-                  label: l10n.sosTitle,
-                  enabled: _type != null && !_working,
-                  onConfirm: _send,
-                ),
-                const SizedBox(height: AppSpacing.sm),
               ],
             ),
     );

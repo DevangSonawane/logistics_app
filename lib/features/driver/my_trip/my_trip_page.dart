@@ -22,7 +22,6 @@ import '../../../core/widgets/skeleton_list.dart';
 import '../../../core/widgets/slide_confirm.dart';
 import '../../../core/widgets/status_chip.dart';
 import '../../../core/widgets/sync_pill.dart';
-import '../../../core/widgets/timeline_tile.dart';
 import '../../../data/models/trip.dart';
 import '../../auth/application/session_provider.dart';
 import '../application/driver_settings.dart';
@@ -46,13 +45,6 @@ class MyTripPage extends ConsumerWidget {
       driverTripProvider(driverId),
     );
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'sos',
-        backgroundColor: AppColors.danger,
-        onPressed: () => context.push(RouteNames.driverSos),
-        child: const Icon(Icons.sos_outlined, color: Colors.white),
-      ),
       body: AppScaffold(
         padding: EdgeInsets.zero,
         body: tripState.when(
@@ -97,6 +89,7 @@ class _TripBody extends StatelessWidget {
                 : _EmptyTrip(driverId: driverId),
           ),
         ),
+        const SizedBox(height: AppSpacing.lg),
       ],
     );
   }
@@ -130,18 +123,41 @@ class _DriverHeader extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
                     child: Text(
                       l10n.greeting(name),
-                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        color: context.tokens.primary,
-                        fontSize: 28,
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(
+                            color: context.tokens.ink,
+                            fontWeight: FontWeight.w800,
+                          ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   SyncPill(onTap: () => context.push(RouteNames.driverQueue)),
+                  const SizedBox(width: AppSpacing.sm),
+                  GestureDetector(
+                    onTap: () =>
+                        context.push(RouteNames.driverSos),
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.danger,
+                      ),
+                      child: const Icon(
+                        Icons.sos_outlined,
+                        size: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: AppSpacing.sm),
@@ -260,6 +276,7 @@ class _OfferCardState extends ConsumerState<_OfferCard> {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final Trip trip = widget.trip;
     return AppCard(
+      padding: const EdgeInsets.all(AppSpacing.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -275,18 +292,22 @@ class _OfferCardState extends ConsumerState<_OfferCard> {
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.xs),
           Text(
             trip.customer,
-            style: Theme.of(context).textTheme.headlineMedium,
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(fontWeight: FontWeight.w700),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: AppSpacing.xs),
           // Freight dominates the card (Rule 2 + 4).
           Text(
             Formatters.inr(trip.freightAllowance),
             style: AppTypography.kpiNumber(
               AppColors.secondary,
-            ).copyWith(fontSize: 36),
+            ).copyWith(fontSize: 28),
           ),
           Text(
             '${l10n.freightLabel} · ${trip.vehicleReg}',
@@ -303,11 +324,9 @@ class _OfferCardState extends ConsumerState<_OfferCard> {
               context,
             ).textTheme.bodySmall?.copyWith(color: context.tokens.inkMuted),
           ),
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.md),
           AppButton(
             label: l10n.acceptAction,
-            variant: AppButtonVariant.accent,
-            large: true,
             loading: _working,
             onPressed: _working ? null : _accept,
           ),
@@ -505,6 +524,7 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
 
   Future<void> _openDocs(Trip trip) async {
     final AppLocalizations l10n = AppLocalizations.of(context);
+    final AppColorTokens tokens = context.tokens;
     await showModalBottomSheet<void>(
       context: context,
       builder: (context) => SafeArea(
@@ -512,20 +532,52 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
           padding: const EdgeInsets.all(AppSpacing.lg),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                l10n.lrEwayLabel,
-                style: Theme.of(context).textTheme.headlineSmall,
+              Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: tokens.primary
+                          .withValues(alpha: 0.1),
+                    ),
+                    child: Icon(
+                      Icons.description_outlined,
+                      size: 20,
+                      color: tokens.primary,
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Text(
+                      l10n.lrEwayLabel,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: AppSpacing.md),
               // TODO(Phase 6): open the shared PDF viewer with the LR scan.
-              Text('LR: ${trip.lrNo ?? '-'}'),
-              Text('E-way: ${trip.ewayBillNo ?? '-'}'),
+              _DocRow(
+                label: 'LR',
+                value: trip.lrNo ?? '-',
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              _DocRow(
+                label: 'E-way',
+                value: trip.ewayBillNo ?? '-',
+              ),
               const SizedBox(height: AppSpacing.lg),
               AppButton(
                 label: l10n.closeAction,
-                variant: AppButtonVariant.secondary,
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -547,6 +599,7 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppCard(
+          padding: const EdgeInsets.all(AppSpacing.md),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -555,7 +608,12 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
                   Expanded(
                     child: Text(
                       '${trip.no} · ${trip.customer}',
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(fontSize: 16),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   StatusChip(
@@ -584,19 +642,30 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
                   Expanded(
                     flex: 3,
                     child: SizedBox(
-                      height: AppSpacing.driverButtonHeight,
+                      height: 44,
                       child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.accent,
-                          foregroundColor: AppColors.onAccent,
+                          backgroundColor: context.tokens.primary,
+                          foregroundColor: context.tokens.onPrimary,
                           shape: const RoundedRectangleBorder(
                             borderRadius: AppSpacing.buttonRadius,
                           ),
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
                         ),
-                        icon: const Icon(Icons.navigation_outlined),
+                        icon: const Icon(
+                          Icons.navigation_outlined,
+                          size: 18,
+                        ),
                         label: Text(l10n.navigateAction),
-                        onPressed: () =>
-                            LaunchHelpers.navigate(trip.dropLat, trip.dropLng),
+                        onPressed: () => LaunchHelpers.navigate(
+                          trip.dropLat,
+                          trip.dropLng,
+                        ),
                       ),
                     ),
                   ),
@@ -604,17 +673,25 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
                   Expanded(
                     flex: 2,
                     child: SizedBox(
-                      height: AppSpacing.driverButtonHeight,
+                      height: 44,
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
                           shape: const RoundedRectangleBorder(
                             borderRadius: AppSpacing.buttonRadius,
                           ),
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
                         ),
                         onPressed: () => _openDocs(trip),
                         child: Text(
                           l10n.lrEwayLabel,
                           textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
@@ -626,7 +703,19 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
                 children: [
                   Expanded(
                     child: OutlinedButton.icon(
-                      icon: const Icon(Icons.receipt_outlined),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(0, 40),
+                        textStyle: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                      icon: const Icon(
+                        Icons.receipt_outlined,
+                        size: 16,
+                      ),
                       label: Text(l10n.addExpenseAction),
                       onPressed: () => context.push(
                         RouteNames.driverAddExpense,
@@ -637,7 +726,19 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: OutlinedButton.icon(
-                      icon: const Icon(Icons.payments_outlined),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(0, 40),
+                        textStyle: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                      icon: const Icon(
+                        Icons.payments_outlined,
+                        size: 16,
+                      ),
                       label: Text(l10n.requestAdvanceAction),
                       onPressed: () => context.push(
                         RouteNames.driverRequestAdvance,
@@ -653,9 +754,9 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
         Padding(
           padding: const EdgeInsets.fromLTRB(
             AppSpacing.lg,
+            AppSpacing.md,
             AppSpacing.lg,
             AppSpacing.lg,
-            AppSpacing.xxl,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -712,23 +813,6 @@ class _ActiveTripCardState extends ConsumerState<_ActiveTripCard> {
                     onNo: () => setState(() => _voiceCandidate = null),
                   ),
               ],
-              if (trip.steps.isNotEmpty) ...[
-                const SizedBox(height: AppSpacing.xl),
-                Text(
-                  l10n.timelineTitle,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                for (int i = 0; i < trip.steps.length; i++)
-                  TimelineTile(
-                    title: _stepLabel(l10n, trip.steps[i].type),
-                    time: Formatters.dateTime(trip.steps[i].at),
-                    color: AppColors.success,
-                    icon: Icons.check,
-                    isFirst: i == 0,
-                    isLast: i == trip.steps.length - 1,
-                  ),
-              ],
             ],
           ),
         ),
@@ -754,11 +838,9 @@ class _PodPromptCard extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineSmall,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.sm),
           AppButton(
             label: l10n.podPromptAction,
-            variant: AppButtonVariant.accent,
-            large: true,
             onPressed: () => context.push(RouteNames.driverPod, extra: trip),
           ),
         ],
@@ -828,6 +910,47 @@ class _DriverIconButton extends StatelessWidget {
         ),
         onPressed: onPressed,
         child: Icon(icon),
+      ),
+    );
+  }
+}
+
+/// Label/value row for the LR sheet.
+class _DocRow extends StatelessWidget {
+  const _DocRow({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: context.tokens.surfaceAlt,
+        borderRadius: AppSpacing.inputRadius,
+      ),
+      child: Row(
+        children: [
+          Text(
+            label,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: context.tokens.inkMuted,
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Text(
+              value,
+              style: Theme.of(context).textTheme.bodyMedium,
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
       ),
     );
   }

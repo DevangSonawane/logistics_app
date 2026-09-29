@@ -120,15 +120,16 @@ void main() {
   });
 
   group('driver theme isolation', () {
-    testWidgets('driver routes get the 1.15x text theme', (tester) async {
+    testWidgets('driver routes keep the compact text theme', (tester) async {
       await setSurface(tester, const Size(360, 640), 1.0);
       await pumpApp(tester, session: _driverState());
       expect(find.text('Namaste, Ramesh Yadav'), findsOneWidget);
       final ThemeData theme = Theme.of(
         tester.element(find.text('Namaste, Ramesh Yadav')),
       );
-      // 20 (h2 token) x 1.15 driver multiplier; staff screens stay 20.
-      expect(theme.textTheme.headlineMedium!.fontSize!, moreOrLessEquals(23.0));
+      // Driver uses the same 20 (h2 token) scale as staff; bigger text
+      // is opt-in via Profile -> text size. Staff screens stay 20.
+      expect(theme.textTheme.headlineMedium!.fontSize!, moreOrLessEquals(20.0));
       // Builder clamp does not stack: system 1.0 stays 1.0 in driver too.
       expect(
         scalerOf(tester, find.text('Namaste, Ramesh Yadav')),

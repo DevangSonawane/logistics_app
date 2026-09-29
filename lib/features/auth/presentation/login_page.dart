@@ -48,11 +48,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       icon: Icons.business_outlined,
       phone: '9000000011',
     ),
-    _RolePill(
-      role: AppRole.ops,
-      icon: Icons.hub_outlined,
-      phone: '9000000021',
-    ),
+    _RolePill(role: AppRole.ops, icon: Icons.hub_outlined, phone: '9000000021'),
     _RolePill(
       role: AppRole.sales,
       icon: Icons.trending_up_outlined,

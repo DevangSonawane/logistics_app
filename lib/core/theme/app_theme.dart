@@ -35,7 +35,7 @@ abstract final class AppTheme {
       brightness: brightness,
       colorScheme: scheme,
       scaffoldBackgroundColor: tokens.background,
-      textTheme: AppTypography.textTheme(),
+      textTheme: AppTypography.textTheme(color: tokens.ink),
       extensions: [tokens],
       appBarTheme: AppBarTheme(
         backgroundColor: tokens.surface,
@@ -83,7 +83,7 @@ abstract final class AppTheme {
           shape: const RoundedRectangleBorder(
             borderRadius: AppSpacing.buttonRadius,
           ),
-          textStyle: AppTypography.textTheme().bodyMedium,
+          textStyle: AppTypography.textTheme(color: tokens.ink).bodyMedium,
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -98,7 +98,8 @@ abstract final class AppTheme {
       chipTheme: ChipThemeData(
         shape: const StadiumBorder(),
         backgroundColor: tokens.surfaceAlt,
-        labelStyle: AppTypography.textTheme().bodySmall,
+        labelStyle:
+            AppTypography.textTheme(color: tokens.ink).bodySmall,
       ),
       dividerTheme: DividerThemeData(color: tokens.border, thickness: 1),
     );

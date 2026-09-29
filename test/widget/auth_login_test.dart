@@ -37,12 +37,12 @@ void main() {
       await tester.pumpAndSettle();
       const Map<String, String> pills = {
         'Driver': 'Ramesh Yadav · +91 9000000001',
+        'Owner': 'Anil Mehta · +91 9000000011',
+        'Ops': 'Priya Nair · +91 9000000021',
         'Sales': 'Karan Shah · +91 9000000031',
         'Supervisor': 'Vijay Gaikwad · +91 9000000041',
         'Accountant': 'Neha Kulkarni · +91 9000000051',
       };
-      expect(find.text('Owner'), findsNothing);
-      expect(find.text('Ops'), findsNothing);
       expect(find.text('Owner + Ops'), findsNothing);
       for (final MapEntry<String, String> pill in pills.entries) {
         await tester.tap(find.text(pill.key).first);

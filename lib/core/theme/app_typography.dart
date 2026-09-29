@@ -17,8 +17,10 @@ abstract final class AppTypography {
   static const double driverButton = 20;
 
   /// Builds the Material text theme. [scale] lets driver mode multiply
-  /// body sizes by 1.15 (see driver_theme.dart).
-  static TextTheme textTheme({double scale = 1.0}) {
+  /// body sizes by 1.15 (see driver_theme.dart). [color] is mandatory:
+  /// every style carries the ink color explicitly so text can never
+  /// inherit a wrong (e.g. white) fallback from the OS theme root.
+  static TextTheme textTheme({double scale = 1.0, required Color color}) {
     final TextStyle heading = GoogleFonts.plusJakartaSans();
     final TextStyle content = GoogleFonts.inter();
     return TextTheme(
@@ -26,34 +28,42 @@ abstract final class AppTypography {
         fontSize: display * scale,
         fontWeight: FontWeight.w800,
         letterSpacing: -0.5,
+        color: color,
       ),
       headlineLarge: heading.copyWith(
         fontSize: h1 * scale,
         fontWeight: FontWeight.w700,
+        color: color,
       ),
       headlineMedium: heading.copyWith(
         fontSize: h2 * scale,
         fontWeight: FontWeight.w700,
+        color: color,
       ),
       headlineSmall: heading.copyWith(
         fontSize: h3 * scale,
         fontWeight: FontWeight.w600,
+        color: color,
       ),
       bodyLarge: content.copyWith(
         fontSize: body * scale,
         fontWeight: FontWeight.w400,
+        color: color,
       ),
       bodyMedium: content.copyWith(
         fontSize: body * scale,
         fontWeight: FontWeight.w600,
+        color: color,
       ),
       bodySmall: content.copyWith(
         fontSize: caption * scale,
         fontWeight: FontWeight.w500,
+        color: color,
       ),
       labelLarge: heading.copyWith(
         fontSize: driverButton,
         fontWeight: FontWeight.w800,
+        color: color,
       ),
     );
   }

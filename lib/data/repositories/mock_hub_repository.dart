@@ -37,11 +37,49 @@ class MockHubRepository implements HubRepository {
       t(id: 'hub-9', type: HubTaskType.arrival, veh: 'TN10 WW 1212', cust: 'Godrej Consumer', etaMins: 120, pkgs: 16),
       t(id: 'hub-10', type: HubTaskType.arrival, veh: 'MH12 LM 1122', cust: 'Parle Products', etaMins: 180, pkgs: 8),
     ]);
+    _seedManifests();
   }
 
   final List<HubTask> _tasks = [];
   final List<Manifest> _manifests = [];
   final Uuid _uuid = const Uuid();
+
+  /// Two demo manifests so the Manifest tab and LR page show data.
+  void _seedManifests() {
+    final DateTime now = DateTime.now();
+    Manifest manifest({
+      required String id,
+      required String dest,
+      required List<String> codes,
+      required int hoursAgo,
+    }) =>
+        Manifest(
+          id: id,
+          destHub: dest,
+          items: [
+            for (final String code in codes)
+              ScanItem(
+                code: code,
+                at: now.subtract(Duration(hours: hoursAgo)),
+              ),
+          ],
+          createdAt: now.subtract(Duration(hours: hoursAgo)),
+        );
+    _manifests.addAll([
+      manifest(
+        id: 'mn-demo01',
+        dest: 'Chennai Depot',
+        codes: const ['PKG-1001', 'PKG-1002', 'PKG-1003', 'PKG-1004'],
+        hoursAgo: 5,
+      ),
+      manifest(
+        id: 'mn-demo02',
+        dest: 'Mumbai HQ',
+        codes: const ['PKG-2001', 'PKG-2002', 'PKG-2003'],
+        hoursAgo: 26,
+      ),
+    ]);
+  }
 
   @override
   Future<List<HubTask>> todayTasks() async {

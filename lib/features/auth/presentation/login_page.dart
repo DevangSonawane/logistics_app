@@ -18,8 +18,7 @@ import '../application/session_provider.dart';
 /// autofill the credentials. No OTP. Users are admin-created; the pills
 /// cover every role mode in the app:
 ///
-/// Driver (field, offline-first), Owner, Ops/Dispatcher, Sales,
-/// Supervisor, Accountant, plus a multi-role account (role picker).
+/// Driver (field, offline-first), Sales, Supervisor, Accountant.
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
@@ -71,8 +70,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     ),
   ];
 
-  static const String _multiPhone = '9000000099';
-
   @override
   void dispose() {
     _phone.dispose();
@@ -81,8 +78,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   void _autofill(int index) {
-    final String phone =
-        index < _pills.length ? _pills[index].phone : _multiPhone;
+    final String phone = _pills[index].phone;
     setState(() {
       _selectedPill = index;
       _phone.text = phone;
@@ -99,8 +95,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final String password = _password.text;
     setState(() {
       _phoneError = Validators.isPhoneValid(phone) ? null : l10n.phoneError;
-      _passwordError =
-          Validators.minLength(password, 4) ? null : l10n.passwordError;
+      _passwordError = Validators.minLength(password, 4)
+          ? null
+          : l10n.passwordError;
       _formError = null;
     });
     if (_phoneError != null || _passwordError != null) return;
@@ -137,11 +134,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final AppColorTokens tokens = context.tokens;
     final String? selectedName = _selectedPill == null
         ? null
-        : MockUsers.byPhone(
-            _selectedPill! < _pills.length
-                ? _pills[_selectedPill!].phone
-                : _multiPhone,
-          )?.name;
+        : MockUsers.byPhone(_pills[_selectedPill!].phone)?.name;
 
     return AppScaffold(
       showOfflineBanner: false,
@@ -158,8 +151,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
               decoration: BoxDecoration(
                 color: tokens.surface,
-                borderRadius:
-                    BorderRadius.circular(AppSpacing.radiusSheet),
+                borderRadius: BorderRadius.circular(AppSpacing.radiusSheet),
                 border: Border.all(color: tokens.surface),
                 boxShadow: [
                   BoxShadow(
@@ -176,22 +168,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   Text(
                     l10n.loginTitle,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineLarge
-                        ?.copyWith(
-                          color: tokens.primary,
-                          fontWeight: FontWeight.w800,
-                        ),
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      color: tokens.primary,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
                     l10n.loginSubtitle,
                     textAlign: TextAlign.center,
-                    style:
-                        Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: tokens.inkMuted,
-                            ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: tokens.inkMuted),
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   AppTextField(
@@ -224,8 +212,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             ? Icons.visibility_outlined
                             : Icons.visibility_off_outlined,
                       ),
-                      onPressed: () =>
-                          setState(() => _obscure = !_obscure),
+                      onPressed: () => setState(() => _obscure = !_obscure),
                     ),
                     onChanged: (_) {
                       if (_passwordError != null) {
@@ -233,27 +220,33 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       }
                     },
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        padding: const EdgeInsets.only(top: AppSpacing.xs),
-                      ),
-                      onPressed: () => ScaffoldMessenger.of(context)
-                          .showSnackBar(
-                        SnackBar(content: Text(l10n.loginSubtitle)),
-                      ),
-                      child: Text(
-                        l10n.forgotPassword,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(
-                              fontSize: 11,
-                              color: context.tokens.primary,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSpacing.sm,
+                    ),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.xs,
+                            vertical: AppSpacing.xs,
+                          ),
+                        ),
+                        onPressed: () =>
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(l10n.loginSubtitle)),
                             ),
+                        child: Text(
+                          l10n.forgotPassword,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                fontSize: 11,
+                                color: context.tokens.primary,
+                              ),
+                        ),
                       ),
                     ),
                   ),
@@ -261,10 +254,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     Text(
                       _formError!,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: AppColors.danger),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: AppColors.danger),
                     ),
                     const SizedBox(height: AppSpacing.sm),
                   ],
@@ -277,10 +269,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   Text(
                     l10n.quickSignInHint,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: tokens.inkFaint),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: tokens.inkFaint),
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Wrap(
@@ -295,16 +286,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           selected: _selectedPill == i,
                           onTap: () => _autofill(i),
                         ),
-                      _Pill(
-                        label: rolesSummary(
-                          l10n,
-                          const [AppRole.owner, AppRole.ops],
-                        ),
-                        icon: Icons.group_outlined,
-                        selected:
-                            _selectedPill == _pills.length,
-                        onTap: () => _autofill(_pills.length),
-                      ),
                     ],
                   ),
                   if (selectedName != null) ...[
@@ -312,10 +293,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     Text(
                       '$selectedName · +91 ${_phone.text}',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: tokens.inkMuted),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: tokens.inkMuted),
                     ),
                   ],
                 ],
@@ -388,10 +368,9 @@ class _Pill extends StatelessWidget {
             Text(
               label,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color:
-                        selected ? tokens.onPrimary : tokens.primary,
-                    fontWeight: FontWeight.w700,
-                  ),
+                color: selected ? tokens.onPrimary : tokens.primary,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ],
         ),
@@ -430,8 +409,7 @@ class _SignInButton extends StatelessWidget {
                   colors: [AppColors.primary, AppColors.primaryDark],
                 ),
           color: onPressed == null ? tokens.surfaceAlt : null,
-          borderRadius:
-              BorderRadius.circular(AppSpacing.radiusCard),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusCard),
           boxShadow: onPressed == null
               ? null
               : [
@@ -454,10 +432,9 @@ class _SignInButton extends StatelessWidget {
               )
             : Text(
                 label,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: Colors.white),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.white),
               ),
       ),
     );

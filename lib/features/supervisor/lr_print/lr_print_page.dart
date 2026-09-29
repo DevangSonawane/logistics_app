@@ -65,34 +65,44 @@ class LrPrintPage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.md),
-          AppButton(
-            label: l10n.sharePdf,
-            variant: AppButtonVariant.secondary,
-            icon: Icons.share_outlined,
-            onPressed: () => ShareService().sharePdf(
-              'LR-88412',
-              const [
-                ('Route', 'Pune Hub - Chennai Depot'),
-                ('Vehicle', 'MH12 AB 1234'),
-                ('Seal', 'SEAL-2091'),
+          SafeArea(
+            top: false,
+            child: Column(
+              children: [
+                AppButton(
+                  label: l10n.sharePdf,
+                  variant: AppButtonVariant.secondary,
+                  icon: Icons.share_outlined,
+                  onPressed: () => ShareService().sharePdf(
+                    'LR-88412',
+                    const [
+                      ('Route', 'Pune Hub - Chennai Depot'),
+                      ('Vehicle', 'MH12 AB 1234'),
+                      ('Seal', 'SEAL-2091'),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                AppButton(
+                  label: l10n.printAction,
+                  icon: Icons.print_outlined,
+                  onPressed: () async {
+                    final Uint8List bytes =
+                        await PdfService().statement(
+                      title: 'LR-88412',
+                      rows: const [
+                        ('Route', 'Pune Hub - Chennai Depot'),
+                        ('Vehicle', 'MH12 AB 1234'),
+                        ('Seal', 'SEAL-2091'),
+                      ],
+                    );
+                    await Printing.layoutPdf(
+                      onLayout: (_) async => bytes,
+                    );
+                  },
+                ),
               ],
             ),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          AppButton(
-            label: l10n.printAction,
-            icon: Icons.print_outlined,
-            onPressed: () async {
-              final Uint8List bytes = await PdfService().statement(
-                title: 'LR-88412',
-                rows: const [
-                  ('Route', 'Pune Hub - Chennai Depot'),
-                  ('Vehicle', 'MH12 AB 1234'),
-                  ('Seal', 'SEAL-2091'),
-                ],
-              );
-              await Printing.layoutPdf(onLayout: (_) async => bytes);
-            },
           ),
           if (bluetoothEnabled) ...[
             const SizedBox(height: AppSpacing.md),
@@ -194,11 +204,14 @@ class ManifestListPage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.md),
-          AppButton(
-            label: l10n.lrPrintTitle,
-            variant: AppButtonVariant.secondary,
-            icon: Icons.receipt_long_outlined,
-            onPressed: () => context.push('/supervisor/lr'),
+          SafeArea(
+            top: false,
+            child: AppButton(
+              label: l10n.lrPrintTitle,
+              variant: AppButtonVariant.secondary,
+              icon: Icons.receipt_long_outlined,
+              onPressed: () => context.push('/supervisor/lr'),
+            ),
           ),
         ],
       ),

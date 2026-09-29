@@ -19,10 +19,7 @@ void main() {
       // Driver pill fills the demo phone + password.
       await tester.tap(find.text('Driver').first);
       await tester.pumpAndSettle();
-      expect(
-        find.text('Ramesh Yadav · +91 9000000001'),
-        findsOneWidget,
-      );
+      expect(find.text('Ramesh Yadav · +91 9000000001'), findsOneWidget);
 
       await tester.tap(find.byKey(const Key('signInSubmit')));
       await tester.pump(const Duration(seconds: 2));
@@ -40,12 +37,13 @@ void main() {
       await tester.pumpAndSettle();
       const Map<String, String> pills = {
         'Driver': 'Ramesh Yadav · +91 9000000001',
-        'Owner': 'Anil Mehta · +91 9000000011',
-        'Ops': 'Priya Nair · +91 9000000021',
         'Sales': 'Karan Shah · +91 9000000031',
         'Supervisor': 'Vijay Gaikwad · +91 9000000041',
         'Accountant': 'Neha Kulkarni · +91 9000000051',
       };
+      expect(find.text('Owner'), findsNothing);
+      expect(find.text('Ops'), findsNothing);
+      expect(find.text('Owner + Ops'), findsNothing);
       for (final MapEntry<String, String> pill in pills.entries) {
         await tester.tap(find.text(pill.key).first);
         await tester.pumpAndSettle();
@@ -57,20 +55,12 @@ void main() {
       }
     });
 
-    testWidgets('unknown number shows an error, no navigation', (
-      tester,
-    ) async {
+    testWidgets('unknown number shows an error, no navigation', (tester) async {
       await pumpFreshApp(tester);
       await tester.tap(find.text('Continue'));
       await tester.pumpAndSettle();
-      await tester.enterText(
-        find.byKey(const Key('loginPhone')),
-        '9111111111',
-      );
-      await tester.enterText(
-        find.byKey(const Key('loginPassword')),
-        '123456',
-      );
+      await tester.enterText(find.byKey(const Key('loginPhone')), '9111111111');
+      await tester.enterText(find.byKey(const Key('loginPassword')), '123456');
       await tester.tap(find.byKey(const Key('signInSubmit')));
       await tester.pump(const Duration(seconds: 2));
       expect(find.textContaining('not registered'), findsOneWidget);

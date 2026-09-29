@@ -12,6 +12,7 @@ import '../../../core/offline/offline_queue.dart';
 import '../../../core/services/image_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
+import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/photo_capture_sheet.dart';
@@ -100,90 +101,221 @@ class _ScanPackagesPageState extends ConsumerState<ScanPackagesPage> {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
+    final AppColorTokens tokens = context.tokens;
+    final double fraction =
+        _expected == 0 ? 0 : (_scanned.length / _expected).clamp(0.0, 1.0);
     return AppScaffold(
       title: l10n.scanTitle,
       body: Column(
         children: [
           Container(
-            height: 220,
-            decoration: BoxDecoration(
-              borderRadius: AppSpacing.cardRadius,
-              border: Border.all(color: context.tokens.border),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.sm,
             ),
-            child: ClipRRect(
+            decoration: BoxDecoration(
+              color: tokens.primary.withValues(alpha: 0.08),
               borderRadius: AppSpacing.cardRadius,
-              child: MobileScanner(
-                onDetect: _onDetect,
-                errorBuilder: (context, error) => Center(
-                  child: Text(l10n.scannerUnavailable),
+            ),
+            child: Row(
+              children: [
+                Text(
+                  '${_scanned.length} / $_expected',
+                  style: AppTypography.kpiNumber(
+                    tokens.primary,
+                  ).copyWith(fontSize: 22),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: AppSpacing.chipRadius,
+                    child: LinearProgressIndicator(
+                      value: fraction,
+                      minHeight: 8,
+                      backgroundColor: tokens.surface,
+                      valueColor: AlwaysStoppedAnimation(
+                        tokens.primary,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Text(
+                  '${(fraction * 100).round()}%',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(
+                        color: tokens.primary,
+                        fontWeight: FontWeight.w800,
+                      ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          // Centered viewfinder: caps at 300dp, centers in spare space.
+          Expanded(
+            flex: 5,
+            child: Center(
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: Container(
+                  constraints: const BoxConstraints(maxWidth: 300),
+                  decoration: BoxDecoration(
+                    borderRadius: AppSpacing.cardRadius,
+                    border: Border.all(
+                      color: tokens.primary,
+                      width: 2,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      AppSpacing.radiusCard - 2,
+                    ),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        MobileScanner(
+                          onDetect: _onDetect,
+                          errorBuilder: (context, error) =>
+                              Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(
+                                AppSpacing.lg,
+                              ),
+                              child: Text(
+                                l10n.scannerUnavailable,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                        IgnorePointer(
+                          child: Center(
+                            child: Container(
+                              width: 120,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white
+                                      .withValues(alpha: 0.9),
+                                  width: 2,
+                                ),
+                                borderRadius:
+                                    BorderRadius.circular(
+                                  AppSpacing.md,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: AppSpacing.md),
-          Text(
-            '${l10n.scannedLabel}: ${_scanned.length} / $_expected',
-            style: Theme.of(context).textTheme.headlineSmall,
+          const SizedBox(height: AppSpacing.sm),
+          SizedBox(
+            height: 120,
+            child: _scanned.isEmpty
+                ? Center(
+                    child: Text(
+                      l10n.scanToManifest,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: tokens.inkFaint),
+                    ),
+                  )
+                : ListView.separated(
+                    itemCount: _scanned.length,
+                    separatorBuilder: (_, _) =>
+                        const SizedBox(
+                      height: AppSpacing.xs,
+                    ),
+                    itemBuilder: (context, index) {
+                      final ScanItem item = _scanned[index];
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.md,
+                          vertical: AppSpacing.sm,
+                        ),
+                        decoration: BoxDecoration(
+                          color: tokens.surface,
+                          border: Border.all(
+                            color: tokens.border,
+                          ),
+                          borderRadius: AppSpacing.inputRadius,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                item.code,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontSize: 14),
+                                maxLines: 1,
+                                overflow:
+                                    TextOverflow.ellipsis,
+                              ),
+                            ),
+                            if (item.damaged || item.shortage)
+                              const Padding(
+                                padding: EdgeInsets.only(
+                                  right: AppSpacing.xs,
+                                ),
+                                child: Icon(
+                                  Icons.warning_amber_outlined,
+                                  color: AppColors.warning,
+                                  size: 18,
+                                ),
+                              ),
+                            SizedBox(
+                              width: 32,
+                              height: 32,
+                              child: PopupMenuButton<bool>(
+                                padding: EdgeInsets.zero,
+                                icon: const Icon(
+                                  Icons.more_vert_outlined,
+                                  size: 20,
+                                ),
+                                onSelected: (v) =>
+                                    _markIssue(index, v),
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                    value: true,
+                                    child:
+                                        Text(l10n.markDamage),
+                                  ),
+                                  PopupMenuItem(
+                                    value: false,
+                                    child:
+                                        Text(l10n.markShortage),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
           ),
           const SizedBox(height: AppSpacing.sm),
-          Expanded(
-            child: ListView.separated(
-              itemCount: _scanned.length,
-              separatorBuilder: (_, _) => const SizedBox(
-                height: AppSpacing.xs,
-              ),
-              itemBuilder: (context, index) {
-                final ScanItem item = _scanned[index];
-                return Container(
-                  padding: const EdgeInsets.all(AppSpacing.sm),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: context.tokens.border),
-                    borderRadius: AppSpacing.inputRadius,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          item.code,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium,
-                        ),
-                      ),
-                      if (item.damaged || item.shortage)
-                        Icon(
-                          Icons.warning_amber_outlined,
-                          color: AppColors.warning,
-                          size: AppSpacing.lg,
-                        ),
-                      PopupMenuButton<bool>(
-                        icon: const Icon(Icons.more_vert_outlined),
-                        onSelected: (v) => _markIssue(index, v),
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            value: true,
-                            child: Text(l10n.markDamage),
-                          ),
-                          PopupMenuItem(
-                            value: false,
-                            child: Text(l10n.markShortage),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
+          SafeArea(
+            top: false,
+            child: AppButton(
+              label:
+                  '${l10n.createManifest} (${_scanned.length})',
+              loading: _working,
+              onPressed:
+                  _working || _scanned.isEmpty ? null : _save,
             ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          AppButton(
-            label: l10n.createManifest,
-            variant: AppButtonVariant.accent,
-            large: true,
-            loading: _working,
-            onPressed:
-                _working || _scanned.isEmpty ? null : _save,
           ),
         ],
       ),

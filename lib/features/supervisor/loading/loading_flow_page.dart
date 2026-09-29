@@ -51,28 +51,25 @@ class _LoadingFlowPageState extends ConsumerState<LoadingFlowPage> {
       galleryLabel: l10n.photoGallery,
     );
     if (source == null || !mounted) return null;
-    return ref
-        .read(imageServiceProvider)
-        .capture(source: source, tag: tag);
+    return ref.read(imageServiceProvider).capture(source: source, tag: tag);
   }
 
   Future<void> _complete(HubTask task) async {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    if (_startPhoto == null ||
-        _endPhoto == null ||
-        _seal.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.fillAllFields)),
-      );
+    if (_startPhoto == null || _endPhoto == null || _seal.text.trim().isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.fillAllFields)));
       return;
     }
     setState(() => _working = true);
     try {
-      await ref.read(hubRepositoryProvider).updateTask(
+      await ref
+          .read(hubRepositoryProvider)
+          .updateTask(
             task.copyWith(
               sealNo: _seal.text.trim(),
-              weighmentKg:
-                  double.tryParse(_weight.text.trim()),
+              weighmentKg: double.tryParse(_weight.text.trim()),
               status: HubTaskStatus.done,
             ),
           );
@@ -80,21 +77,18 @@ class _LoadingFlowPageState extends ConsumerState<LoadingFlowPage> {
     if (!mounted) return;
     setState(() => _working = false);
     ref.invalidate(hubTasksProvider);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.loadingComplete)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.loadingComplete)));
   }
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final AsyncValue<List<HubTask>> tasks =
-        ref.watch(hubTasksProvider);
+    final AsyncValue<List<HubTask>> tasks = ref.watch(hubTasksProvider);
     return tasks.when(
-      loading: () => AppScaffold(
-        title: l10n.loadingTitle,
-        body: const SkeletonList(),
-      ),
+      loading: () =>
+          AppScaffold(title: l10n.loadingTitle, body: const SkeletonList()),
       error: (e, _) => AppScaffold(
         title: l10n.loadingTitle,
         body: ErrorState(message: l10n.commonError),
@@ -112,77 +106,122 @@ class _LoadingFlowPageState extends ConsumerState<LoadingFlowPage> {
         }
         final HubTask current = task;
         final double? entered = double.tryParse(_weight.text.trim());
-        final bool mismatch = entered != null &&
+        final bool mismatch =
+            entered != null &&
             current.declaredKg != null &&
-            (entered - current.declaredKg!).abs() >
-                current.declaredKg! * 0.02;
+            (entered - current.declaredKg!).abs() > current.declaredKg! * 0.02;
         return AppScaffold(
           title: '${l10n.loadingTitle} ${current.vehicleNo}',
-          body: ListView(
+          body: Column(
             children: [
-              _PhotoRow(
-                label: l10n.loadingStartPhoto,
-                path: _startPhoto,
-                onCapture: () async {
-                  final String? path =
-                      await _capture('${current.id}-start');
-                  if (path != null && mounted) {
-                    setState(() => _startPhoto = path);
-                  }
-                },
-              ),
-              const SizedBox(height: AppSpacing.md),
-              _PhotoRow(
-                label: l10n.loadingEndPhoto,
-                path: _endPhoto,
-                onCapture: () async {
-                  final String? path =
-                      await _capture('${current.id}-end');
-                  if (path != null && mounted) {
-                    setState(() => _endPhoto = path);
-                  }
-                },
-              ),
-              const SizedBox(height: AppSpacing.md),
-              AppTextField(
-                controller: _seal,
-                label: l10n.sealNoLabel,
-              ),
-              const SizedBox(height: AppSpacing.md),
-              _PhotoRow(
-                label: l10n.weighmentSlip,
-                path: _slipPhoto,
-                onCapture: () async {
-                  final String? path =
-                      await _capture('${current.id}-weigh');
-                  if (path != null && mounted) {
-                    setState(() => _slipPhoto = path);
-                  }
-                },
-              ),
-              const SizedBox(height: AppSpacing.md),
-              AppTextField(
-                controller: _weight,
-                label:
-                    '${l10n.weightLabel} (declared ${current.declaredKg?.round() ?? '-'} kg)',
-                keyboardType: TextInputType.number,
-                onChanged: (_) => setState(() {}),
-              ),
-              if (mismatch) ...[
-                const SizedBox(height: AppSpacing.sm),
-                Text(
-                  l10n.weightMismatch,
-                  style: const TextStyle(color: AppColors.warning),
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    _PhotoStep(
+                      index: 1,
+                      label: l10n.loadingStartPhoto,
+                      path: _startPhoto,
+                      done: _startPhoto != null,
+                      onCapture: () async {
+                        final String? path = await _capture(
+                          '${current.id}-start',
+                        );
+                        if (path != null && mounted) {
+                          setState(() => _startPhoto = path);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    _PhotoStep(
+                      index: 2,
+                      label: l10n.loadingEndPhoto,
+                      path: _endPhoto,
+                      done: _endPhoto != null,
+                      onCapture: () async {
+                        final String? path = await _capture(
+                          '${current.id}-end',
+                        );
+                        if (path != null && mounted) {
+                          setState(() => _endPhoto = path);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    _FieldStep(
+                      index: 3,
+                      child: AppTextField(
+                        controller: _seal,
+                        label: l10n.sealNoLabel,
+                        prefixIcon: Icons.lock_outline,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    _PhotoStep(
+                      index: 4,
+                      label: l10n.weighmentSlip,
+                      path: _slipPhoto,
+                      done: _slipPhoto != null,
+                      optional: true,
+                      onCapture: () async {
+                        final String? path = await _capture(
+                          '${current.id}-weigh',
+                        );
+                        if (path != null && mounted) {
+                          setState(() => _slipPhoto = path);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    _FieldStep(
+                      index: 5,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppTextField(
+                            controller: _weight,
+                            label:
+                                '${l10n.weightLabel} (declared ${current.declaredKg?.round() ?? '-'} kg)',
+                            keyboardType: TextInputType.number,
+                            onChanged: (_) => setState(() {}),
+                          ),
+                          if (mismatch) ...[
+                            const SizedBox(height: AppSpacing.xs),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.warning_amber_outlined,
+                                  size: 14,
+                                  color: AppColors.warning,
+                                ),
+                                const SizedBox(width: AppSpacing.xs),
+                                Expanded(
+                                  child: Text(
+                                    l10n.weightMismatch,
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(
+                                          color: AppColors.warning,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-              const SizedBox(height: AppSpacing.xl),
-              AppButton(
-                label: l10n.completeLoading,
-                variant: AppButtonVariant.accent,
-                large: true,
-                loading: _working,
-                onPressed:
-                    _working ? null : () => _complete(current),
+              ),
+              const SizedBox(height: AppSpacing.md),
+              SafeArea(
+                top: false,
+                child: AppButton(
+                  label: l10n.completeLoading,
+                  loading: _working,
+                  onPressed: _working ? null : () => _complete(current),
+                ),
               ),
             ],
           ),
@@ -192,45 +231,136 @@ class _LoadingFlowPageState extends ConsumerState<LoadingFlowPage> {
   }
 }
 
-class _PhotoRow extends StatelessWidget {
-  const _PhotoRow({
+/// Numbered checklist step with a thumbnail state.
+class _PhotoStep extends StatelessWidget {
+  const _PhotoStep({
+    required this.index,
     required this.label,
     required this.path,
+    required this.done,
     required this.onCapture,
+    this.optional = false,
   });
 
+  final int index;
   final String label;
   final String? path;
+  final bool done;
   final VoidCallback onCapture;
+  final bool optional;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(child: Text(label)),
-        if (path != null)
-          ClipRRect(
-            borderRadius: AppSpacing.inputRadius,
-            child: Image.file(
-              File(path!),
-              width: AppSpacing.huge,
-              height: AppSpacing.huge,
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => Container(
-                width: AppSpacing.huge,
-                height: AppSpacing.huge,
-                color: context.tokens.surfaceAlt,
-                child: const Icon(Icons.photo_outlined),
+    final AppColorTokens tokens = context.tokens;
+    final Color tint = done ? AppColors.success : tokens.primary;
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: tokens.surface,
+        borderRadius: AppSpacing.cardRadius,
+        border: Border.all(
+          color: done ? AppColors.success : tokens.border,
+          width: done ? 1.5 : 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: done ? AppColors.success : tint.withValues(alpha: 0.12),
+            ),
+            child: done
+                ? const Icon(
+                    Icons.check_outlined,
+                    size: 20,
+                    color: Colors.white,
+                  )
+                : Text(
+                    '$index',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: tint,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Text(label, style: Theme.of(context).textTheme.bodyMedium),
+          ),
+          if (path != null)
+            GestureDetector(
+              onTap: onCapture,
+              child: ClipRRect(
+                borderRadius: AppSpacing.inputRadius,
+                child: Image.file(
+                  File(path!),
+                  width: 48,
+                  height: 48,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, _, _) => Container(
+                    width: 48,
+                    height: 48,
+                    color: tokens.surfaceAlt,
+                    child: const Icon(Icons.photo_outlined),
+                  ),
+                ),
+              ),
+            )
+          else
+            IconButton.filledTonal(
+              onPressed: onCapture,
+              icon: const Icon(Icons.add_a_photo_outlined),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Numbered checklist step wrapping a form field.
+class _FieldStep extends StatelessWidget {
+  const _FieldStep({required this.index, required this.child});
+
+  final int index;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppColorTokens tokens = context.tokens;
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: tokens.surface,
+        borderRadius: AppSpacing.cardRadius,
+        border: Border.all(color: tokens.border),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: tokens.primary.withValues(alpha: 0.12),
+            ),
+            child: Text(
+              '$index',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: tokens.primary,
+                fontWeight: FontWeight.w800,
               ),
             ),
-          )
-        else
-          OutlinedButton.icon(
-            icon: const Icon(Icons.add_a_photo_outlined),
-            label: Text(label),
-            onPressed: onCapture,
           ),
-      ],
+          const SizedBox(width: AppSpacing.md),
+          Expanded(child: child),
+        ],
+      ),
     );
   }
 }
